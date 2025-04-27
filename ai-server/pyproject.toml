@@ -7,16 +7,16 @@ readme = "README.md"
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.12"
 fastapi = "^0.115.12"
 uvicorn = "^0.34.2"
-ruff = "^0.11.7"
 pydantic = "^2.11.3"
 python-dotenv = "^1.1.0"
 pydantic-settings = "^2.9.1"
 sqlalchemy = "^2.0.40"
 alembic = "^1.15.2"
 pymysql = "^1.1.1"
+ruff = "^0.11.7"
 
 [[tool.poetry.packages]]
 from = "app"
@@ -36,7 +36,6 @@ target-version = "py310"  # 타겟 파이썬 버전
 
 [tool.ruff.lint]
 select = ["F", "E", "W", "I", "UP", "ANN"] # 적용할 린트 규칙
-ignore = ["ANN101"]  # 무시할 규칙
 
 [tool.ruff.format]
 quote-style = "double"  # 문자열 따옴표 스타일
