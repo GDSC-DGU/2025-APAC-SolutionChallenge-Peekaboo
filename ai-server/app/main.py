@@ -8,7 +8,10 @@ app = FastAPI()
 
 
 @app.get("/", response_model=DefaultResponse)
-def read_root() -> str:
+def read_root() -> DefaultResponse:
+    """
+    Root endpoint that returns a simple message.
+    """
     return DefaultResponse(message="Hello, World!")
 
 
