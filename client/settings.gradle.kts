@@ -30,3 +30,4 @@ include(":domain")
 include(":feature")
 
 include(":core:ui")
+include(":core:navigation")
