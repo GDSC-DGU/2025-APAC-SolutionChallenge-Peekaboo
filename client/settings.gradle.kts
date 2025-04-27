@@ -1,4 +1,7 @@
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -21,7 +24,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "BaeBae"
 include(":app")
-include(":build-logic")
 include(":core")
 include(":data")
 include(":domain")
