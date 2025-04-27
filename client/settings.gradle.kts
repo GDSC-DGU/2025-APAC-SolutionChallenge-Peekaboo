@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "BaeBae"
 include(":app")
+include(":build-logic")
