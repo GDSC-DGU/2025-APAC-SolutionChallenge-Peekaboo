@@ -22,3 +22,10 @@ val Black1 = Color(0xFF1B1D1F)
 
 // Red
 val Red1 = Color(0xFFF76D6D)
+
+// Skin Color
+val NavajoWhite = Color(0xFFFFDBAC)
+val MellowApricot = Color(0xFFF1C27D)
+val Fawn = Color(0xFFE0AC69)
+val Peru = Color(0xFFC68642)
+val Russet = Color(0xFF8D5524)
