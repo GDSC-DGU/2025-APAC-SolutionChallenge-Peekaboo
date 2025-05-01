@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.peekaboo.onboarding.language.LanguageChoiceScreen
+import com.peekaboo.onboarding.personal.PersonalInputScreen
 
 fun NavGraphBuilder.onboardingNavGraph(
     navController: NavController,
@@ -15,6 +16,10 @@ fun NavGraphBuilder.onboardingNavGraph(
     ) {
         composable(NavRoutes.LanguageChoiceScreen.route) {
             LanguageChoiceScreen()
+        }
+
+        composable(NavRoutes.PersonalInputScreen.route) {
+            PersonalInputScreen()
         }
     }
 }
