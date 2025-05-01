@@ -26,4 +26,12 @@ class PersonalInputViewmodel @Inject constructor(
             )
         )
     }
+
+    fun onBirthValueChange(newValue: String) {
+        updateState(
+            uiState.value.copy(
+                birthInput = newValue
+            )
+        )
+    }
 }

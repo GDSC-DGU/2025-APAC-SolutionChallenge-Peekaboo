@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.peekaboo.domain.entity.request.CreateUserModel
 import com.peekaboo.navigation.NavRoutes
 import com.peekaboo.navigation.onboardingNavGraph
+import com.peekaboo.ui.util.DismissKeyboardOnClick
 import kotlinx.coroutines.launch
 
 @Composable
@@ -28,21 +29,23 @@ fun MainScreen() {
         }
     }
 
-    Scaffold { innerPadding ->
-        Box(
-            modifier = Modifier
-                .padding(innerPadding)
-                .statusBarsPadding()
-        ) {
-            NavHost(
-                navController = navController,
-                startDestination = NavRoutes.OnBoardingGraph.route
+    DismissKeyboardOnClick {
+        Scaffold { innerPadding ->
+            Box(
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .statusBarsPadding()
             ) {
-                onboardingNavGraph(
+                NavHost(
                     navController = navController,
-                    setUserModel = settingUserModel,
-                    userModel = viewModel.userModel
-                )
+                    startDestination = NavRoutes.OnBoardingGraph.route
+                ) {
+                    onboardingNavGraph(
+                        navController = navController,
+                        setUserModel = settingUserModel,
+                        userModel = viewModel.userModel
+                    )
+                }
             }
         }
     }

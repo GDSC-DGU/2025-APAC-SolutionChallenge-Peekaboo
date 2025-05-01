@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,6 +42,10 @@ fun PersonalInputScreen() {
     val uiState: PersonalInputPageState by viewModel.uiState.collectAsStateWithLifecycle()
 
     PersonalInputContent(
+        birthInput = uiState.birthInput,
+        onBirthValueChange = { newValue ->
+            viewModel.onBirthValueChange(newValue)
+        },
         selectedSex = uiState.selectedSex,
         onSelectSex = { sex ->
             viewModel.setSelectedSex(sex)
@@ -54,7 +60,7 @@ fun PersonalInputScreen() {
 @Composable
 fun PersonalInputContent(
     birthInput: String = "",
-    onBirthInput: (String) -> Unit = {},
+    onBirthValueChange: (String) -> Unit = {},
     selectedSex: String = "",
     onSelectSex: (String) -> Unit = {},
     selectedBloodType: String = "",
@@ -90,7 +96,7 @@ fun PersonalInputContent(
 
             BirthInputBox(
                 birthInput = birthInput,
-                onBirthInput = onBirthInput
+                onBirthValueChange = onBirthValueChange
             )
 
             SexChoiceBox(
@@ -108,13 +114,15 @@ fun PersonalInputContent(
             horizontalPadding = 20,
             btnText = Next
         )
+
+        Spacer(modifier = Modifier.height(36.dp))
     }
 }
 
 @Composable
 fun BirthInputBox(
     birthInput: String,
-    onBirthInput: (String) -> Unit,
+    onBirthValueChange: (String) -> Unit,
 ) {
     Text(
         text = BirthInputSemiTitle,
@@ -127,7 +135,7 @@ fun BirthInputBox(
     TextFieldBox(
         textInput = birthInput,
         hintText = BirthInputHint,
-        onValueChange = onBirthInput,
+        onValueChange = onBirthValueChange,
         horizontalPadding = 25
     )
 }
