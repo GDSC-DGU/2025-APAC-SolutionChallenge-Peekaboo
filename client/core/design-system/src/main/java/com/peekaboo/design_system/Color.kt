@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 // Main
 val Main1 = Color(0xFFFFC4C6)
-val Main2 = Color(0xFFABE9EE)
+val Main2 = Color(0xFF46B4BC)
 val Main3 = Color(0xFF1C548B)
 
 // White

@@ -21,19 +21,24 @@ import com.peekaboo.design_system.White3
 @Composable
 fun SelectItem(
     itemText: String,
+    modifier: Modifier,
+    isItemSelected: Boolean = false,
 ) {
     SelectItemContent(
-        itemText = itemText
+        modifier = modifier,
+        itemText = itemText,
+        isItemSelected = isItemSelected
     )
 }
 
 @Composable
 fun SelectItemContent(
+    modifier: Modifier = Modifier,
     itemText: String = "",
     isItemSelected: Boolean = false,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(5.dp))
             .background(color = if (isItemSelected) Main2 else Gray1, RoundedCornerShape(5.dp))
