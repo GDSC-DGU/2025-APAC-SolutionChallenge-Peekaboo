@@ -74,20 +74,24 @@ public class OAuth2Util {
             throw new CustomException(ErrorCode.EXTERNAL_SERVER_ERROR);
         }
 
-        Map<String, Object> googleAccount = (Map<String, Object>) response.get("google_account");
-        Map<String, String> profile = (Map<String, String>) googleAccount.get("profile");
+        System.out.println(response);
 
-        String id = response.get("id").toString();
-        String nickname = profile.get("nickname");
-        String email = googleAccount.get("email").toString();
+//        Map<String, Object> googleAccount = (Map<String, Object>) response.get("google_account");
+//        Map<String, String> profile = (Map<String, String>) googleAccount.get("profile");
 
-        if (response.get("id") == null || response.get("properties") == null)
+        String id = response.get("sub").toString();
+        String nickname = response.get("name").toString();
+        String email = response.get("email").toString();
+        String profile = response.get("picture").toString();
+
+        if (response.get("sub").toString() == null)
             throw new CustomException(ErrorCode.EXTERNAL_SERVER_ERROR);
 
         return Map.of(
                 "id", id,
                 "nickname", nickname,
-                "email", email
+                "email", email,
+                "profile", profile
         );
     }
 }

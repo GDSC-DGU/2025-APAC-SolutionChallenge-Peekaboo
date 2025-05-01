@@ -20,7 +20,6 @@ public final class Constants {
     public static final List<String> NO_NEED_AUTH_URLS = List.of(
             "/api/v1/test/hello",
             "/api/v1/test/signin/{name}",
-            "/api/v1/users/**",
             "/api/v1/auth/login/google",
             "/api/v1/auth/login/apple",
             "/oauth/login/google",
