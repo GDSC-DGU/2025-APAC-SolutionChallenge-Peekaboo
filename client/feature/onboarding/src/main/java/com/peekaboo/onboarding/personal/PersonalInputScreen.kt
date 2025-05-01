@@ -1,34 +1,32 @@
 package com.peekaboo.onboarding.personal
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.peekaboo.design_system.BaeBaeTypo
 import com.peekaboo.design_system.BirthInputHint
 import com.peekaboo.design_system.BirthInputSemiTitle
 import com.peekaboo.design_system.Black1
-import com.peekaboo.design_system.BloodTypeA
-import com.peekaboo.design_system.BloodTypeAB
-import com.peekaboo.design_system.BloodTypeB
-import com.peekaboo.design_system.BloodTypeO
 import com.peekaboo.design_system.BloodTypeSemiTitle
-import com.peekaboo.design_system.FeMale
-import com.peekaboo.design_system.Male
 import com.peekaboo.design_system.Next
 import com.peekaboo.design_system.OnBoardingTitle
 import com.peekaboo.design_system.PersonalInputTitle
 import com.peekaboo.design_system.SexChoiceSemiTitle
 import com.peekaboo.design_system.White3
+import com.peekaboo.onboarding.type.BloodType
+import com.peekaboo.onboarding.type.SexType
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.CourseNumber
@@ -37,13 +35,30 @@ import com.peekaboo.ui.common.item.TextFieldBox
 
 @Composable
 fun PersonalInputScreen() {
-    PersonalInputContent()
+
+    val viewModel: PersonalInputViewmodel = hiltViewModel()
+    val uiState: PersonalInputPageState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    PersonalInputContent(
+        selectedSex = uiState.selectedSex,
+        onSelectSex = { sex ->
+            viewModel.setSelectedSex(sex)
+        },
+        selectedBloodType = uiState.bloodType,
+        onSelectBloodType = { bloodType ->
+            viewModel.setBloodType(bloodType)
+        }
+    )
 }
 
 @Composable
 fun PersonalInputContent(
     birthInput: String = "",
     onBirthInput: (String) -> Unit = {},
+    selectedSex: String = "",
+    onSelectSex: (String) -> Unit = {},
+    selectedBloodType: String = "",
+    onSelectBloodType: (String) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -78,9 +93,15 @@ fun PersonalInputContent(
                 onBirthInput = onBirthInput
             )
 
-            SexChoiceBox()
+            SexChoiceBox(
+                selectedSex = selectedSex,
+                onSelectSex = onSelectSex
+            )
 
-            BloodTypeChoiceBox()
+            BloodTypeChoiceBox(
+                selectedBloodType = selectedBloodType,
+                onSelectBloodType = onSelectBloodType
+            )
         }
 
         BottomRectangleBtn(
@@ -112,7 +133,10 @@ fun BirthInputBox(
 }
 
 @Composable
-fun SexChoiceBox() {
+fun SexChoiceBox(
+    selectedSex: String,
+    onSelectSex: (String) -> Unit,
+) {
     Text(
         text = SexChoiceSemiTitle,
         color = Black1,
@@ -124,24 +148,25 @@ fun SexChoiceBox() {
     Row(
         modifier = Modifier
             .padding(horizontal = 20.dp, vertical = 17.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        SelectItem(
-            itemText = Male,
-            modifier = Modifier.weight(1f)
-        )
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        SelectItem(
-            itemText = FeMale,
-            modifier = Modifier.weight(1f)
-        )
+        SexType.entries.forEach { sex ->
+            SelectItem(
+                itemText = sex.content,
+                modifier = Modifier.weight(1f),
+                onSelectItem = { onSelectSex(sex.api) },
+                isItemSelected = (sex.api == selectedSex)
+            )
+        }
     }
 }
 
 @Composable
-fun BloodTypeChoiceBox() {
+fun BloodTypeChoiceBox(
+    selectedBloodType: String,
+    onSelectBloodType: (String) -> Unit,
+) {
     Text(
         text = BloodTypeSemiTitle,
         color = Black1,
@@ -154,37 +179,33 @@ fun BloodTypeChoiceBox() {
         modifier = Modifier
             .padding(horizontal = 20.dp)
             .padding(top = 17.dp, bottom = 11.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        SelectItem(
-            itemText = BloodTypeA,
-            modifier = Modifier.weight(1f)
-        )
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        SelectItem(
-            itemText = BloodTypeB,
-            modifier = Modifier.weight(1f)
-        )
+        BloodType.entries.take(2).forEach { bloodType ->
+            SelectItem(
+                itemText = bloodType.content,
+                modifier = Modifier.weight(1f),
+                onSelectItem = { onSelectBloodType(bloodType.api) },
+                isItemSelected = (bloodType.api == selectedBloodType)
+            )
+        }
     }
 
     Row(
         modifier = Modifier
             .padding(horizontal = 20.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        SelectItem(
-            itemText = BloodTypeAB,
-            modifier = Modifier.weight(1f)
-        )
-
-        Spacer(modifier = Modifier.width(16.dp))
-
-        SelectItem(
-            itemText = BloodTypeO,
-            modifier = Modifier.weight(1f)
-        )
+        BloodType.entries.drop(2).forEach { bloodType ->
+            SelectItem(
+                itemText = bloodType.content,
+                modifier = Modifier.weight(1f),
+                onSelectItem = { onSelectBloodType(bloodType.api) },
+                isItemSelected = (bloodType.api == selectedBloodType)
+            )
+        }
     }
 }
 
