@@ -25,6 +25,7 @@ import com.peekaboo.design_system.LocationChoiceSemiTitle
 import com.peekaboo.design_system.Next
 import com.peekaboo.design_system.OnBoardingTitle
 import com.peekaboo.design_system.White3
+import com.peekaboo.domain.entity.request.CreateUserModel
 import com.peekaboo.onboarding.type.LanguageType
 import com.peekaboo.onboarding.type.LocationType
 import com.peekaboo.ui.common.appbar.TopBar
@@ -33,7 +34,9 @@ import com.peekaboo.ui.common.content.CourseNumber
 import com.peekaboo.ui.common.item.SelectItem
 
 @Composable
-fun LanguageChoiceScreen() {
+fun LanguageChoiceScreen(
+    goToPersonalInputPage: (CreateUserModel) -> Unit,
+) {
 
     val viewModel: LanguageChoiceViewModel = hiltViewModel()
     val uiState: LanguageChoicePageState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -46,6 +49,9 @@ fun LanguageChoiceScreen() {
         selectedLanguage = uiState.selectedLanguage,
         onSelectLanguage = { language ->
             viewModel.setSelectedLanguage(language)
+        },
+        onClickBtnAction = {
+            goToPersonalInputPage(viewModel.setUserModel())
         }
     )
 }
@@ -56,6 +62,7 @@ fun LanguageChoiceContent(
     onSelectLocation: (String) -> Unit = {},
     selectedLanguage: String = "",
     onSelectLanguage: (String) -> Unit = {},
+    onClickBtnAction: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -98,7 +105,9 @@ fun LanguageChoiceContent(
 
         BottomRectangleBtn(
             horizontalPadding = 20,
-            btnText = Next
+            btnText = Next,
+            isBtnValid = (selectedLanguage.isNotEmpty() && selectedLocation.isNotEmpty()),
+            onClickAction = onClickBtnAction
         )
 
         Spacer(modifier = Modifier.height(36.dp))

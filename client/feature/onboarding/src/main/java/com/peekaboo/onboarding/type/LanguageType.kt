@@ -5,5 +5,5 @@ enum class LanguageType(
     val languageApi: String,
 ) {
     KOREAN("한국어", "Ko"),
-    ENGLISH("ENGLISH", "En");
+    ENGLISH("English", "En");
 }

@@ -1,5 +1,6 @@
 package com.peekaboo.onboarding.language
 
+import com.peekaboo.domain.entity.request.CreateUserModel
 import com.peekaboo.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -26,4 +27,9 @@ class LanguageChoiceViewModel @Inject constructor(
             )
         )
     }
+
+    fun setUserModel() = CreateUserModel(
+        location = uiState.value.selectedLocation,
+        language = uiState.value.selectedLanguage
+    )
 }
