@@ -32,3 +32,5 @@ include(":feature")
 include(":core:ui")
 include(":core:navigation")
 include(":core:design-system")
+
+include(":feature:onboarding")
