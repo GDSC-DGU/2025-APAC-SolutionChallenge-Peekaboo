@@ -128,5 +128,9 @@ public class User {
         this.bloodType = bloodType;
     }
 
+    public void updateLanguage(String language) {
+        this.language = language;
+    }
+
 }
 
