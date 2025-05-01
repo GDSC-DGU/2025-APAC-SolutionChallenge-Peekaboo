@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.peekaboo.onboarding.language.LanguageChoiceScreen
 
-fun NavGraphBuilder.onboardingGraph(
+fun NavGraphBuilder.onboardingNavGraph(
     navController: NavController,
 ) {
     navigation(
