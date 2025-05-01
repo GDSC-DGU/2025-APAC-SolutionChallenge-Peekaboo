@@ -4,6 +4,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.peekaboo.onboarding.allergy.AllergyExistScreen
+import com.peekaboo.onboarding.diseasehistory.DiseaseHistoryScreen
 import com.peekaboo.onboarding.language.LanguageChoiceScreen
 import com.peekaboo.onboarding.personal.PersonalInputScreen
 import com.peekaboo.onboarding.skin.SkinColorSelectScreen
@@ -25,6 +27,14 @@ fun NavGraphBuilder.onboardingNavGraph(
 
         composable(NavRoutes.SkinColorSelectScreen.route) {
             SkinColorSelectScreen()
+        }
+
+        composable(NavRoutes.AllergyExistScreen.route) {
+            AllergyExistScreen()
+        }
+
+        composable(NavRoutes.DiseaseHistoryScreen.route) {
+            DiseaseHistoryScreen()
         }
     }
 }
