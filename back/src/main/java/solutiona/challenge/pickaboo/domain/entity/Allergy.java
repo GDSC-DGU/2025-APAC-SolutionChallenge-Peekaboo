@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
@@ -33,5 +34,9 @@ public class Allergy {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-
+    @Builder
+    public Allergy(String description, User user) {
+        this.description = description;
+        this.user = user;
+    }
 }

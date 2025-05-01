@@ -65,6 +65,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "profile")
+    private String profile;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -79,6 +82,10 @@ public class User {
 
     @Column(name = "gender")
     private String  gender;
+
+
+    @Column(name = "skin_type")
+    private String skinType;
 
     @Column(name = "blood_type")
     private String bloodType;
@@ -98,7 +105,7 @@ public class User {
     //--------------------------------------------------
 
     @Builder
-    public User(String serialId, String nickname, ERole role, EProvider provider, String email, String password, String fcmToken) {
+    public User(String serialId, String nickname, ERole role, EProvider provider, String email, String password, String profile, String fcmToken) {
         this.serialId = serialId;
         this.nickname = nickname;
         this.role = role;
@@ -108,7 +115,17 @@ public class User {
         this.refreshToken = null;
         this.email = email;
         this.password = password;
+        this.profile = profile;
         this.createdAt = LocalDateTime.now();
+    }
+
+    public void updateUser(String location, String language, LocalDate birth, String gender, String skinType, String bloodType) {
+        this.location = location;
+        this.language = language;
+        this.birth = birth;
+        this.gender = gender;
+        this.skinType = skinType;
+        this.bloodType = bloodType;
     }
 
 }

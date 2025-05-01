@@ -44,7 +44,9 @@ public class LoginByKakaoService implements LoginByGoogleUseCase {
                                     .role(ERole.USER)
                                     .nickname(userInfo.get("nickname"))
                                     .email(userInfo.get("email"))
-                                    .password(bCryptPasswordEncoder.encode(PasswordUtil.generateRandomPassword())).build()
+                                    .password(bCryptPasswordEncoder.encode(PasswordUtil.generateRandomPassword()))
+                                    .profile(userInfo.get("profile"))
+                                    .build()
                     );
                     userFlag = "";
                     return UserJpaRepository.UserSecurityForm.of(user);

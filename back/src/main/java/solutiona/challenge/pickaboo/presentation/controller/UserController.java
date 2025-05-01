@@ -1,7 +1,11 @@
 package solutiona.challenge.pickaboo.presentation.controller;
 
+import java.util.UUID;
+import solutiona.challenge.pickaboo.application.usecase.CreateOnboardingUserUseCase;
+import solutiona.challenge.pickaboo.core.annotation.UserId;
 import solutiona.challenge.pickaboo.core.common.CommonResponseDto;
 import solutiona.challenge.pickaboo.application.usecase.ReadLoginUserUsecase;
+import solutiona.challenge.pickaboo.presentation.request.CreateUserRequestDto;
 import solutiona.challenge.pickaboo.presentation.request.LoginUserRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
-
     private final ReadLoginUserUsecase readLoginUserUsecase;
+    private final CreateOnboardingUserUseCase createOnboardingUserUseCase;
 
     @PostMapping("/login")
     public CommonResponseDto<?> userLogin(
@@ -23,4 +27,13 @@ public class UserController {
         return CommonResponseDto.ok(readLoginUserUsecase.execute(loginUserRequestDto));
     }
 
+    @PostMapping("")
+    public CommonResponseDto<?> create(
+            @RequestBody CreateUserRequestDto createUserRequestDto,
+            @UserId UUID userId
+    ) {
+        System.err.println("asdfasdf");
+
+        return CommonResponseDto.ok(createOnboardingUserUseCase.execute(createUserRequestDto, userId));
+    }
 }
