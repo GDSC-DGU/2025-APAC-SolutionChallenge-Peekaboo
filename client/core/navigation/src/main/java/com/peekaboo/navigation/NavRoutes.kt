@@ -12,4 +12,7 @@ sealed class NavRoutes(val route: String) {
 
     data object HomeGraph: NavRoutes("home_graph")
     data object HomeScreen: NavRoutes("home")
+
+    data object DiagnosisGraph: NavRoutes("diagnosis_graph")
+    data object DiagnosisScreen: NavRoutes("diagnosis")
 }

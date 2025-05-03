@@ -35,3 +35,4 @@ include(":core:design-system")
 
 include(":feature:onboarding")
 include(":feature:home")
+include(":feature:diagnosis")

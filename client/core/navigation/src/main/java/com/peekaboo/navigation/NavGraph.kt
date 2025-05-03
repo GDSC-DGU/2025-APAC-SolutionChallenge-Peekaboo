@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.peekaboo.diagnosis.DiagnosisScreen
 import com.peekaboo.domain.entity.request.CreateUserModel
 import com.peekaboo.home.HomeScreen
 import com.peekaboo.onboarding.allergy.AllergyExistScreen
@@ -82,6 +83,19 @@ fun NavGraphBuilder.homeNavGraph(
     ) {
         composable(NavRoutes.HomeScreen.route) {
             HomeScreen()
+        }
+    }
+}
+
+fun NavGraphBuilder.diagnosisNavGraph(
+    navController: NavController
+) {
+    navigation(
+        startDestination = NavRoutes.DiagnosisScreen.route,
+        route = NavRoutes.DiagnosisGraph.route
+    ) {
+        composable(NavRoutes.DiagnosisScreen.route) {
+            DiagnosisScreen()
         }
     }
 }

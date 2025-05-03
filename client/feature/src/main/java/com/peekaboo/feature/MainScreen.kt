@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.peekaboo.domain.entity.request.CreateUserModel
 import com.peekaboo.navigation.NavRoutes
+import com.peekaboo.navigation.diagnosisNavGraph
 import com.peekaboo.navigation.homeNavGraph
 import com.peekaboo.navigation.onboardingNavGraph
 import com.peekaboo.ui.util.DismissKeyboardOnClick
@@ -47,6 +48,9 @@ fun MainScreen() {
                         userModel = viewModel.userModel
                     )
                     homeNavGraph(
+                        navController = navController
+                    )
+                    diagnosisNavGraph(
                         navController = navController
                     )
                 }
