@@ -1,34 +1,36 @@
-package com.peekaboo.diagnosisquick
+package com.peekaboo.diagnosis.selectarea
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.peekaboo.design_system.QuickDiagnosisTitle
+import androidx.compose.ui.tooling.preview.Preview
+import com.peekaboo.design_system.DiagnosisTitle
 import com.peekaboo.design_system.White3
 import com.peekaboo.ui.common.appbar.TopBar
 
 @Composable
-fun QuickDiagnosisScreen() {
-    QuickDiagnosisContent()
+fun SelectAreaScreen() {
+    SelectAreaContent()
 }
 
 @Composable
-fun QuickDiagnosisContent() {
+fun SelectAreaContent() {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(White3)
     ) {
         TopBar(
-            titleText = QuickDiagnosisTitle,
+            titleText = DiagnosisTitle,
             isIconValid = true
         )
     }
 }
 
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun PreviewQuickDiagnosis() {
-    QuickDiagnosisContent()
+fun PreviewSelectArea() {
+    SelectAreaContent()
 }

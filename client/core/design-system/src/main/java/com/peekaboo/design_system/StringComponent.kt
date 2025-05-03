@@ -46,8 +46,16 @@ const val HomeDiagnosingBoxTitle = "Does your child have\nan unknown "
 const val SkinCondition = "skin condition"
 const val HomeDiagnosingBoxSemiTitle = "Try AI diagnosing right now!"
 const val HomeDiagnosingBtn = "Diagnosing"
-const val DiagnosisHistoryTitle = "Diagnosis History"
 const val DiagnosisHistorySemiTitle = "Check my record"
 const val DiagnosingTypeListTitle = "Types of Skin Diseases"
 const val DiagnosingTypeFullView = "Full View"
 const val DiagnosingTypeListSemiTitle = "Check the symptoms quickly\nbefore diagnosing the symptoms!"
+
+// Diagnosis
+const val DiagnosisTitle = "Diagnosis of Symptoms"
+
+// Diagnosis History
+const val DiagnosisHistoryTitle = "Diagnosis History"
+
+// Diagnosis Quick
+const val QuickDiagnosisTitle =  "Quick Diagnosis"

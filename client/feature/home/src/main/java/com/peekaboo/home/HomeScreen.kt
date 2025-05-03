@@ -3,6 +3,8 @@ package com.peekaboo.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +22,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,14 +55,32 @@ import com.peekaboo.design_system.R
 import com.peekaboo.design_system.SkinCondition
 import com.peekaboo.design_system.White2
 import com.peekaboo.design_system.White3
+import com.peekaboo.ui.common.button.BottomRectangleBtn
 
 @Composable
-fun HomeScreen() {
-    HomeContent()
+fun HomeScreen(
+    goToDiagnosisSelectAreaPage: () -> Unit,
+    goToDiagnosisHistoryPage: () -> Unit,
+    goToDiagnosisQuickPage: () -> Unit,
+) {
+
+    val interactionSource = remember { MutableInteractionSource() }
+
+    HomeContent(
+        interactionSource = interactionSource,
+        onClickDiagnosisBtn = { goToDiagnosisSelectAreaPage() },
+        onClickDiagnosisHistoryBox = { goToDiagnosisHistoryPage() },
+        onClickDiseaseListFullView = { goToDiagnosisQuickPage() }
+    )
 }
 
 @Composable
-fun HomeContent() {
+fun HomeContent(
+    interactionSource: MutableInteractionSource = MutableInteractionSource(),
+    onClickDiagnosisBtn: () -> Unit = {},
+    onClickDiagnosisHistoryBox: () -> Unit = {},
+    onClickDiseaseListFullView: () -> Unit = {},
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -98,11 +119,19 @@ fun HomeContent() {
                 .padding(top = 43.dp, start = 20.dp)
         )
 
-        HomeDiagnosingBox()
+        HomeDiagnosingBox(
+            onClickDiagnosisBtn = onClickDiagnosisBtn
+        )
 
-        HomeDiagnosisHistory()
+        HomeDiagnosisHistory(
+            interactionSource = interactionSource,
+            onClickDiagnosisHistoryBox = onClickDiagnosisHistoryBox
+        )
 
-        HomeDiseaseTypeList()
+        HomeDiseaseTypeList(
+            interactionSource = interactionSource,
+            onClickDiseaseListFullView = onClickDiseaseListFullView
+        )
     }
 }
 
@@ -157,7 +186,9 @@ fun HomeDiseaseBanner() {
 }
 
 @Composable
-fun HomeDiagnosingBox() {
+fun HomeDiagnosingBox(
+    onClickDiagnosisBtn: () -> Unit,
+) {
     Column(
         modifier = Modifier
             .padding(vertical = 15.dp, horizontal = 20.dp)
@@ -190,35 +221,36 @@ fun HomeDiagnosingBox() {
                 .padding(top = 10.dp)
         )
 
-        Box(
-            modifier = Modifier
-                .padding(horizontal = 45.dp)
-                .padding(top = 30.dp, bottom = 20.dp)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(5.dp))
-                .background(Main2)
-        ) {
-            Text(
-                text = HomeDiagnosingBtn,
-                color = White3,
-                style = BaeBaeTypo.Caption1,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(vertical = 16.dp)
-            )
-        }
+        Spacer(modifier = Modifier.height(30.dp))
+
+        BottomRectangleBtn(
+            horizontalPadding = 45,
+            btnText = HomeDiagnosingBtn,
+            isBtnValid = true,
+            onClickAction = onClickDiagnosisBtn
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
 
 @Composable
-fun HomeDiagnosisHistory() {
+fun HomeDiagnosisHistory(
+    interactionSource: MutableInteractionSource,
+    onClickDiagnosisHistoryBox: () -> Unit,
+) {
     Row(
         modifier = Modifier
             .padding(horizontal = 20.dp)
             .clip(RoundedCornerShape(6.dp))
             .background(White2)
             .border(1.dp, color = Gray1, RoundedCornerShape(6.dp))
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable(
+                onClick = onClickDiagnosisHistoryBox,
+                interactionSource = interactionSource,
+                indication = null
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -261,7 +293,10 @@ fun HomeDiagnosisHistory() {
 }
 
 @Composable
-fun HomeDiseaseTypeList() {
+fun HomeDiseaseTypeList(
+    interactionSource: MutableInteractionSource,
+    onClickDiseaseListFullView: () -> Unit,
+) {
     Column(
         modifier = Modifier
             .padding(vertical = 15.dp, horizontal = 20.dp)
@@ -273,8 +308,8 @@ fun HomeDiseaseTypeList() {
     ) {
         Row(
             modifier = Modifier
-                .padding(top = 22.dp)
-                .padding(horizontal = 18.dp),
+                .padding(top = 12.dp)
+                .padding(start = 18.dp, end = 13.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -288,6 +323,13 @@ fun HomeDiseaseTypeList() {
                 text = DiagnosingTypeFullView,
                 color = Gray3,
                 style = BaeBaeTypo.Caption2,
+                modifier = Modifier
+                    .padding(vertical = 10.dp, horizontal = 5.dp)
+                    .clickable(
+                        onClick = onClickDiseaseListFullView,
+                        indication = null,
+                        interactionSource = interactionSource
+                    )
             )
         }
 
@@ -300,7 +342,7 @@ fun HomeDiseaseTypeList() {
         )
 
         Spacer(modifier = Modifier.height(20.dp))
-        
+
         DiseaseTypeList()
 
         Spacer(modifier = Modifier.height(33.dp))

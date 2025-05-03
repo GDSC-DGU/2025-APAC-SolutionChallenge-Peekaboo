@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.peekaboo.diagnosis.DiagnosisScreen
+import com.peekaboo.diagnosis.selectarea.SelectAreaScreen
 import com.peekaboo.diagnosishistory.DiagnosisHistoryScreen
 import com.peekaboo.diagnosisquick.QuickDiagnosisScreen
 import com.peekaboo.domain.entity.request.CreateUserModel
@@ -84,7 +85,17 @@ fun NavGraphBuilder.homeNavGraph(
         route = NavRoutes.HomeGraph.route
     ) {
         composable(NavRoutes.HomeScreen.route) {
-            HomeScreen()
+            HomeScreen(
+                goToDiagnosisSelectAreaPage = {
+                    navController.navigate(NavRoutes.SelectAreaScreen.route)
+                },
+                goToDiagnosisHistoryPage = {
+                    navController.navigate(NavRoutes.DiseaseHistoryScreen.route)
+                },
+                goToDiagnosisQuickPage = {
+                    navController.navigate(NavRoutes.DiagnosisQuickScreen.route)
+                }
+            )
         }
     }
 }
@@ -98,6 +109,10 @@ fun NavGraphBuilder.diagnosisNavGraph(
     ) {
         composable(NavRoutes.DiagnosisScreen.route) {
             DiagnosisScreen()
+        }
+
+        composable(NavRoutes.SelectAreaScreen.route) {
+            SelectAreaScreen()
         }
     }
 }
