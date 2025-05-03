@@ -41,7 +41,13 @@ fun NavGraphBuilder.onboardingNavGraph(
         }
 
         composable(NavRoutes.SkinColorSelectScreen.route) {
-            SkinColorSelectScreen()
+            SkinColorSelectScreen(
+                userModel = userModel,
+                goToAllergyPage = {
+                    setUserModel(it)
+                    navController.navigate(NavRoutes.AllergyExistScreen.route)
+                }
+            )
         }
 
         composable(NavRoutes.AllergyExistScreen.route) {

@@ -1,8 +1,9 @@
 package com.peekaboo.onboarding.skin
 
-import androidx.compose.ui.graphics.Color
+import com.peekaboo.domain.entity.request.CreateUserModel
 import com.peekaboo.ui.base.PageState
 
 data class SkinColorPageState (
-    val skinColorList: List<Color> = emptyList()
+    val userModel: CreateUserModel = CreateUserModel(),
+    val selectedColor: String = ""
 ): PageState
