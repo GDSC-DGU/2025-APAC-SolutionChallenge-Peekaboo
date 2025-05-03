@@ -14,6 +14,7 @@ import com.peekaboo.domain.entity.request.CreateUserModel
 import com.peekaboo.navigation.NavRoutes
 import com.peekaboo.navigation.diagnosisHistoryNavGraph
 import com.peekaboo.navigation.diagnosisNavGraph
+import com.peekaboo.navigation.diagnosisQuickNavGraph
 import com.peekaboo.navigation.homeNavGraph
 import com.peekaboo.navigation.onboardingNavGraph
 import com.peekaboo.ui.util.DismissKeyboardOnClick
@@ -55,6 +56,9 @@ fun MainScreen() {
                         navController = navController
                     )
                     diagnosisHistoryNavGraph(
+                        navController = navController
+                    )
+                    diagnosisQuickNavGraph(
                         navController = navController
                     )
                 }

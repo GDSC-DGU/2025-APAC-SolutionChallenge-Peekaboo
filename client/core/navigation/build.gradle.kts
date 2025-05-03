@@ -16,4 +16,5 @@ dependencies {
     implementation(projects.feature.home)
     implementation(projects.feature.diagnosis)
     implementation(projects.feature.diagnosishistory)
+    implementation(projects.feature.diagnosisquick)
 }
