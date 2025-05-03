@@ -1,0 +1,15 @@
+steps:
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      - functions
+      - deploy
+      - get-latest-article-info
+      - --runtime
+      - python312
+      - --trigger-http
+      - --entry-point
+      - get_latest_article_info
+      - --region
+      - us-central1
+      - --source
+      - cloud-functions
