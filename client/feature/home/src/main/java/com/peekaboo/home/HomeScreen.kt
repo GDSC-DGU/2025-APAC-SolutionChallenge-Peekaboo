@@ -66,6 +66,7 @@ import com.peekaboo.design_system.White2
 import com.peekaboo.design_system.White3
 import com.peekaboo.domain.entity.response.DiseaseBannerItem
 import com.peekaboo.ui.common.button.BottomRectangleBtn
+import com.peekaboo.ui.common.type.DiseaseType
 
 @Composable
 fun HomeScreen(
@@ -93,7 +94,7 @@ fun HomeContent(
     onClickDiagnosisBtn: () -> Unit = {},
     onClickDiagnosisHistoryBox: () -> Unit = {},
     onClickDiseaseListFullView: () -> Unit = {},
-    diseaseBannerList: List<DiseaseBannerItem> = emptyList()
+    diseaseBannerList: List<DiseaseBannerItem> = emptyList(),
 ) {
     Column(
         modifier = Modifier
@@ -153,14 +154,18 @@ fun HomeContent(
 
 @Composable
 fun HomeDiseaseBanner(
-    bannerDiseaseList: List<DiseaseBannerItem>
+    bannerDiseaseList: List<DiseaseBannerItem>,
 ) {
     val pagerState = rememberPagerState(pageCount = { bannerDiseaseList.size })
 
     HorizontalPager(
         state = pagerState,
     ) { page ->
-        HomeDiseaseBannerItem(diseaseItem = bannerDiseaseList[page], page = page + 1, size = bannerDiseaseList.size)
+        HomeDiseaseBannerItem(
+            diseaseItem = bannerDiseaseList[page],
+            page = page + 1,
+            size = bannerDiseaseList.size
+        )
     }
 }
 
@@ -168,7 +173,7 @@ fun HomeDiseaseBanner(
 fun HomeDiseaseBannerItem(
     diseaseItem: DiseaseBannerItem,
     page: Int,
-    size: Int
+    size: Int,
 ) {
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp
@@ -406,27 +411,34 @@ fun DiseaseTypeList() {
         horizontalArrangement = Arrangement.spacedBy(18.dp),
         contentPadding = PaddingValues(horizontal = 18.dp)
     ) {
-        items(5) {
-            DiseaseTypeItem()
+        items(DiseaseType.entries) { diseaseType ->
+            DiseaseTypeItem(
+                diseaseImg = diseaseType.diseaseImg,
+                diseaseName = diseaseType.diseaseName
+            )
         }
     }
 }
 
 @Composable
-fun DiseaseTypeItem() {
+fun DiseaseTypeItem(
+    diseaseImg: Int,
+    diseaseName: String,
+) {
     Column(
         modifier = Modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
+        Image(
+            painter = painterResource(id = diseaseImg),
+            contentDescription = "disease",
             modifier = Modifier
                 .size(width = 35.dp, height = 40.dp)
                 .clip(RoundedCornerShape(25.dp))
-                .background(Gray2)
         )
 
         Text(
-            text = "아토피 피부염",
+            text = diseaseName,
             color = Black1,
             style = BaeBaeTypo.Caption4,
             modifier = Modifier

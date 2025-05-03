@@ -11,7 +11,7 @@ import com.peekaboo.diagnosisquick.QuickDiagnosisScreen
 import com.peekaboo.domain.entity.request.CreateUserModel
 import com.peekaboo.home.HomeScreen
 import com.peekaboo.onboarding.allergy.AllergyExistScreen
-import com.peekaboo.onboarding.diseasehistory.DiseaseHistoryScreen
+import com.peekaboo.onboarding.diseasehistory.WriteDiseaseHistoryScreen
 import com.peekaboo.onboarding.language.LanguageChoiceScreen
 import com.peekaboo.onboarding.personal.PersonalInputScreen
 import com.peekaboo.onboarding.skin.SkinColorSelectScreen
@@ -60,13 +60,13 @@ fun NavGraphBuilder.onboardingNavGraph(
                 userModel = userModel,
                 goToDiseaseHistoryPage = {
                     setUserModel(it)
-                    navController.navigate(NavRoutes.DiseaseHistoryScreen.route)
+                    navController.navigate(NavRoutes.WriteDiseaseHistoryScreen.route)
                 }
             )
         }
 
-        composable(NavRoutes.DiseaseHistoryScreen.route) {
-            DiseaseHistoryScreen(
+        composable(NavRoutes.WriteDiseaseHistoryScreen.route) {
+            WriteDiseaseHistoryScreen(
                 userModel = userModel,
                 goToMainPage = {
                     setUserModel(it)
@@ -78,7 +78,7 @@ fun NavGraphBuilder.onboardingNavGraph(
 }
 
 fun NavGraphBuilder.homeNavGraph(
-    navController: NavController
+    navController: NavController,
 ) {
     navigation(
         startDestination = NavRoutes.HomeScreen.route,
@@ -90,7 +90,7 @@ fun NavGraphBuilder.homeNavGraph(
                     navController.navigate(NavRoutes.SelectAreaScreen.route)
                 },
                 goToDiagnosisHistoryPage = {
-                    navController.navigate(NavRoutes.DiseaseHistoryScreen.route)
+                    navController.navigate(NavRoutes.DiagnosisHistoryScreen.route)
                 },
                 goToDiagnosisQuickPage = {
                     navController.navigate(NavRoutes.DiagnosisQuickScreen.route)
@@ -101,7 +101,7 @@ fun NavGraphBuilder.homeNavGraph(
 }
 
 fun NavGraphBuilder.diagnosisNavGraph(
-    navController: NavController
+    navController: NavController,
 ) {
     navigation(
         startDestination = NavRoutes.DiagnosisScreen.route,
@@ -118,10 +118,10 @@ fun NavGraphBuilder.diagnosisNavGraph(
 }
 
 fun NavGraphBuilder.diagnosisHistoryNavGraph(
-    navController: NavController
+    navController: NavController,
 ) {
     navigation(
-        startDestination = NavRoutes.DiseaseHistoryScreen.route,
+        startDestination = NavRoutes.DiagnosisHistoryScreen.route,
         route = NavRoutes.DiagnosisHistoryGraph.route
     ) {
         composable(NavRoutes.DiagnosisHistoryScreen.route) {
@@ -131,7 +131,7 @@ fun NavGraphBuilder.diagnosisHistoryNavGraph(
 }
 
 fun NavGraphBuilder.diagnosisQuickNavGraph(
-    navController: NavController
+    navController: NavController,
 ) {
     navigation(
         startDestination = NavRoutes.DiagnosisQuickScreen.route,

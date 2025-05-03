@@ -7,7 +7,7 @@ sealed class NavRoutes(val route: String) {
     data object LanguageChoiceScreen: NavRoutes("language_choice")
     data object PersonalInputScreen: NavRoutes("personal_input")
     data object SkinColorSelectScreen: NavRoutes("skin_color_select")
-    data object DiseaseHistoryScreen: NavRoutes("disease_history")
+    data object WriteDiseaseHistoryScreen: NavRoutes("disease_history")
     data object AllergyExistScreen: NavRoutes("allergy_exist")
 
     data object HomeGraph: NavRoutes("home_graph")
