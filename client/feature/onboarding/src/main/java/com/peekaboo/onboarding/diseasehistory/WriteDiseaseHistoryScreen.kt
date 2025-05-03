@@ -42,13 +42,13 @@ import com.peekaboo.ui.common.item.TextFieldBox
 import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
-fun DiseaseHistoryScreen(
+fun WriteDiseaseHistoryScreen(
     userModel: SharedFlow<CreateUserModel>,
     goToMainPage: (CreateUserModel) -> Unit
 ) {
 
-    val viewModel: DiseaseHistoryViewmodel = hiltViewModel()
-    val uiState: DiseaseHistoryPageState by viewModel.uiState.collectAsStateWithLifecycle()
+    val viewModel: WriteDiseaseHistoryViewmodel = hiltViewModel()
+    val uiState: WriteDiseaseHistoryPageState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(userModel) {
         userModel.collect {
@@ -56,7 +56,7 @@ fun DiseaseHistoryScreen(
         }
     }
 
-    DiseaseHistoryContent(
+    WriteDiseaseHistoryContent(
         diseaseHistoryInputList = uiState.diseaseHistoryInputList,
         onDiseaseHistoryListChange = { index, content ->
             viewModel.onDiseaseHistoryValueChange(index, content)
@@ -68,7 +68,7 @@ fun DiseaseHistoryScreen(
 }
 
 @Composable
-fun DiseaseHistoryContent(
+fun WriteDiseaseHistoryContent(
     diseaseHistoryInputList: List<InputDescriptionModel> = listOf(InputDescriptionModel()),
     onDiseaseHistoryListChange: (Int, String) -> Unit = { index: Int, content: String -> },
     onClickListAddBtn: () -> Unit = {},
@@ -113,7 +113,7 @@ fun DiseaseHistoryContent(
 
             Spacer(modifier = Modifier.height(30.dp))
 
-            DiseaseHistoryInputList(
+            WriteDiseaseHistoryInputList(
                 modifier = Modifier
                     .align(Alignment.End),
                 diseaseHistoryInput = diseaseHistoryInputList,
@@ -142,7 +142,7 @@ fun DiseaseHistoryContent(
 }
 
 @Composable
-fun DiseaseHistoryInputList(
+fun WriteDiseaseHistoryInputList(
     modifier: Modifier,
     diseaseHistoryInput: List<InputDescriptionModel>,
     onDiseaseHistoryChange: (Int, String) -> Unit,
@@ -155,7 +155,7 @@ fun DiseaseHistoryInputList(
         itemsIndexed(
             diseaseHistoryInput,
             key = { index, item -> index }) { index, diseaseHistoryInput ->
-            DiseaseHistoryInputBox(
+            WriteDiseaseHistoryInputBox(
                 diseaseInput = diseaseHistoryInput.description,
                 onDiseaseHistoryListChange = { onDiseaseHistoryChange(index, it) },
                 index = index,
@@ -176,7 +176,7 @@ fun DiseaseHistoryInputList(
 }
 
 @Composable
-fun DiseaseHistoryInputBox(
+fun WriteDiseaseHistoryInputBox(
     diseaseInput: String,
     onDiseaseHistoryListChange: (String) -> Unit,
     index: Int,
@@ -194,6 +194,6 @@ fun DiseaseHistoryInputBox(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun PreviewDiseaseHistory() {
-    DiseaseHistoryContent()
+fun PreviewWriteDiseaseHistory() {
+    WriteDiseaseHistoryContent()
 }
