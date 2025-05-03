@@ -1,13 +1,19 @@
 package com.peekaboo.ui.common.item
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -19,10 +25,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,6 +39,7 @@ import com.peekaboo.design_system.Black1
 import com.peekaboo.design_system.Gray2
 import com.peekaboo.design_system.Gray3
 import com.peekaboo.design_system.White2
+import com.peekaboo.design_system.R
 
 @Composable
 fun TextFieldBox(
@@ -38,12 +47,16 @@ fun TextFieldBox(
     hintText: String = "",
     onValueChange: (String) -> Unit,
     horizontalPadding: Int,
+    isDeleteBtnValid: Boolean = false,
+    onClickDeleteBtn: () -> Unit = {}
 ) {
     TextFieldContent(
         textInput = textInput,
         hintText = hintText,
         onValueChange = onValueChange,
-        horizontalPadding = horizontalPadding
+        horizontalPadding = horizontalPadding,
+        isDeleteBtnValid = isDeleteBtnValid,
+        onClickDeleteBtn = onClickDeleteBtn
     )
 }
 
@@ -54,6 +67,8 @@ fun TextFieldContent(
     hintText: String = "",
     onValueChange: (String) -> Unit = {},
     horizontalPadding: Int = 0,
+    isDeleteBtnValid: Boolean = false,
+    onClickDeleteBtn: () -> Unit = {}
 ) {
     var isFocused by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
@@ -65,7 +80,7 @@ fun TextFieldContent(
         }
     }
 
-    Box(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = horizontalPadding.dp)
@@ -79,8 +94,8 @@ fun TextFieldContent(
                 onValueChange(input)
             },
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(horizontal = 15.dp, vertical = 21.dp)
+                .weight(1f)
                 .onFocusChanged { focusState ->
                     isFocused = focusState.isFocused
                 },
@@ -99,7 +114,7 @@ fun TextFieldContent(
             decorationBox = { innerTextField ->
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .weight(1f)
                 ) {
                     if (textInput.isEmpty() && !isFocused) {
                         Text(
@@ -112,6 +127,22 @@ fun TextFieldContent(
                 }
             }
         )
+
+        if (isDeleteBtnValid) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_delete),
+                contentDescription = "close",
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .padding(5.dp)
+                    .size(20.dp)
+                    .clickable(
+                        onClick = onClickDeleteBtn
+                    )
+            )
+
+            Spacer(modifier = Modifier.width(10.dp))
+        }
     }
 }
 

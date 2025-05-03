@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,18 +31,30 @@ import com.peekaboo.design_system.Gray3
 import com.peekaboo.design_system.Next
 import com.peekaboo.design_system.OnBoardingTitle
 import com.peekaboo.design_system.White3
+import com.peekaboo.domain.entity.request.CreateUserModel
+import com.peekaboo.domain.entity.request.InputDescriptionModel
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.CautionNoticeBox
 import com.peekaboo.ui.common.content.CourseNumber
 import com.peekaboo.ui.common.item.ChipItem
 import com.peekaboo.ui.common.item.TextFieldBox
+import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
-fun AllergyExistScreen() {
+fun AllergyExistScreen(
+    userModel: SharedFlow<CreateUserModel>,
+    goToDiseaseHistoryPage: (CreateUserModel) -> Unit = {},
+) {
 
     val viewModel: AllergyExistViewModel = hiltViewModel()
     val uiState: AllergyExistPageState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(userModel) {
+        userModel.collect {
+            viewModel.setUserModel(it)
+        }
+    }
 
     AllergyExistContent(
         allergyInputList = uiState.allergyExistInputList,
@@ -51,15 +64,19 @@ fun AllergyExistScreen() {
                 content
             )
         },
-        onClickListAddBtn = { viewModel.addAllergyExistList() }
+        onClickListAddBtn = { viewModel.addAllergyExistList() },
+        onClickBtnAction = { goToDiseaseHistoryPage(viewModel.updateUserModel()) },
+        onClickAllergyDeleteBtn = { index -> viewModel.deleteAllergyExist(index) }
     )
 }
 
 @Composable
 fun AllergyExistContent(
-    allergyInputList: List<String> = listOf(""),
+    allergyInputList: List<InputDescriptionModel> = listOf(InputDescriptionModel()),
     onAllergyListChange: (Int, String) -> Unit = { index: Int, content: String -> },
-    onClickListAddBtn: () -> Unit = {}
+    onClickListAddBtn: () -> Unit = {},
+    onClickBtnAction: () -> Unit = {},
+    onClickAllergyDeleteBtn: (Int) -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -104,7 +121,8 @@ fun AllergyExistContent(
                     .align(Alignment.End),
                 allergyInputList = allergyInputList,
                 onAllergyListChange = onAllergyListChange,
-                onClickAddBtn = onClickListAddBtn
+                onClickAddBtn = onClickListAddBtn,
+                onClickAllergyDeleteBtn = onClickAllergyDeleteBtn
             )
         }
 
@@ -117,7 +135,9 @@ fun AllergyExistContent(
 
         BottomRectangleBtn(
             horizontalPadding = 20,
-            btnText = Next
+            btnText = Next,
+            isBtnValid = allergyInputList.all { it.description.isNotEmpty() },
+            onClickAction = onClickBtnAction
         )
 
         Spacer(modifier = Modifier.height(36.dp))
@@ -127,17 +147,20 @@ fun AllergyExistContent(
 @Composable
 fun AllergyExistInputList(
     modifier: Modifier,
-    allergyInputList: List<String>,
+    allergyInputList: List<InputDescriptionModel>,
     onAllergyListChange: (Int, String) -> Unit,
-    onClickAddBtn: () -> Unit
+    onClickAddBtn: () -> Unit,
+    onClickAllergyDeleteBtn: (Int) -> Unit
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         itemsIndexed(allergyInputList, key = { index, item -> index }) { index, allergyInput ->
             AllergyExistInputBox(
-                allergyInput = allergyInput,
-                onAllergyListChange = { onAllergyListChange(index, it) }
+                allergyInput = allergyInput.description,
+                onAllergyListChange = { onAllergyListChange(index, it) },
+                index = index,
+                onClickDeleteBtn = { onClickAllergyDeleteBtn(index) }
             )
         }
     }
@@ -156,14 +179,17 @@ fun AllergyExistInputList(
 @Composable
 fun AllergyExistInputBox(
     allergyInput: String,
-    onAllergyListChange: (String) -> Unit
+    onAllergyListChange: (String) -> Unit,
+    index: Int,
+    onClickDeleteBtn: () -> Unit
 ) {
     TextFieldBox(
-
         textInput = allergyInput,
         onValueChange = onAllergyListChange,
         horizontalPadding = 25,
-        hintText = AllergyInputHint
+        hintText = AllergyInputHint,
+        isDeleteBtnValid = (index > 0),
+        onClickDeleteBtn = onClickDeleteBtn
     )
 }
 

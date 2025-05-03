@@ -51,7 +51,13 @@ fun NavGraphBuilder.onboardingNavGraph(
         }
 
         composable(NavRoutes.AllergyExistScreen.route) {
-            AllergyExistScreen()
+            AllergyExistScreen(
+                userModel = userModel,
+                goToDiseaseHistoryPage = {
+                    setUserModel(it)
+                    navController.navigate(NavRoutes.DiseaseHistoryScreen.route)
+                }
+            )
         }
 
         composable(NavRoutes.DiseaseHistoryScreen.route) {
