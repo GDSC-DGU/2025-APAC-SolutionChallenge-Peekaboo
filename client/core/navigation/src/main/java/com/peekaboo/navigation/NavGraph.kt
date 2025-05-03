@@ -128,6 +128,9 @@ fun NavGraphBuilder.diagnosisHistoryNavGraph(
             DiagnosisHistoryScreen(
                 goToDiagnosisPage = {
                     navController.navigate(NavRoutes.SelectAreaScreen.route)
+                },
+                goToDiagnosisResultPage = {
+                    navController.navigate(NavRoutes.DiagnosisScreen.route)
                 }
             )
         }
