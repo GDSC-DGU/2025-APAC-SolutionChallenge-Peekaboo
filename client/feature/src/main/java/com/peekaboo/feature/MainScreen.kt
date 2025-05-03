@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.peekaboo.domain.entity.request.CreateUserModel
 import com.peekaboo.navigation.NavRoutes
+import com.peekaboo.navigation.diagnosisHistoryNavGraph
 import com.peekaboo.navigation.diagnosisNavGraph
 import com.peekaboo.navigation.homeNavGraph
 import com.peekaboo.navigation.onboardingNavGraph
@@ -51,6 +52,9 @@ fun MainScreen() {
                         navController = navController
                     )
                     diagnosisNavGraph(
+                        navController = navController
+                    )
+                    diagnosisHistoryNavGraph(
                         navController = navController
                     )
                 }

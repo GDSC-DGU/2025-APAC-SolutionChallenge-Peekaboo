@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.peekaboo.diagnosis.DiagnosisScreen
+import com.peekaboo.diagnosishistory.DiagnosisHistoryScreen
 import com.peekaboo.domain.entity.request.CreateUserModel
 import com.peekaboo.home.HomeScreen
 import com.peekaboo.onboarding.allergy.AllergyExistScreen
@@ -96,6 +97,19 @@ fun NavGraphBuilder.diagnosisNavGraph(
     ) {
         composable(NavRoutes.DiagnosisScreen.route) {
             DiagnosisScreen()
+        }
+    }
+}
+
+fun NavGraphBuilder.diagnosisHistoryNavGraph(
+    navController: NavController
+) {
+    navigation(
+        startDestination = NavRoutes.DiseaseHistoryScreen.route,
+        route = NavRoutes.DiagnosisHistoryGraph.route
+    ) {
+        composable(NavRoutes.DiagnosisHistoryScreen.route) {
+            DiagnosisHistoryScreen()
         }
     }
 }

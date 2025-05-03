@@ -15,4 +15,5 @@ dependencies {
     implementation(projects.feature.onboarding)
     implementation(projects.feature.home)
     implementation(projects.feature.diagnosis)
+    implementation(projects.feature.diagnosishistory)
 }
