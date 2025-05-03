@@ -7,6 +7,7 @@ const val Next = "다음"
 const val Add = "추가"
 const val Finish = "완료"
 const val Question = "?"
+const val And = " and "
 
 // Word
 const val Korea = "한국"
@@ -45,7 +46,7 @@ const val HomeSemiTitle = "Simply input, Smart diagnosis\nStay with "
 const val HomeDiagnosingBoxTitle = "Does your child have\nan unknown "
 const val SkinCondition = "skin condition"
 const val HomeDiagnosingBoxSemiTitle = "Try AI diagnosing right now!"
-const val HomeDiagnosingBtn = "Diagnosing"
+const val DiagnosingBtn = "Diagnosing"
 const val DiagnosisHistorySemiTitle = "Check my record"
 const val DiagnosingTypeListTitle = "Types of Skin Diseases"
 const val DiagnosingTypeFullView = "Full View"
@@ -56,6 +57,10 @@ const val DiagnosisTitle = "Diagnosis of Symptoms"
 
 // Diagnosis History
 const val DiagnosisHistoryTitle = "Diagnosis History"
+const val DiagnosisEmptyTitle = "No symptom diagnosis results yet"
+const val MajorSymptoms = "Major symptoms: "
+const val ImproveMethod = "How to improve: "
+const val DiagnosisHistoryRanking = "In addition, other results with a high probability of diagnosis were "
 
 // Diagnosis Quick
 const val QuickDiagnosisTitle =  "Quick Diagnosis"

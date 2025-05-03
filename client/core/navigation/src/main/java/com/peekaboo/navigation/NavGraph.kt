@@ -125,7 +125,14 @@ fun NavGraphBuilder.diagnosisHistoryNavGraph(
         route = NavRoutes.DiagnosisHistoryGraph.route
     ) {
         composable(NavRoutes.DiagnosisHistoryScreen.route) {
-            DiagnosisHistoryScreen()
+            DiagnosisHistoryScreen(
+                goToDiagnosisPage = {
+                    navController.navigate(NavRoutes.SelectAreaScreen.route)
+                },
+                goToDiagnosisResultPage = {
+                    navController.navigate(NavRoutes.DiagnosisScreen.route)
+                }
+            )
         }
     }
 }

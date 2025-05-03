@@ -45,6 +45,7 @@ import com.peekaboo.design_system.BaeBaeTypo
 import com.peekaboo.design_system.BannerIndicator
 import com.peekaboo.design_system.Black1
 import com.peekaboo.design_system.CourseNumberFormat
+import com.peekaboo.design_system.DiagnosingBtn
 import com.peekaboo.design_system.DiagnosingTypeFullView
 import com.peekaboo.design_system.DiagnosingTypeListSemiTitle
 import com.peekaboo.design_system.DiagnosingTypeListTitle
@@ -55,7 +56,6 @@ import com.peekaboo.design_system.Gray2
 import com.peekaboo.design_system.Gray3
 import com.peekaboo.design_system.HomeDiagnosingBoxSemiTitle
 import com.peekaboo.design_system.HomeDiagnosingBoxTitle
-import com.peekaboo.design_system.HomeDiagnosingBtn
 import com.peekaboo.design_system.HomeSemiTitle
 import com.peekaboo.design_system.Main2
 import com.peekaboo.design_system.Main3
@@ -280,7 +280,7 @@ fun HomeDiagnosingBox(
 
         BottomRectangleBtn(
             horizontalPadding = 45,
-            btnText = HomeDiagnosingBtn,
+            btnText = DiagnosingBtn,
             isBtnValid = true,
             onClickAction = onClickDiagnosisBtn
         )
