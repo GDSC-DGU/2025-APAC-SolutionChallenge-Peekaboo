@@ -19,13 +19,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -33,9 +38,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.peekaboo.design_system.BaeBae
 import com.peekaboo.design_system.BaeBaeTypo
+import com.peekaboo.design_system.BannerIndicator
 import com.peekaboo.design_system.Black1
+import com.peekaboo.design_system.CourseNumberFormat
 import com.peekaboo.design_system.DiagnosingTypeFullView
 import com.peekaboo.design_system.DiagnosingTypeListSemiTitle
 import com.peekaboo.design_system.DiagnosingTypeListTitle
@@ -55,6 +64,7 @@ import com.peekaboo.design_system.R
 import com.peekaboo.design_system.SkinCondition
 import com.peekaboo.design_system.White2
 import com.peekaboo.design_system.White3
+import com.peekaboo.domain.entity.response.DiseaseBannerItem
 import com.peekaboo.ui.common.button.BottomRectangleBtn
 
 @Composable
@@ -63,6 +73,8 @@ fun HomeScreen(
     goToDiagnosisHistoryPage: () -> Unit,
     goToDiagnosisQuickPage: () -> Unit,
 ) {
+    val viewModel: HomeViewModel = hiltViewModel()
+    val uiState: HomePageState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -70,7 +82,8 @@ fun HomeScreen(
         interactionSource = interactionSource,
         onClickDiagnosisBtn = { goToDiagnosisSelectAreaPage() },
         onClickDiagnosisHistoryBox = { goToDiagnosisHistoryPage() },
-        onClickDiseaseListFullView = { goToDiagnosisQuickPage() }
+        onClickDiseaseListFullView = { goToDiagnosisQuickPage() },
+        diseaseBannerList = uiState.diseaseBannerList
     )
 }
 
@@ -80,6 +93,7 @@ fun HomeContent(
     onClickDiagnosisBtn: () -> Unit = {},
     onClickDiagnosisHistoryBox: () -> Unit = {},
     onClickDiseaseListFullView: () -> Unit = {},
+    diseaseBannerList: List<DiseaseBannerItem> = emptyList()
 ) {
     Column(
         modifier = Modifier
@@ -104,7 +118,9 @@ fun HomeContent(
             )
         }
 
-        HomeDiseaseBanner()
+        HomeDiseaseBanner(
+            bannerDiseaseList = diseaseBannerList
+        )
 
         Text(
             text = buildAnnotatedString {
@@ -136,10 +152,30 @@ fun HomeContent(
 }
 
 @Composable
-fun HomeDiseaseBanner() {
+fun HomeDiseaseBanner(
+    bannerDiseaseList: List<DiseaseBannerItem>
+) {
+    val pagerState = rememberPagerState(pageCount = { bannerDiseaseList.size })
+
+    HorizontalPager(
+        state = pagerState,
+    ) { page ->
+        HomeDiseaseBannerItem(diseaseItem = bannerDiseaseList[page], page = page + 1, size = bannerDiseaseList.size)
+    }
+}
+
+@Composable
+fun HomeDiseaseBannerItem(
+    diseaseItem: DiseaseBannerItem,
+    page: Int,
+    size: Int
+) {
+    val configuration = LocalConfiguration.current
+    val screenWidthDp = configuration.screenWidthDp
+
     Row(
         modifier = Modifier
-            .fillMaxWidth()
+            .width(screenWidthDp.dp)
             .clip(RoundedCornerShape(bottomStart = 3.dp, bottomEnd = 3.dp))
             .background(Main3)
     ) {
@@ -150,13 +186,13 @@ fun HomeDiseaseBanner() {
         ) {
             Row {
                 Text(
-                    text = "콜레라",
+                    text = diseaseItem.name,
                     color = White2,
                     style = BaeBaeTypo.Head1,
                 )
 
                 Text(
-                    text = "앙골라",
+                    text = diseaseItem.location,
                     color = Gray2,
                     style = BaeBaeTypo.Body1,
                     modifier = Modifier
@@ -165,7 +201,7 @@ fun HomeDiseaseBanner() {
             }
 
             Text(
-                text = "25년 1월 초부터 3월 23일까지 앙골라에서 콜레라 누적 8,543명 발생, 329명 사망 보고",
+                text = diseaseItem.description,
                 color = Gray2,
                 style = BaeBaeTypo.Caption1,
                 modifier = Modifier
@@ -181,7 +217,21 @@ fun HomeDiseaseBanner() {
                 .background(Gray2),
         )
 
-        Spacer(modifier = Modifier.width(30.dp))
+        Box(
+            modifier = Modifier
+                .align(Alignment.Bottom)
+                .padding(start = 5.dp, end = 6.dp, bottom = 5.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(BannerIndicator)
+        ) {
+            Text(
+                text = String.format(CourseNumberFormat, page, size),
+                color = Gray3,
+                style = BaeBaeTypo.Caption5,
+                modifier = Modifier
+                    .padding(vertical = 2.dp, horizontal = 5.dp)
+            )
+        }
     }
 }
 

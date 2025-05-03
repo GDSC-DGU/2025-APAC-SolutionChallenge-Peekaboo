@@ -42,7 +42,7 @@ fun MainScreen() {
             ) {
                 NavHost(
                     navController = navController,
-                    startDestination = NavRoutes.OnBoardingGraph.route
+                    startDestination = NavRoutes.HomeGraph.route
                 ) {
                     onboardingNavGraph(
                         navController = navController,
