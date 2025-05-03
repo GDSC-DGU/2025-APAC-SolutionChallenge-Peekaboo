@@ -1,6 +1,7 @@
 package com.peekaboo.ui.common.item
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,20 +18,26 @@ import com.peekaboo.design_system.Gray3
 @Composable
 fun ChipItem(
     chipText: String,
+    onClickAction: () -> Unit = {}
 ) {
     ChipContent(
-        chipText = chipText
+        chipText = chipText,
+        onClick = onClickAction
     )
 }
 
 @Composable
 fun ChipContent(
     chipText: String = "",
+    onClick: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(100.dp))
             .background(Gray1)
+            .clickable(
+                onClick = onClick
+            )
     ) {
         Text(
             text = chipText,
