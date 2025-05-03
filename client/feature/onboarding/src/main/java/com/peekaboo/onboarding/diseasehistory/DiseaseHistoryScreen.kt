@@ -13,13 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.peekaboo.design_system.Add
-import com.peekaboo.design_system.AllergyCautionNotice
-import com.peekaboo.design_system.AllergyInputHint
-import com.peekaboo.design_system.AllergyInputSemiTitle
-import com.peekaboo.design_system.AllergyInputTitle
 import com.peekaboo.design_system.BaeBaeTypo
 import com.peekaboo.design_system.Black1
+import com.peekaboo.design_system.CautionNotice
+import com.peekaboo.design_system.DiseaseHistoryInputHint
+import com.peekaboo.design_system.DiseaseHistoryInputSemiTitle
+import com.peekaboo.design_system.DiseaseHistoryInputTitle
+import com.peekaboo.design_system.Finish
 import com.peekaboo.design_system.Gray3
 import com.peekaboo.design_system.Next
 import com.peekaboo.design_system.OnBoardingTitle
@@ -55,14 +55,14 @@ fun DiseaseHistoryContent(
             )
 
             CourseNumber(
-                currentNumber = 4,
+                currentNumber = 5,
                 totalNumber = 5,
                 paddingTop = 35,
                 paddingStart = 20
             )
 
             Text(
-                text = AllergyInputTitle,
+                text = DiseaseHistoryInputTitle,
                 color = Black1,
                 style = BaeBaeTypo.Body1,
                 modifier = Modifier
@@ -70,7 +70,7 @@ fun DiseaseHistoryContent(
             )
 
             Text(
-                text = AllergyInputSemiTitle,
+                text = DiseaseHistoryInputSemiTitle,
                 color = Gray3,
                 style = BaeBaeTypo.Body4,
                 modifier = Modifier
@@ -89,7 +89,7 @@ fun DiseaseHistoryContent(
 
         CautionNoticeBox(
             horizontalPadding = 20,
-            cautionText = AllergyCautionNotice
+            cautionText = CautionNotice
         )
 
         Spacer(modifier = Modifier.height(30.dp))
@@ -111,14 +111,14 @@ fun DiseaseHistoryInputBox(
         textInput = diseaseHistoryInput,
         onValueChange = onDiseaseHistoryChange,
         horizontalPadding = 25,
-        hintText = AllergyInputHint
+        hintText = DiseaseHistoryInputHint
     )
 
     Row(
         modifier = modifier
             .padding(top = 10.dp, end = 24.dp)
     ) {
-        ChipItem(chipText = Add)
+        ChipItem(chipText = Finish)
     }
 }
 
