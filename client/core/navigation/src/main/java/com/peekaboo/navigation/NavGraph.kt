@@ -61,7 +61,12 @@ fun NavGraphBuilder.onboardingNavGraph(
         }
 
         composable(NavRoutes.DiseaseHistoryScreen.route) {
-            DiseaseHistoryScreen()
+            DiseaseHistoryScreen(
+                userModel = userModel,
+                goToMainPage = {
+                    setUserModel(it)
+                }
+            )
         }
     }
 }
