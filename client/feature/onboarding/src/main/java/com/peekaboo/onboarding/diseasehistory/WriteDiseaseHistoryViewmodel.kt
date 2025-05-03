@@ -7,10 +7,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class DiseaseHistoryViewmodel @Inject constructor(
+class WriteDiseaseHistoryViewmodel @Inject constructor(
 
-) : BaseViewModel<DiseaseHistoryPageState>(
-    DiseaseHistoryPageState()
+) : BaseViewModel<WriteDiseaseHistoryPageState>(
+    WriteDiseaseHistoryPageState()
 ) {
 
     fun onDiseaseHistoryValueChange(changeIndex: Int, newValue: String) {

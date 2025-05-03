@@ -6,6 +6,7 @@ const val CourseNumberFormat = "%d/%d"
 const val Next = "다음"
 const val Add = "추가"
 const val Finish = "완료"
+const val Question = "?"
 
 // Word
 const val Korea = "한국"
@@ -38,3 +39,23 @@ const val CautionNotice = "증상 진단 용도 외에는 사용되거나 유출
 const val DiseaseHistoryInputTitle = "증상 진단을 사용하는 대상의 질병 발병 이력을\n작성해 주세요."
 const val DiseaseHistoryInputSemiTitle = "원하는 만큼 추가해서 작성해 주세요. 없다면 작성하지 않아도 괜찮습니다."
 const val DiseaseHistoryInputHint = "예) 홍역, 수두 등"
+
+// Home
+const val HomeSemiTitle = "Simply input, Smart diagnosis\nStay with "
+const val HomeDiagnosingBoxTitle = "Does your child have\nan unknown "
+const val SkinCondition = "skin condition"
+const val HomeDiagnosingBoxSemiTitle = "Try AI diagnosing right now!"
+const val HomeDiagnosingBtn = "Diagnosing"
+const val DiagnosisHistorySemiTitle = "Check my record"
+const val DiagnosingTypeListTitle = "Types of Skin Diseases"
+const val DiagnosingTypeFullView = "Full View"
+const val DiagnosingTypeListSemiTitle = "Check the symptoms quickly\nbefore diagnosing the symptoms!"
+
+// Diagnosis
+const val DiagnosisTitle = "Diagnosis of Symptoms"
+
+// Diagnosis History
+const val DiagnosisHistoryTitle = "Diagnosis History"
+
+// Diagnosis Quick
+const val QuickDiagnosisTitle =  "Quick Diagnosis"

@@ -75,4 +75,9 @@ object BaeBaeTypo {
         fontFamily = fontFamily,
         fontWeight = FontWeight.Normal
     )
+    val Caption5: TextStyle = TextStyle(
+        fontSize = 8.sp,
+        fontFamily = fontFamily,
+        fontWeight = FontWeight.Normal
+    )
 }
