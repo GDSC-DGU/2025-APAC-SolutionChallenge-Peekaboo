@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.SharedFlow
 fun NavGraphBuilder.onboardingNavGraph(
     navController: NavController,
     setUserModel: (CreateUserModel) -> Unit,
-    userModel: SharedFlow<CreateUserModel>
+    userModel: SharedFlow<CreateUserModel>,
 ) {
     navigation(
         startDestination = NavRoutes.LanguageChoiceScreen.route,
@@ -24,13 +24,20 @@ fun NavGraphBuilder.onboardingNavGraph(
         composable(NavRoutes.LanguageChoiceScreen.route) {
             LanguageChoiceScreen(
                 goToPersonalInputPage = {
+                    setUserModel(it)
                     navController.navigate(NavRoutes.PersonalInputScreen.route)
                 }
             )
         }
 
         composable(NavRoutes.PersonalInputScreen.route) {
-            PersonalInputScreen()
+            PersonalInputScreen(
+                userModel = userModel,
+                goToSkinSelectPage = {
+                    setUserModel(it)
+                    navController.navigate(NavRoutes.SkinColorSelectScreen.route)
+                }
+            )
         }
 
         composable(NavRoutes.SkinColorSelectScreen.route) {

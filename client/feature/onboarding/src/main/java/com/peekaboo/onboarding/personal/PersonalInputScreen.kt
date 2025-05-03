@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,6 +28,7 @@ import com.peekaboo.design_system.OnBoardingTitle
 import com.peekaboo.design_system.PersonalInputTitle
 import com.peekaboo.design_system.SexChoiceSemiTitle
 import com.peekaboo.design_system.White3
+import com.peekaboo.domain.entity.request.CreateUserModel
 import com.peekaboo.onboarding.type.BloodType
 import com.peekaboo.onboarding.type.SexType
 import com.peekaboo.ui.common.appbar.TopBar
@@ -34,12 +36,22 @@ import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.CourseNumber
 import com.peekaboo.ui.common.item.SelectItem
 import com.peekaboo.ui.common.item.TextFieldBox
+import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
-fun PersonalInputScreen() {
+fun PersonalInputScreen(
+    userModel: SharedFlow<CreateUserModel>,
+    goToSkinSelectPage: (CreateUserModel) -> Unit,
+) {
 
     val viewModel: PersonalInputViewmodel = hiltViewModel()
     val uiState: PersonalInputPageState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(userModel) {
+        userModel.collect {
+            viewModel.setUserModel(it)
+        }
+    }
 
     PersonalInputContent(
         birthInput = uiState.birthInput,
@@ -53,7 +65,9 @@ fun PersonalInputScreen() {
         selectedBloodType = uiState.bloodType,
         onSelectBloodType = { bloodType ->
             viewModel.setBloodType(bloodType)
-        }
+        },
+        isBirthValid = viewModel.isBirthValid(),
+        onClickBtnAction = { goToSkinSelectPage(viewModel.updateUserModel()) }
     )
 }
 
@@ -65,6 +79,8 @@ fun PersonalInputContent(
     onSelectSex: (String) -> Unit = {},
     selectedBloodType: String = "",
     onSelectBloodType: (String) -> Unit = {},
+    isBirthValid: Boolean = false,
+    onClickBtnAction: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -112,7 +128,9 @@ fun PersonalInputContent(
 
         BottomRectangleBtn(
             horizontalPadding = 20,
-            btnText = Next
+            btnText = Next,
+            isBtnValid = (selectedSex.isNotEmpty() && selectedBloodType.isNotEmpty() && isBirthValid),
+            onClickAction = onClickBtnAction
         )
 
         Spacer(modifier = Modifier.height(36.dp))
