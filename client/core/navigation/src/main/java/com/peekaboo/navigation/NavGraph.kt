@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.peekaboo.domain.entity.request.CreateUserModel
+import com.peekaboo.home.HomeScreen
 import com.peekaboo.onboarding.allergy.AllergyExistScreen
 import com.peekaboo.onboarding.diseasehistory.DiseaseHistoryScreen
 import com.peekaboo.onboarding.language.LanguageChoiceScreen
@@ -65,8 +66,22 @@ fun NavGraphBuilder.onboardingNavGraph(
                 userModel = userModel,
                 goToMainPage = {
                     setUserModel(it)
+                    navController.navigate(NavRoutes.HomeScreen.route)
                 }
             )
+        }
+    }
+}
+
+fun NavGraphBuilder.homeNavGraph(
+    navController: NavController
+) {
+    navigation(
+        startDestination = NavRoutes.HomeScreen.route,
+        route = NavRoutes.HomeGraph.route
+    ) {
+        composable(NavRoutes.HomeScreen.route) {
+            HomeScreen()
         }
     }
 }
