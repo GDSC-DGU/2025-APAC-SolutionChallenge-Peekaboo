@@ -22,4 +22,5 @@ sealed class NavRoutes(val route: String) {
 
     data object DiagnosisQuickGraph: NavRoutes("diagnosis_quick_graph")
     data object DiagnosisQuickScreen: NavRoutes("diagnosis_quick")
+    data object DetailQuickScreen: NavRoutes("detail_quick")
 }

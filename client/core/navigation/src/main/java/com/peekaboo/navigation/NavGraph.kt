@@ -8,6 +8,7 @@ import com.peekaboo.diagnosis.DiagnosisScreen
 import com.peekaboo.diagnosis.selectarea.SelectAreaScreen
 import com.peekaboo.diagnosishistory.DiagnosisHistoryScreen
 import com.peekaboo.diagnosisquick.QuickDiagnosisScreen
+import com.peekaboo.diagnosisquick.detail.DetailQuickScreen
 import com.peekaboo.domain.entity.request.CreateUserModel
 import com.peekaboo.home.HomeScreen
 import com.peekaboo.onboarding.allergy.AllergyExistScreen
@@ -145,7 +146,15 @@ fun NavGraphBuilder.diagnosisQuickNavGraph(
         route = NavRoutes.DiagnosisQuickGraph.route
     ) {
         composable(NavRoutes.DiagnosisQuickScreen.route) {
-            QuickDiagnosisScreen()
+            QuickDiagnosisScreen(
+                goToDetailDiagnosisPage = {
+                    navController.navigate(NavRoutes.DetailQuickScreen.route)
+                }
+            )
+        }
+
+        composable(NavRoutes.DetailQuickScreen.route) {
+            DetailQuickScreen()
         }
     }
 }
