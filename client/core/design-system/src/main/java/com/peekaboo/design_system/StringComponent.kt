@@ -64,3 +64,4 @@ const val DiagnosisHistoryRanking = "In addition, other results with a high prob
 
 // Diagnosis Quick
 const val QuickDiagnosisTitle =  "Quick Diagnosis"
+const val QuickDiagnosisSemiTitle = "Types of Skin Disease"
