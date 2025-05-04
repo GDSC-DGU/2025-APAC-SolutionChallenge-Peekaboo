@@ -3,6 +3,7 @@ package com.peekaboo.diagnosis.selectarea
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,13 +12,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,6 +43,7 @@ import com.peekaboo.domain.entity.request.DiagnosisModel
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.CourseNumber
+import com.peekaboo.ui.common.item.ChipItem
 
 @Composable
 fun SelectAreaScreen(
@@ -48,20 +53,28 @@ fun SelectAreaScreen(
     val viewModel: SelectAreaViewModel = hiltViewModel()
     val uiState: SelectAreaPageState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val interactionSource = remember { MutableInteractionSource() }
+
     SelectAreaContent(
+        interactionSource = interactionSource,
         onClickNextBtn = { goToPicturePage(viewModel.updateDiagnosisContent()) },
         onSelectShapeChip = { viewModel.setSelectedShape(it) },
         selectedShape = uiState.selectedShape,
-        selectedShapeImg = uiState.selectedShapeImg
+        selectedShapeImg = uiState.selectedShapeImg,
+        onClickShapePosition = { viewModel.setSelectedArea(it) },
+        selectedArea = uiState.selectedArea
     )
 }
 
 @Composable
 fun SelectAreaContent(
+    interactionSource: MutableInteractionSource = MutableInteractionSource(),
     onClickNextBtn: () -> Unit = {},
     onSelectShapeChip: (String) -> Unit = {},
     selectedShape: String = "",
     selectedShapeImg: Int = 0,
+    onClickShapePosition: (String) -> Unit = {},
+    selectedArea: String = "",
 ) {
 
     Column(
@@ -99,8 +112,24 @@ fun SelectAreaContent(
             )
 
             SelectAreaPictureBox(
-                selectedShapeImg = selectedShapeImg
+                selectedShapeImg = selectedShapeImg,
+                onClickShapePosition = onClickShapePosition,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally),
+                interactionSource = interactionSource
             )
+        }
+
+        Box(
+            modifier = Modifier
+                .padding(bottom = 12.dp)
+                .align(Alignment.CenterHorizontally)
+        ) {
+            if (selectedArea.isNotEmpty()) {
+                ChipItem(
+                    chipText = selectedArea
+                )
+            }
         }
 
         BottomRectangleBtn(
@@ -191,15 +220,114 @@ fun SelectAreaPictureShapeChip(
 @Composable
 fun SelectAreaPictureBox(
     selectedShapeImg: Int,
+    onClickShapePosition: (String) -> Unit,
+    modifier: Modifier,
+    interactionSource: MutableInteractionSource,
 ) {
-    Image(
-        painter = painterResource(id = selectedShapeImg),
-        contentDescription = "body",
-        modifier = Modifier
-            .padding(top = 35.dp, bottom = 54.dp, start = 63.dp, end = 63.dp)
-            .fillMaxSize()
-            .clip(RoundedCornerShape(5.dp))
-    )
+
+    Box(
+        modifier = modifier
+            .padding(top = 34.dp)
+    ) {
+        Image(
+            painter = painterResource(id = selectedShapeImg),
+            contentDescription = "body",
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .size(width = 234.dp, height = 351.dp)
+                .clip(RoundedCornerShape(5.dp))
+        )
+
+        // 머리
+        Box(
+            modifier = Modifier
+                .size(width = 133.dp, height = 53.dp)
+                .background(Color.Transparent)
+                .align(Alignment.TopCenter)
+                .clickable(
+                    onClick = { onClickShapePosition("head") },
+                    interactionSource = interactionSource,
+                    indication = null
+                )
+        )
+        //얼굴
+        Box(
+            modifier = Modifier
+                .padding(top = 59.dp)
+                .size(width = 71.dp, height = 50.dp)
+                .background(Color.Transparent)
+                .align(Alignment.TopCenter)
+                .clickable(
+                    onClick = { onClickShapePosition("face") },
+                    interactionSource = interactionSource,
+                    indication = null
+                )
+        )
+        // 배
+        Box(
+            modifier = Modifier
+                .padding(top = 154.dp)
+                .size(width = 71.dp, height = 50.dp)
+                .background(Color.Transparent)
+                .align(Alignment.TopCenter)
+                .clickable(
+                    onClick = { onClickShapePosition("stomach") },
+                    interactionSource = interactionSource,
+                    indication = null
+                )
+        )
+        // 엉덩이
+        Box(
+            modifier = Modifier
+                .padding(top = 210.dp)
+                .size(width = 71.dp, height = 39.dp)
+                .background(Color.Transparent)
+                .align(Alignment.TopCenter)
+                .clickable(
+                    onClick = { onClickShapePosition("hip") },
+                    interactionSource = interactionSource,
+                    indication = null
+                )
+        )
+        // 다리
+        Box(
+            modifier = Modifier
+                .padding(bottom = 7.dp)
+                .size(width = 122.dp, height = 89.dp)
+                .background(Color.Transparent)
+                .align(Alignment.BottomCenter)
+                .clickable(
+                    onClick = { onClickShapePosition("leg") },
+                    interactionSource = interactionSource,
+                    indication = null
+                )
+        )
+        // 팔
+        Box(
+            modifier = Modifier
+                .padding(top = 117.dp, start = 8.dp)
+                .size(width = 70.dp, height = 132.dp)
+                .background(Color.Transparent)
+                .align(Alignment.TopStart)
+                .clickable(
+                    onClick = { onClickShapePosition("arm") },
+                    interactionSource = interactionSource,
+                    indication = null
+                )
+        )
+        Box(
+            modifier = Modifier
+                .padding(top = 117.dp, end = 8.dp)
+                .size(width = 70.dp, height = 132.dp)
+                .background(Color.Transparent)
+                .align(Alignment.TopEnd)
+                .clickable(
+                    onClick = { onClickShapePosition("arm") },
+                    interactionSource = interactionSource,
+                    indication = null
+                )
+        )
+    }
 }
 
 @Preview(showBackground = true, showSystemUi = true)

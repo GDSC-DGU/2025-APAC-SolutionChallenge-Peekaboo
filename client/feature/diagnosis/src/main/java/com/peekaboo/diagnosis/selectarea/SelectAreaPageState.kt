@@ -9,5 +9,5 @@ data class SelectAreaPageState (
     val diagnosisContent: DiagnosisModel = DiagnosisModel(),
     val selectedArea: String = "",
     val selectedShape: String = DiagnosisSelectAreaFront,
-    val selectedShapeImg: Int = R.drawable.ic_body_front
+    val selectedShapeImg: Int = R.drawable.ic_body_front,
 ): PageState
