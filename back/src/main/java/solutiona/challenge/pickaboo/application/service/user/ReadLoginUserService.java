@@ -1,4 +1,4 @@
-package solutiona.challenge.pickaboo.application.service;
+package solutiona.challenge.pickaboo.application.service.user;
 
 import solutiona.challenge.pickaboo.application.dto.oauth.JwtTokenDto;
 import solutiona.challenge.pickaboo.core.util.JwtUtil;

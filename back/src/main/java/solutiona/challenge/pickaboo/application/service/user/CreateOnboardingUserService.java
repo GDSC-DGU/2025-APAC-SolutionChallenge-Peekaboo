@@ -1,4 +1,4 @@
-package solutiona.challenge.pickaboo.application.service;
+package solutiona.challenge.pickaboo.application.service.user;
 
 import java.util.List;
 import java.util.UUID;

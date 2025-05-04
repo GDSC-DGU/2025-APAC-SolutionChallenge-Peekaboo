@@ -1,4 +1,4 @@
-package solutiona.challenge.pickaboo.application.service;
+package solutiona.challenge.pickaboo.application.service.user;
 
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
