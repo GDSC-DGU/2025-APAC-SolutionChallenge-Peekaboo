@@ -1,13 +1,11 @@
 package solutiona.challenge.pickaboo.application.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import solutiona.challenge.pickaboo.application.usecase.CreateOnboardingUserUseCase;
+import solutiona.challenge.pickaboo.application.usecase.user.CreateOnboardingUserUseCase;
 import solutiona.challenge.pickaboo.domain.entity.Allergy;
 import solutiona.challenge.pickaboo.domain.entity.OnboardingDisease;
 import solutiona.challenge.pickaboo.domain.entity.User;

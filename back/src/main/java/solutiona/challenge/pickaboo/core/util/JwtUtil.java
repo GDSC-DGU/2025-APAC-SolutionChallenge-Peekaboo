@@ -1,8 +1,7 @@
 package solutiona.challenge.pickaboo.core.util;
 
-import solutiona.challenge.pickaboo.application.dto.JwtTokenDto;
+import solutiona.challenge.pickaboo.application.dto.oauth.JwtTokenDto;
 import solutiona.challenge.pickaboo.core.constant.Constants;
-import solutiona.challenge.pickaboo.core.security.JwtDto;
 import solutiona.challenge.pickaboo.domain.type.ERole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;

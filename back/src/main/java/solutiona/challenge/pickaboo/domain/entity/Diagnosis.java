@@ -37,8 +37,12 @@ public class Diagnosis {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "custom_description")
-    private String customDescription;
+    @Column(name = "ko_custom_description")
+    private String koCustomDescription;
+
+    @Column(name = "en_custom_description")
+    private String enCustomDescription;
+
 
     @Column(name = "create_at")
     private LocalDateTime createAt;

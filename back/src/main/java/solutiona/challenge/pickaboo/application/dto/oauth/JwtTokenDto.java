@@ -1,4 +1,4 @@
-package solutiona.challenge.pickaboo.application.dto;
+package solutiona.challenge.pickaboo.application.dto.oauth;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
