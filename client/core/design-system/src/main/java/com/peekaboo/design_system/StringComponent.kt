@@ -5,7 +5,7 @@ const val BaeBae = "BaeBae"
 const val CourseNumberFormat = "%d/%d"
 const val Next = "next"
 const val Add = "추가"
-const val Finish = "완료"
+const val Finish = "finish"
 const val Question = "?"
 const val And = " and "
 const val BackToMain =  "Back to Main"
@@ -57,6 +57,7 @@ const val DiagnosingTypeListSemiTitle = "Check the symptoms quickly\nbefore diag
 const val DiagnosisTitle = "Diagnosis of Symptoms"
 const val DiagnosisSelectArea = "Pleas select the area\nwhere you have symptoms"
 const val DiagnosisSelectPicture = "Please take a picture\nof the Symptom and register it"
+const val DiagnosisExplainHint = "Please write down the symptoms in detail.\nThe more detailed you write,\nthe more accurate the results will be."
 
 // Diagnosis History
 const val DiagnosisHistoryTitle = "Diagnosis History"

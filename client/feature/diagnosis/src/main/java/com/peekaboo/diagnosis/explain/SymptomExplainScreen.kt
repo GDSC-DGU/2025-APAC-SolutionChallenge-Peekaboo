@@ -17,14 +17,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.peekaboo.design_system.BaeBaeTypo
 import com.peekaboo.design_system.Black1
+import com.peekaboo.design_system.DiagnosisExplainHint
 import com.peekaboo.design_system.DiagnosisSelectPicture
 import com.peekaboo.design_system.DiagnosisTitle
-import com.peekaboo.design_system.Next
+import com.peekaboo.design_system.Finish
 import com.peekaboo.design_system.White3
 import com.peekaboo.domain.entity.request.DiagnosisModel
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.CourseNumber
+import com.peekaboo.ui.common.item.TextFieldBox
 import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
@@ -42,13 +44,17 @@ fun SymptomExplainScreen(
     }
 
     SymptomExplainContent(
-        onClickNextBtn = { goToDiagnosisResultPage(viewModel.updateDiagnosisContent()) }
+        onClickNextBtn = { goToDiagnosisResultPage(viewModel.updateDiagnosisContent()) },
+        explainInput = uiState.explainInput,
+        onExplainValueChange = { viewModel.onExplainValueChange(it) }
     )
 }
 
 @Composable
 fun SymptomExplainContent(
     onClickNextBtn: () -> Unit = {},
+    explainInput: String = "",
+    onExplainValueChange: (String) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -78,12 +84,23 @@ fun SymptomExplainContent(
                 modifier = Modifier
                     .padding(top = 10.dp, start = 20.dp)
             )
+
+            Spacer(modifier = Modifier.height(87.dp))
+
+            TextFieldBox(
+                textInput = explainInput,
+                onValueChange = onExplainValueChange,
+                horizontalPadding = 25,
+                hintText = DiagnosisExplainHint,
+                height = 260,
+                textMaxLength = 500
+            )
         }
 
         BottomRectangleBtn(
             horizontalPadding = 20,
-            btnText = Next,
-            isBtnValid = true,
+            btnText = Finish,
+            isBtnValid = explainInput.isNotEmpty(),
             onClickAction = onClickNextBtn
         )
 
