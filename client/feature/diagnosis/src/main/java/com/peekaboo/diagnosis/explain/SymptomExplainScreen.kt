@@ -43,8 +43,18 @@ fun SymptomExplainScreen(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.eventFlow.collect { event ->
+            when (event) {
+                is SymptomExplainEvent.GoToDiagnosisResultPage -> {
+                    goToDiagnosisResultPage(viewModel.updateDiagnosisContent())
+                }
+            }
+        }
+    }
+
     SymptomExplainContent(
-        onClickNextBtn = { goToDiagnosisResultPage(viewModel.updateDiagnosisContent()) },
+        onClickNextBtn = { viewModel.diagnoseSymptom() },
         explainInput = uiState.explainInput,
         onExplainValueChange = { viewModel.onExplainValueChange(it) }
     )
