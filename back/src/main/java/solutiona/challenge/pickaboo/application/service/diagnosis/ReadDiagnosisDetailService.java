@@ -22,7 +22,7 @@ public class ReadDiagnosisDetailService implements ReadDiagnosisDetailUseCase {
     private final DiagnosisMapper diagnosisMapper;
 
     @Override
-    public ReadDiagnosisDetailResponseDto execute(UUID userId, Long diagnosisId) {
+    public ReadDiagnosisDetailResponseDto execute(UUID userId, Long diagnosisId, String lang) {
         User user = userRepository.findById(userId);
 
         Diagnosis diagnosis = diagnosisRepository.findById(diagnosisId);

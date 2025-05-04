@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import solutiona.challenge.pickaboo.application.usecase.diagnosis.ReadDiagnosisDetailUseCase;
 import solutiona.challenge.pickaboo.application.usecase.diagnosis.ReadDiagnosisListUseCase;
@@ -20,16 +21,18 @@ public class DiagnosisController {
 
     @GetMapping("")
     public CommonResponseDto<?> readList(
-            @UserId UUID userId
+            @UserId UUID userId,
+            @RequestParam(name = "lang") String lang
     ) {
-        return CommonResponseDto.ok(readDiagnosisListUseCase.execute(userId));
+        return CommonResponseDto.ok(readDiagnosisListUseCase.execute(userId, lang));
     }
 
     @GetMapping("/{diagnosisId}")
     public CommonResponseDto<?> readDetail(
             @UserId UUID userId,
-            @PathVariable(name = "diagnosisId") Long diagnosisId
+            @PathVariable(name = "diagnosisId") Long diagnosisId,
+            @RequestParam(name = "lang") String lang
     ) {
-        return CommonResponseDto.ok(readDiagnosisDetailUseCase.execute(userId, diagnosisId));
+        return CommonResponseDto.ok(readDiagnosisDetailUseCase.execute(userId, diagnosisId, lang));
     }
 }

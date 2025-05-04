@@ -9,7 +9,7 @@ import lombok.Builder;
 public record ReadDiagnosisResponseDto(
         Long diagnosisId,
         String customDescription,
-        LocalDate createAt,
+        String createAt,
         List<DiseaseListResponseDto> diseaseList
 
 ) {

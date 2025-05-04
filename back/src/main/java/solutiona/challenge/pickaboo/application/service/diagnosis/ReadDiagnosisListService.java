@@ -1,5 +1,6 @@
 package solutiona.challenge.pickaboo.application.service.diagnosis;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class ReadDiagnosisListService implements ReadDiagnosisListUseCase {
 
 
     @Override
-    public ReadDiagnosisListResponseDto execute(UUID userId) {
+    public ReadDiagnosisListResponseDto execute(UUID userId, String lang) {
         User user = userRepository.findById(userId);
 
         List<Diagnosis> diagnoses = diagnosisRepository.findByUser(user);
@@ -34,7 +35,7 @@ public class ReadDiagnosisListService implements ReadDiagnosisListUseCase {
                         diagnosis -> ReadDiagnosisResponseDto.builder()
                                 .diagnosisId(diagnosis.getId())
                                 .customDescription(diagnosis.getKoCustomDescription())
-                                .createAt(diagnosis.getCreateAt())
+                                .createAt(diagnosis.getCreateAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                                 .diseaseList(createList(diagnosis))
                                 .build()
                 ).toList();

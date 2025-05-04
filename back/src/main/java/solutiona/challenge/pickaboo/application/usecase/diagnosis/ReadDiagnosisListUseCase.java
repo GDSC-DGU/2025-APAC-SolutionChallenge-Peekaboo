@@ -6,5 +6,5 @@ import solutiona.challenge.pickaboo.core.annotation.UseCase;
 
 @UseCase
 public interface ReadDiagnosisListUseCase {
-    ReadDiagnosisListResponseDto execute(UUID userId);
+    ReadDiagnosisListResponseDto execute(UUID userId, String lang);
 }
