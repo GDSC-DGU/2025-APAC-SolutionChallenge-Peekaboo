@@ -8,25 +8,41 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.peekaboo.design_system.BaeBaeTypo
 import com.peekaboo.design_system.Black1
 import com.peekaboo.design_system.DiagnosisSelectPicture
 import com.peekaboo.design_system.DiagnosisTitle
 import com.peekaboo.design_system.Next
 import com.peekaboo.design_system.White3
+import com.peekaboo.domain.entity.request.DiagnosisModel
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.CourseNumber
+import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
 fun UploadPictureScreen(
-    goToExplainPage: () -> Unit,
+    diagnosisModel: SharedFlow<DiagnosisModel>,
+    goToExplainPage: (DiagnosisModel) -> Unit,
 ) {
+    val viewModel: UploadPictureViewModel = hiltViewModel()
+    val uiState: UploadPicturePageState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(diagnosisModel) {
+        diagnosisModel.collect {
+            viewModel.setDiagnosisContent(it)
+        }
+    }
+
     UploadPictureContent(
-        onClickNextBtn = { goToExplainPage() }
+        onClickNextBtn = { goToExplainPage(viewModel.updateDiagnosisContent()) }
     )
 }
 

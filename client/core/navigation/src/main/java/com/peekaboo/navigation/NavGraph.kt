@@ -107,7 +107,7 @@ fun NavGraphBuilder.homeNavGraph(
 fun NavGraphBuilder.diagnosisNavGraph(
     navController: NavController,
     setDiagnosisContent: (DiagnosisModel) -> Unit,
-    diagnosisContent: SharedFlow<DiagnosisModel>
+    diagnosisContent: SharedFlow<DiagnosisModel>,
 ) {
     navigation(
         startDestination = NavRoutes.SelectAreaScreen.route,
@@ -125,8 +125,10 @@ fun NavGraphBuilder.diagnosisNavGraph(
         composable(NavRoutes.SelectPictureScreen.route) {
             UploadPictureScreen(
                 goToExplainPage = {
+                    setDiagnosisContent(it)
                     navController.navigate(NavRoutes.ExplainSymptomScreen.route)
-                }
+                },
+                diagnosisModel = diagnosisContent
             )
         }
 
@@ -134,7 +136,8 @@ fun NavGraphBuilder.diagnosisNavGraph(
             SymptomExplainScreen(
                 goToDiagnosisResultPage = {
                     navController.navigate(NavRoutes.DiagnosisScreen.route)
-                }
+                },
+                diagnosisModel = diagnosisContent
             )
         }
 
