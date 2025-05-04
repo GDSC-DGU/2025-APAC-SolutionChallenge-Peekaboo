@@ -8,25 +8,33 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.peekaboo.design_system.BaeBaeTypo
 import com.peekaboo.design_system.Black1
 import com.peekaboo.design_system.DiagnosisSelectArea
 import com.peekaboo.design_system.DiagnosisTitle
 import com.peekaboo.design_system.Next
 import com.peekaboo.design_system.White3
+import com.peekaboo.domain.entity.request.DiagnosisModel
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.CourseNumber
 
 @Composable
 fun SelectAreaScreen(
-    goToPicturePage: () -> Unit,
+    goToPicturePage: (DiagnosisModel) -> Unit,
 ) {
+
+    val viewModel: SelectAreaViewModel = hiltViewModel()
+    val uiState: SelectAreaPageState by viewModel.uiState.collectAsStateWithLifecycle()
+
     SelectAreaContent(
-        onClickNextBtn = { goToPicturePage() }
+        onClickNextBtn = { goToPicturePage(viewModel.updateDiagnosisContent()) }
     )
 }
 

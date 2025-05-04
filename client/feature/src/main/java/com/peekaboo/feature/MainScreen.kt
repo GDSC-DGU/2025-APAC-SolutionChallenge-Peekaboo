@@ -11,6 +11,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.peekaboo.domain.entity.request.CreateUserModel
+import com.peekaboo.domain.entity.request.DiagnosisModel
 import com.peekaboo.navigation.NavRoutes
 import com.peekaboo.navigation.diagnosisHistoryNavGraph
 import com.peekaboo.navigation.diagnosisNavGraph
@@ -30,6 +31,11 @@ fun MainScreen() {
     val settingUserModel: (CreateUserModel) -> Unit = {
         scope.launch {
             viewModel.userModel.emit(it)
+        }
+    }
+    val settingDiagnosisContent: (DiagnosisModel) -> Unit = {
+        scope.launch {
+            viewModel.diagnosisContent.emit(it)
         }
     }
 
@@ -53,7 +59,9 @@ fun MainScreen() {
                         navController = navController
                     )
                     diagnosisNavGraph(
-                        navController = navController
+                        navController = navController,
+                        setDiagnosisContent = settingDiagnosisContent,
+                        diagnosisContent = viewModel.diagnosisContent
                     )
                     diagnosisHistoryNavGraph(
                         navController = navController

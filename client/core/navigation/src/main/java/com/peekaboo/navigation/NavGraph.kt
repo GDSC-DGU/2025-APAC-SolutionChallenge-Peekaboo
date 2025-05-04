@@ -12,6 +12,7 @@ import com.peekaboo.diagnosishistory.DiagnosisHistoryScreen
 import com.peekaboo.diagnosisquick.QuickDiagnosisScreen
 import com.peekaboo.diagnosisquick.detail.DetailQuickScreen
 import com.peekaboo.domain.entity.request.CreateUserModel
+import com.peekaboo.domain.entity.request.DiagnosisModel
 import com.peekaboo.home.HomeScreen
 import com.peekaboo.onboarding.allergy.AllergyExistScreen
 import com.peekaboo.onboarding.diseasehistory.WriteDiseaseHistoryScreen
@@ -105,6 +106,8 @@ fun NavGraphBuilder.homeNavGraph(
 
 fun NavGraphBuilder.diagnosisNavGraph(
     navController: NavController,
+    setDiagnosisContent: (DiagnosisModel) -> Unit,
+    diagnosisContent: SharedFlow<DiagnosisModel>
 ) {
     navigation(
         startDestination = NavRoutes.SelectAreaScreen.route,
@@ -113,6 +116,7 @@ fun NavGraphBuilder.diagnosisNavGraph(
         composable(NavRoutes.SelectAreaScreen.route) {
             SelectAreaScreen(
                 goToPicturePage = {
+                    setDiagnosisContent(it)
                     navController.navigate(NavRoutes.SelectPictureScreen.route)
                 }
             )
