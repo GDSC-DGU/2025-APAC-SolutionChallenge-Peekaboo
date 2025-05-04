@@ -28,9 +28,6 @@ public class DiseaseConst {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ranking")
-    private Long ranking;
-
     @Column(name = "rating")
     private Long rating;
 
@@ -61,14 +58,12 @@ public class DiseaseConst {
     @Column(name = "caution")
     private String caution;
 
-
     @OneToMany(mappedBy = "diseaseConst", cascade = CascadeType.MERGE)
     private List<Drug> drugs;
 
     @OneToMany(mappedBy = "diseaseConst", cascade = CascadeType.MERGE)
     private List<Symptoms> symptoms;
 
-    @JoinColumn(name = "disease_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Disease disease;
+    @OneToMany(mappedBy = "diseaseConst", cascade = CascadeType.MERGE)
+    private List<Disease> diseases;
 }
