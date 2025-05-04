@@ -12,4 +12,5 @@ dependencies {
     implementation(projects.core)
     implementation(projects.core.ui)
     implementation(projects.core.designSystem)
+    implementation(projects.core.multipart)
 }
