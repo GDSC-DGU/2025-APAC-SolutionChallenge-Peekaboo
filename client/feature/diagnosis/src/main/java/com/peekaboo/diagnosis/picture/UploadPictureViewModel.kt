@@ -1,9 +1,11 @@
 package com.peekaboo.diagnosis.picture
 
+import android.content.Context
+import android.net.Uri
 import com.peekaboo.domain.entity.request.DiagnosisModel
+import com.peekaboo.multipart.UriUtil
 import com.peekaboo.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,10 +23,10 @@ class UploadPictureViewModel @Inject constructor(
         )
     }
 
-    fun setSelectedImg(img: File) {
+    fun setSelectedImg(context: Context, img: Uri?) {
         updateState(
             uiState.value.copy(
-                selectedImg = img
+                selectedImg = img?.let { UriUtil.uriToFile(context, it) }
             )
         )
     }
