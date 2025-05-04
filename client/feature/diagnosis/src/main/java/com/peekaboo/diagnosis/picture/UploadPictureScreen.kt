@@ -1,4 +1,4 @@
-package com.peekaboo.diagnosis.selectarea
+package com.peekaboo.diagnosis.picture
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.peekaboo.design_system.BaeBaeTypo
 import com.peekaboo.design_system.Black1
-import com.peekaboo.design_system.DiagnosisSelectArea
+import com.peekaboo.design_system.DiagnosisSelectPicture
 import com.peekaboo.design_system.DiagnosisTitle
 import com.peekaboo.design_system.Next
 import com.peekaboo.design_system.White3
@@ -22,19 +22,18 @@ import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.CourseNumber
 
 @Composable
-fun SelectAreaScreen(
-    goToPicturePage: () -> Unit,
+fun UploadPictureScreen(
+    goToExplainPage: () -> Unit,
 ) {
-    SelectAreaContent(
-        onClickNextBtn = { goToPicturePage() }
+    UploadPictureContent(
+        onClickNextBtn = { goToExplainPage() }
     )
 }
 
 @Composable
-fun SelectAreaContent(
+fun UploadPictureContent(
     onClickNextBtn: () -> Unit = {},
 ) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -50,14 +49,14 @@ fun SelectAreaContent(
             )
 
             CourseNumber(
-                currentNumber = 1,
+                currentNumber = 2,
                 totalNumber = 3,
                 paddingTop = 35,
                 paddingStart = 20
             )
 
             Text(
-                text = DiagnosisSelectArea,
+                text = DiagnosisSelectPicture,
                 color = Black1,
                 style = BaeBaeTypo.Body1,
                 modifier = Modifier
@@ -78,6 +77,6 @@ fun SelectAreaContent(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun PreviewSelectArea() {
-    SelectAreaContent()
+fun PreviewUploadPicture() {
+    UploadPictureContent()
 }

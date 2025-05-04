@@ -3,7 +3,7 @@ package com.peekaboo.design_system
 // Common
 const val BaeBae = "BaeBae"
 const val CourseNumberFormat = "%d/%d"
-const val Next = "다음"
+const val Next = "next"
 const val Add = "추가"
 const val Finish = "완료"
 const val Question = "?"
@@ -55,6 +55,8 @@ const val DiagnosingTypeListSemiTitle = "Check the symptoms quickly\nbefore diag
 
 // Diagnosis
 const val DiagnosisTitle = "Diagnosis of Symptoms"
+const val DiagnosisSelectArea = "Pleas select the area\nwhere you have symptoms"
+const val DiagnosisSelectPicture = "Please take a picture\nof the Symptom and register it"
 
 // Diagnosis History
 const val DiagnosisHistoryTitle = "Diagnosis History"

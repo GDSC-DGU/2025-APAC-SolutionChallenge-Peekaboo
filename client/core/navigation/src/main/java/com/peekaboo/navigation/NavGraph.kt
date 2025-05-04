@@ -5,6 +5,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.peekaboo.diagnosis.DiagnosisScreen
+import com.peekaboo.diagnosis.explain.SymptomExplainScreen
+import com.peekaboo.diagnosis.picture.UploadPictureScreen
 import com.peekaboo.diagnosis.selectarea.SelectAreaScreen
 import com.peekaboo.diagnosishistory.DiagnosisHistoryScreen
 import com.peekaboo.diagnosisquick.QuickDiagnosisScreen
@@ -105,15 +107,35 @@ fun NavGraphBuilder.diagnosisNavGraph(
     navController: NavController,
 ) {
     navigation(
-        startDestination = NavRoutes.DiagnosisScreen.route,
+        startDestination = NavRoutes.SelectAreaScreen.route,
         route = NavRoutes.DiagnosisGraph.route
     ) {
-        composable(NavRoutes.DiagnosisScreen.route) {
-            DiagnosisScreen()
+        composable(NavRoutes.SelectAreaScreen.route) {
+            SelectAreaScreen(
+                goToPicturePage = {
+                    navController.navigate(NavRoutes.SelectPictureScreen.route)
+                }
+            )
         }
 
-        composable(NavRoutes.SelectAreaScreen.route) {
-            SelectAreaScreen()
+        composable(NavRoutes.SelectPictureScreen.route) {
+            UploadPictureScreen(
+                goToExplainPage = {
+                    navController.navigate(NavRoutes.ExplainSymptomScreen.route)
+                }
+            )
+        }
+
+        composable(NavRoutes.ExplainSymptomScreen.route) {
+            SymptomExplainScreen(
+                goToDiagnosisResultPage = {
+                    navController.navigate(NavRoutes.DiagnosisScreen.route)
+                }
+            )
+        }
+
+        composable(NavRoutes.DiagnosisScreen.route) {
+            DiagnosisScreen()
         }
     }
 }
