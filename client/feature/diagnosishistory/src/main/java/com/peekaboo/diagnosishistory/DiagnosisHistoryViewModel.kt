@@ -1,14 +1,17 @@
 package com.peekaboo.diagnosishistory
 
-import com.peekaboo.domain.entity.response.DiseaseHistoryItem
+import androidx.lifecycle.viewModelScope
+import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryResponseModel
+import com.peekaboo.domain.usecase.diagnosis.GetDiagnosisHistoryUseCase
 import com.peekaboo.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DiagnosisHistoryViewModel @Inject constructor(
-
-): BaseViewModel<DiagnosisHistoryPageState>(
+    private val getDiagnosisHistoryUseCase: GetDiagnosisHistoryUseCase,
+) : BaseViewModel<DiagnosisHistoryPageState>(
     DiagnosisHistoryPageState()
 ) {
 
@@ -17,15 +20,19 @@ class DiagnosisHistoryViewModel @Inject constructor(
     }
 
     private fun initSetDiagnosisHistoryList() {
-        val historyList: List<DiseaseHistoryItem> = listOf(
-            DiseaseHistoryItem(0,"2024.12.25","땀띠", "피부 붉은 발진, 가려움", "시원한 환경 조성", "수두", "접촉성 피부염"),
-            DiseaseHistoryItem(1,"2025.01.01","땀띠", "피부 붉은 발진, 가려움", "시원한 환경", "수두", "홍역")
-        )
+        viewModelScope.launch {
+            getDiagnosisHistoryUseCase(request = Unit).collect {
+                resultResponse(it, ::onSuccessDiagnosisHistory)
+            }
+        }
+    }
 
+    private fun onSuccessDiagnosisHistory(data: DiagnosisHistoryResponseModel) {
         updateState(
             uiState.value.copy(
-                diagnosisHistoryList = historyList
+                diagnosisHistoryList2 = data.historyList
             )
         )
     }
+
 }

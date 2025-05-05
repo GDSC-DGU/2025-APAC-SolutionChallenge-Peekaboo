@@ -1,7 +1,9 @@
 package com.peekaboo.baebae.di
 
 import com.peekaboo.data.dataSource.AuthDataSource
+import com.peekaboo.data.dataSource.DiagnosisDataSource
 import com.peekaboo.data.dataSource.dataSourceImpl.AuthDataSourceImpl
+import com.peekaboo.data.dataSource.dataSourceImpl.DiagnosisDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,4 +17,8 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindsAuthDataSource(authDataSourceImpl: AuthDataSourceImpl): AuthDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsDiagnosisDataSource(diagnosisDataSourceImpl: DiagnosisDataSourceImpl): DiagnosisDataSource
 }
