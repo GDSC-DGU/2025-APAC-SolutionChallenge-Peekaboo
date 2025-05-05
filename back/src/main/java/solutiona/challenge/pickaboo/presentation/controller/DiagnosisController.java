@@ -21,18 +21,16 @@ public class DiagnosisController {
 
     @GetMapping("")
     public CommonResponseDto<?> readList(
-            @UserId UUID userId,
-            @RequestParam(name = "lang") String lang
+            @UserId UUID userId
     ) {
-        return CommonResponseDto.ok(readDiagnosisListUseCase.execute(userId, lang));
+        return CommonResponseDto.ok(readDiagnosisListUseCase.execute(userId));
     }
 
     @GetMapping("/{diagnosisId}")
     public CommonResponseDto<?> readDetail(
             @UserId UUID userId,
-            @PathVariable(name = "diagnosisId") Long diagnosisId,
-            @RequestParam(name = "lang") String lang
+            @PathVariable(name = "diagnosisId") Long diagnosisId
     ) {
-        return CommonResponseDto.ok(readDiagnosisDetailUseCase.execute(userId, diagnosisId, lang));
+        return CommonResponseDto.ok(readDiagnosisDetailUseCase.execute(userId, diagnosisId));
     }
 }
