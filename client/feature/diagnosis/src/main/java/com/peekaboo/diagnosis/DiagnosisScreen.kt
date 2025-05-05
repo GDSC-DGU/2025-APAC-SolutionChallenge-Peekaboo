@@ -56,7 +56,6 @@ import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.DiseaseDetail
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 @Composable
