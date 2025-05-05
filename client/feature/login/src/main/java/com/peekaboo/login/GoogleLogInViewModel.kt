@@ -3,6 +3,8 @@ package com.peekaboo.login
 import android.app.Activity
 import androidx.lifecycle.viewModelScope
 import com.peekaboo.domain.entity.response.TokenStoreModel
+import com.peekaboo.domain.entity.response.auth.LogInResponseModel
+import com.peekaboo.domain.usecase.auth.PostLogInUseCase
 import com.peekaboo.domain.usecase.auth.SaveTokenUseCase
 import com.peekaboo.ui.base.BaseViewModel
 import com.peekaboo.ui.base.PageState
@@ -14,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GoogleLogInViewModel @Inject constructor(
     private val saveTokenUseCase: SaveTokenUseCase,
+    private val postLogInUseCase: PostLogInUseCase
 ) : BaseViewModel<PageState.Default>(PageState.Default) {
 
     fun startGoogleLogIn(activity: Activity) {
@@ -29,10 +32,34 @@ class GoogleLogInViewModel @Inject constructor(
                             refreshToken = ""
                         )
                     ).collect { resultResponse(it, {}) }
+
+                    postLogIn()
                 }
             } catch (e: Exception) {
                 Timber.d("[로그인] 실패")
             }
         }
     }
+
+    private fun postLogIn() {
+        viewModelScope.launch {
+            postLogInUseCase(request = Unit).collect {
+                resultResponse(it, ::onSuccessGoogleLogIn)
+            }
+        }
+    }
+
+    private fun onSuccessGoogleLogIn(data: LogInResponseModel) {
+        viewModelScope.launch {
+            saveTokenUseCase(
+                request = TokenStoreModel(
+                    accessToken = data.jwtTokenDto.accessToken,
+                    refreshToken = data.jwtTokenDto.refreshToken
+                )
+            ).collect { resultResponse(it, {}) }
+
+            //
+        }
+    }
+
 }

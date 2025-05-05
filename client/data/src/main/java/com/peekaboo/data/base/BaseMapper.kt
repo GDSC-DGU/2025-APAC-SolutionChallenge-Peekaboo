@@ -26,7 +26,7 @@ abstract class BaseMapper {
 
                 false -> {
                     val errorBody = response.errorBody()?.string() ?: ""
-                    val errorMessage = fromGson<DTO>(errorBody).error
+                    val errorMessage = fromGson<DTO>(errorBody).error?.message
 
                     emit(Result.failure(Exception(errorMessage)))
                 }
