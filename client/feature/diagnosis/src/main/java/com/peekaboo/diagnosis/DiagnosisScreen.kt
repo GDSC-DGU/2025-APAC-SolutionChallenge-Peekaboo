@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material3.Text
@@ -24,14 +27,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.peekaboo.design_system.BackToMain
 import com.peekaboo.design_system.BaeBaeTypo
 import com.peekaboo.design_system.Black1
 import com.peekaboo.design_system.DiagnosingCustomizedResult
+import com.peekaboo.design_system.DiagnosingResultBtn
 import com.peekaboo.design_system.DiagnosingResultEachTitle
 import com.peekaboo.design_system.DiagnosingResultRankingEnd
 import com.peekaboo.design_system.DiagnosisResultRanking
@@ -42,10 +48,13 @@ import com.peekaboo.design_system.Gray3
 import com.peekaboo.design_system.Main2
 import com.peekaboo.design_system.Main3
 import com.peekaboo.design_system.Percent
+import com.peekaboo.design_system.QuickDiseaseAdditionalBtn
 import com.peekaboo.design_system.R
 import com.peekaboo.design_system.White2
 import com.peekaboo.design_system.White3
 import com.peekaboo.ui.common.appbar.TopBar
+import com.peekaboo.ui.common.button.BottomRectangleBtn
+import com.peekaboo.ui.common.content.DiseaseDetail
 
 @Composable
 fun DiagnosisScreen() {
@@ -72,17 +81,46 @@ fun DiagnosisContent(
             titleText = DiagnosisResultTitle
         )
 
-        DiagnosisRanking()
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+        ) {
+            item {
+                DiagnosisRanking()
 
-        DiagnosingSummaryContent()
+                DiagnosingSummaryContent()
 
-        Divider(modifier = Modifier
-            .padding(top = 18.dp)
-            .border(3.dp, color = Gray1))
+                Divider(modifier = Modifier
+                    .padding(top = 18.dp)
+                    .border(3.dp, color = Gray1))
 
-        DiagnosingEachResult(
-            selectedDisease = selectedDisease,
-            onSelectDisease = onSelectDisease
+                DiagnosingEachResult(
+                    selectedDisease = selectedDisease,
+                    onSelectDisease = onSelectDisease
+                )
+
+                DiseaseDetail(
+                    isDetailDescriptionValid = true
+                )
+            }
+        }
+
+        BottomRectangleBtn(
+            horizontalPadding = 20,
+            btnText = DiagnosingResultBtn,
+            isBtnValid = true
+        )
+
+        Text(
+            text = BackToMain,
+            color = Gray3,
+            style = BaeBaeTypo.Body3.copy(
+                textDecoration = TextDecoration.Underline
+            ),
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 10.dp, bottom = 27.dp)
         )
     }
 }
@@ -131,7 +169,7 @@ fun DiagnosingRankingItem(
             modifier = Modifier
                 .size(width = 52.dp, height = height.dp)
                 .clip(RoundedCornerShape(5.dp))
-                .background(Gray2)
+                .background(if (isRankingFirst) Main2 else Gray2)
         )
 
         Text(

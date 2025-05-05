@@ -9,7 +9,7 @@ const val Finish = "finish"
 const val Question = "?"
 const val And = " and "
 const val BackToMain =  "Back to Main"
-const val Percent = "%d%"
+const val Percent = "%d%%"
 
 // Word
 const val Korea = "한국"
@@ -67,6 +67,7 @@ const val DiagnosisResultRanking = "증상 진단 결과,\n"
 const val DiagnosingResultRankingEnd = "일 확률이 가장 높게 나왔어요"
 const val DiagnosingCustomizedResult = "Customized Information"
 const val DiagnosingResultEachTitle = "Symptom Description"
+const val DiagnosingResultBtn = "Download Medical Chart"
 
 // Diagnosis History
 const val DiagnosisHistoryTitle = "Diagnosis History"
