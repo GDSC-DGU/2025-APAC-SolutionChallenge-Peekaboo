@@ -14,12 +14,26 @@ import com.peekaboo.diagnosisquick.detail.DetailQuickScreen
 import com.peekaboo.domain.entity.request.CreateUserModel
 import com.peekaboo.domain.entity.request.DiagnosisModel
 import com.peekaboo.home.HomeScreen
+import com.peekaboo.login.GoogleLogInScreen
 import com.peekaboo.onboarding.allergy.AllergyExistScreen
 import com.peekaboo.onboarding.diseasehistory.WriteDiseaseHistoryScreen
 import com.peekaboo.onboarding.language.LanguageChoiceScreen
 import com.peekaboo.onboarding.personal.PersonalInputScreen
 import com.peekaboo.onboarding.skin.SkinColorSelectScreen
 import kotlinx.coroutines.flow.SharedFlow
+
+fun NavGraphBuilder.loginNavGraph(
+    navController: NavController,
+) {
+    navigation(
+        startDestination = NavRoutes.GoogleLogInScreen.route,
+        route = NavRoutes.LogInGraph.route
+    ) {
+        composable(NavRoutes.GoogleLogInScreen.route) {
+            GoogleLogInScreen()
+        }
+    }
+}
 
 fun NavGraphBuilder.onboardingNavGraph(
     navController: NavController,

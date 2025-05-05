@@ -12,6 +12,7 @@ dependencies {
     implementation(projects.core)
     implementation(projects.domain)
 
+    implementation(projects.feature.login)
     implementation(projects.feature.onboarding)
     implementation(projects.feature.home)
     implementation(projects.feature.diagnosis)
