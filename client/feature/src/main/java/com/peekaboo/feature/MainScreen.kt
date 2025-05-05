@@ -17,6 +17,7 @@ import com.peekaboo.navigation.diagnosisHistoryNavGraph
 import com.peekaboo.navigation.diagnosisNavGraph
 import com.peekaboo.navigation.diagnosisQuickNavGraph
 import com.peekaboo.navigation.homeNavGraph
+import com.peekaboo.navigation.loginNavGraph
 import com.peekaboo.navigation.onboardingNavGraph
 import com.peekaboo.ui.util.DismissKeyboardOnClick
 import kotlinx.coroutines.launch
@@ -48,8 +49,11 @@ fun MainScreen() {
             ) {
                 NavHost(
                     navController = navController,
-                    startDestination = NavRoutes.HomeGraph.route
+                    startDestination = NavRoutes.LogInGraph.route
                 ) {
+                    loginNavGraph(
+                        navController = navController
+                    )
                     onboardingNavGraph(
                         navController = navController,
                         setUserModel = settingUserModel,

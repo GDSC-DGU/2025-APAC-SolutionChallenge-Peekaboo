@@ -1,10 +1,8 @@
 import java.util.Properties
 
 plugins {
-    id("peekaboo.android.application")
-    id("peekaboo.android.hilt")
-    id("peekaboo.android.kotlin")
-    id("peekaboo.retrofit")
+    id("peekaboo.android.feature")
+    id("peekaboo.android.compose")
 }
 
 val properties = Properties().apply {
@@ -12,28 +10,19 @@ val properties = Properties().apply {
 }
 
 android {
-    namespace = "com.peekaboo.baebae"
+    namespace = "com.peekaboo.login"
 
     defaultConfig {
-        val baseUrl = properties.getProperty("BASE_URL")
-        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
-
         val googleLogInKey = properties.getProperty("GOOGLE_CLIENT_ID")
         buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleLogInKey\"")
     }
 }
 
 dependencies {
-    implementation(projects.feature)
     implementation(projects.domain)
     implementation(projects.core)
-    implementation(projects.data)
-
-    implementation(libs.gson)
-    implementation(libs.retrofit.gson)
-    implementation(libs.okhttp)
-    implementation(libs.okhttp.logging.interceptor)
-    implementation(libs.okhttp.urlconnection)
+    implementation(projects.core.ui)
+    implementation(projects.core.designSystem)
 
     implementation(libs.google.play.services.auth)
     implementation(libs.google.credentail.service)

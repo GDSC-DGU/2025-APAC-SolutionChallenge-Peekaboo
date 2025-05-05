@@ -43,7 +43,10 @@ androidx-paging = "3.3.2"
 coil = "2.7.0"
 coil-svg="2.2.2"
 kotlin-serialization-converter = "0.8.0"
-
+googlePlayService = "21.1.0"
+credentials = "1.2.0-alpha02"
+credentials-play-service = "1.2.0-alpha02"
+google-identity = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -133,6 +136,12 @@ compose-paging = { module = "androidx.paging:paging-compose", version.ref = "and
 # Coil
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil-svg"}
+
+# login
+google-play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "googlePlayService" }
+google-credential = { module = "androidx.credentials:credentials", version.ref = "credentials" }
+google-credentail-service = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials-play-service"}
+google-identity = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "google-identity"}
 
 [bundles]
 compose = [
