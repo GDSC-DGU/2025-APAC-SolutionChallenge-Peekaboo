@@ -1,4 +1,4 @@
-package solutiona.challenge.pickaboo.application.usecase;
+package solutiona.challenge.pickaboo.application.usecase.user;
 
 import java.util.UUID;
 import solutiona.challenge.pickaboo.core.annotation.UseCase;

@@ -3,11 +3,11 @@ package solutiona.challenge.pickaboo.presentation.controller;
 import java.util.UUID;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import solutiona.challenge.pickaboo.application.usecase.CreateOnboardingUserUseCase;
-import solutiona.challenge.pickaboo.application.usecase.UpdateUserLanguageUseCase;
+import solutiona.challenge.pickaboo.application.usecase.user.CreateOnboardingUserUseCase;
+import solutiona.challenge.pickaboo.application.usecase.user.UpdateUserLanguageUseCase;
 import solutiona.challenge.pickaboo.core.annotation.UserId;
 import solutiona.challenge.pickaboo.core.common.CommonResponseDto;
-import solutiona.challenge.pickaboo.application.usecase.ReadLoginUserUsecase;
+import solutiona.challenge.pickaboo.application.usecase.user.ReadLoginUserUsecase;
 import solutiona.challenge.pickaboo.presentation.request.CreateUserRequestDto;
 import solutiona.challenge.pickaboo.presentation.request.LoginUserRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +36,6 @@ public class UserController {
             @RequestBody CreateUserRequestDto createUserRequestDto,
             @UserId UUID userId
     ) {
-        System.err.println("asdfasdf");
-
         return CommonResponseDto.ok(createOnboardingUserUseCase.execute(createUserRequestDto, userId));
     }
 

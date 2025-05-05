@@ -27,8 +27,14 @@ public class Drug {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "e_name")
+    private String eName;
+
     @Column(name = "efficacy")
     private String efficacy;
+
+    @Column(name = "e_efficacy")
+    private String eEfficacy;
 
     @JoinColumn(name = "disease_const_id")
     @ManyToOne(fetch = FetchType.LAZY)

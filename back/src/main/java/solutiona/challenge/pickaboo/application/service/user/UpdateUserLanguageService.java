@@ -1,10 +1,10 @@
-package solutiona.challenge.pickaboo.application.service;
+package solutiona.challenge.pickaboo.application.service.user;
 
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import solutiona.challenge.pickaboo.application.usecase.UpdateUserLanguageUseCase;
+import solutiona.challenge.pickaboo.application.usecase.user.UpdateUserLanguageUseCase;
 import solutiona.challenge.pickaboo.domain.entity.User;
 import solutiona.challenge.pickaboo.domain.repository.UserRepository;
 

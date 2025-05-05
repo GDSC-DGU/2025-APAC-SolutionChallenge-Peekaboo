@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
@@ -37,19 +38,22 @@ public class Diagnosis {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "custom_description")
-    private String customDescription;
+    @Column(name = "ko_custom_description")
+    private String koCustomDescription;
+
+    @Column(name = "en_custom_description")
+    private String enCustomDescription;
+
 
     @Column(name = "create_at")
-    private LocalDateTime createAt;
+    private LocalDate createAt;
 
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @JoinColumn(name = "disease_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Disease disease;
+    @OneToMany(mappedBy = "diagnosis", cascade = CascadeType.MERGE)
+    private List<Disease> diseases;
 
     @OneToMany(mappedBy = "diagnosis", cascade = CascadeType.MERGE)
     private List<PdfUrl> pdfUrls;

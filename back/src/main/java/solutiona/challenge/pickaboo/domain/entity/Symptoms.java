@@ -28,6 +28,9 @@ public class Symptoms {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "e_name")
+    private String eName;
+
     @JoinColumn(name = "disease_const_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private DiseaseConst diseaseConst;

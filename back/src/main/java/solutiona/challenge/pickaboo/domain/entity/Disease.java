@@ -3,9 +3,12 @@ package solutiona.challenge.pickaboo.domain.entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
@@ -27,14 +30,17 @@ public class Disease {
     @Column(name = "ranking")
     private Long ranking;
 
-    @Column(name = "percnet")
+    @Column(name = "percent")
     private Long percent;
 
-    @OneToMany(mappedBy = "disease", cascade = CascadeType.MERGE)
-    private List<Diagnosis> diagnoses;
 
-    @OneToMany(mappedBy = "disease", cascade = CascadeType.MERGE)
-    private List<DiseaseConst> diseaseConsts;
+    @JoinColumn(name = "diagnosis_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Diagnosis diagnosis;
+
+    @JoinColumn(name = "disease_const_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private DiseaseConst diseaseConst;
 
 
 }

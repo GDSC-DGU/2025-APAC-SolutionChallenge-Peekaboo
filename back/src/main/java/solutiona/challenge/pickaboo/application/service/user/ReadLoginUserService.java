@@ -1,9 +1,8 @@
-package solutiona.challenge.pickaboo.application.service;
+package solutiona.challenge.pickaboo.application.service.user;
 
-import solutiona.challenge.pickaboo.application.dto.JwtTokenDto;
-import solutiona.challenge.pickaboo.core.security.JwtDto;
+import solutiona.challenge.pickaboo.application.dto.oauth.JwtTokenDto;
 import solutiona.challenge.pickaboo.core.util.JwtUtil;
-import solutiona.challenge.pickaboo.application.usecase.ReadLoginUserUsecase;
+import solutiona.challenge.pickaboo.application.usecase.user.ReadLoginUserUsecase;
 import solutiona.challenge.pickaboo.domain.entity.User;
 import solutiona.challenge.pickaboo.domain.type.ERole;
 import solutiona.challenge.pickaboo.domain.repository.UserRepository;
