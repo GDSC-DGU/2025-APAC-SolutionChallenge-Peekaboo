@@ -2,7 +2,10 @@ package com.peekaboo.data.repositoryImpl
 
 import com.peekaboo.data.dataSource.AuthDataSource
 import com.peekaboo.data.dataStore.LocalDataStore
+import com.peekaboo.data.mapper.auth.CreateUserMapper
+import com.peekaboo.data.mapper.auth.CreateUserMapper.toDto
 import com.peekaboo.data.mapper.auth.LogInMapper
+import com.peekaboo.domain.entity.request.CreateUserModel
 import com.peekaboo.domain.entity.response.TokenStoreModel
 import com.peekaboo.domain.entity.response.auth.LogInResponseModel
 import com.peekaboo.domain.repository.AuthRepository
@@ -22,4 +25,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun postLogIn(): Flow<Result<LogInResponseModel>> =
         LogInMapper.responseToModel(apiCall = { authDataSource.postLogIn() })
+
+    override suspend fun postCreateUser(request: CreateUserModel): Flow<Result<Unit>> =
+        CreateUserMapper.responseToModel(apiCall = { authDataSource.postUser(request.toDto()) })
 }

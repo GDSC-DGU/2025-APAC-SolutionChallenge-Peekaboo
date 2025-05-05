@@ -4,6 +4,7 @@ object EndPoints {
 
     object Auth {
         const val LOGIN = "/oauth/login/google"
+        const val USER = "/api/v1/user"
     }
 
     object Diagnosis {

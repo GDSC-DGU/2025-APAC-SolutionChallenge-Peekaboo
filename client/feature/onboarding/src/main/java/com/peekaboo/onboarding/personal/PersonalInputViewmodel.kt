@@ -21,7 +21,7 @@ class PersonalInputViewmodel @Inject constructor(
         )
     }
 
-    fun updateUserModel() = uiState.value.userModel.copy(birth = uiState.value.birthInput, sex = uiState.value.selectedSex, bloodType = uiState.value.bloodType)
+    fun updateUserModel() = uiState.value.userModel.copy(birth = uiState.value.birthInput, gender = uiState.value.selectedSex, bloodType = uiState.value.bloodType)
 
     fun setSelectedSex(sex: String) {
         updateState(
