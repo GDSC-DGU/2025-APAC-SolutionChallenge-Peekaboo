@@ -4,14 +4,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,6 +19,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,7 +48,6 @@ import com.peekaboo.design_system.Gray3
 import com.peekaboo.design_system.Main2
 import com.peekaboo.design_system.Main3
 import com.peekaboo.design_system.Percent
-import com.peekaboo.design_system.QuickDiseaseAdditionalBtn
 import com.peekaboo.design_system.R
 import com.peekaboo.design_system.White2
 import com.peekaboo.design_system.White3
@@ -57,20 +56,28 @@ import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.DiseaseDetail
 
 @Composable
-fun DiagnosisScreen() {
+fun DiagnosisScreen(
+    goBackToMain: () -> Unit,
+) {
     val viewModel: DiagnosisViewModel = hiltViewModel()
     val uiState: DiagnosisPageState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val interactionSource = remember { MutableInteractionSource() }
+
     DiagnosisContent(
+        interactionSource = interactionSource,
         onSelectDisease = { viewModel.setSelectedDisease(it) },
-        selectedDisease = uiState.selectedDisease
+        selectedDisease = uiState.selectedDisease,
+        onClickBackToMain = { goBackToMain() }
     )
 }
 
 @Composable
 fun DiagnosisContent(
+    interactionSource: MutableInteractionSource = MutableInteractionSource(),
     onSelectDisease: (String) -> Unit = {},
-    selectedDisease: String = ""
+    selectedDisease: String = "",
+    onClickBackToMain: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -91,9 +98,11 @@ fun DiagnosisContent(
 
                 DiagnosingSummaryContent()
 
-                Divider(modifier = Modifier
-                    .padding(top = 18.dp)
-                    .border(3.dp, color = Gray1))
+                Divider(
+                    modifier = Modifier
+                        .padding(top = 18.dp)
+                        .border(3.dp, color = Gray1)
+                )
 
                 DiagnosingEachResult(
                     selectedDisease = selectedDisease,
@@ -121,6 +130,11 @@ fun DiagnosisContent(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 10.dp, bottom = 27.dp)
+                .clickable(
+                    onClick = onClickBackToMain,
+                    interactionSource = interactionSource,
+                    indication = null
+                )
         )
     }
 }
@@ -230,7 +244,7 @@ fun DiagnosingSummaryContent() {
                 modifier = Modifier
                     .size(24.dp)
             )
-            
+
             Text(
                 text = DiagnosingCustomizedResult,
                 color = White2,
@@ -254,7 +268,7 @@ fun DiagnosingSummaryContent() {
 @Composable
 fun DiagnosingEachResult(
     onSelectDisease: (String) -> Unit = {},
-    selectedDisease: String = ""
+    selectedDisease: String = "",
 ) {
     Text(
         text = DiagnosingResultEachTitle,

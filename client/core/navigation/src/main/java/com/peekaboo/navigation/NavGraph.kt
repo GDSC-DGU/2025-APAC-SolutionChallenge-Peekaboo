@@ -142,7 +142,13 @@ fun NavGraphBuilder.diagnosisNavGraph(
         }
 
         composable(NavRoutes.DiagnosisScreen.route) {
-            DiagnosisScreen()
+            DiagnosisScreen(
+                goBackToMain = {
+                    navController.navigate(NavRoutes.HomeScreen.route) {
+                        popUpTo(0)
+                    }
+                }
+            )
         }
     }
 }
@@ -183,7 +189,16 @@ fun NavGraphBuilder.diagnosisQuickNavGraph(
         }
 
         composable(NavRoutes.DetailQuickScreen.route) {
-            DetailQuickScreen()
+            DetailQuickScreen(
+                goBackToMain = {
+                    navController.navigate(NavRoutes.HomeScreen.route) {
+                        popUpTo(0)
+                    }
+                },
+                goToDiagnosisPage = {
+                    navController.navigate(NavRoutes.SelectAreaScreen.route)
+                }
+            )
         }
     }
 }

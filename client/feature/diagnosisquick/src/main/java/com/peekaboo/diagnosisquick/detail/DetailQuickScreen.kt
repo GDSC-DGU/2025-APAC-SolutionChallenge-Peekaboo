@@ -1,6 +1,8 @@
 package com.peekaboo.diagnosisquick.detail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,12 +35,25 @@ import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.DiseaseDetail
 
 @Composable
-fun DetailQuickScreen() {
-    DetailQuickContent()
+fun DetailQuickScreen(
+    goBackToMain: () -> Unit,
+    goToDiagnosisPage: () -> Unit,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+
+    DetailQuickContent(
+        interactionSource = interactionSource,
+        onClickBackToMain = { goBackToMain() },
+        onClickAdditionalDiagnosis = { goToDiagnosisPage() }
+    )
 }
 
 @Composable
-fun DetailQuickContent() {
+fun DetailQuickContent(
+    interactionSource: MutableInteractionSource = MutableInteractionSource(),
+    onClickBackToMain: () -> Unit = {},
+    onClickAdditionalDiagnosis: () -> Unit = {},
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,7 +79,8 @@ fun DetailQuickContent() {
         BottomRectangleBtn(
             horizontalPadding = 20,
             btnText = QuickDiseaseAdditionalBtn,
-            isBtnValid = true
+            isBtnValid = true,
+            onClickAction = onClickAdditionalDiagnosis
         )
 
         Text(
@@ -75,6 +92,11 @@ fun DetailQuickContent() {
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(top = 10.dp, bottom = 27.dp)
+                .clickable(
+                    onClick = onClickBackToMain,
+                    indication = null,
+                    interactionSource = interactionSource
+                )
         )
     }
 }
