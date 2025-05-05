@@ -30,7 +30,7 @@ public class Disease {
     @Column(name = "ranking")
     private Long ranking;
 
-    @Column(name = "percnet")
+    @Column(name = "percent")
     private Long percent;
 
 

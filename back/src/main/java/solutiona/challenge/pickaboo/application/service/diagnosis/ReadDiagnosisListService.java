@@ -34,9 +34,9 @@ public class ReadDiagnosisListService implements ReadDiagnosisListUseCase {
                 .map(
                         diagnosis -> ReadDiagnosisResponseDto.builder()
                                 .diagnosisId(diagnosis.getId())
-                                .customDescription(diagnosis.getKoCustomDescription())
+                                .customDescription(lang.equals("ko") ? diagnosis.getKoCustomDescription() : diagnosis.getEnCustomDescription())
                                 .createAt(diagnosis.getCreateAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
-                                .diseaseList(createList(diagnosis))
+                                .diseaseList(createList(diagnosis, lang))
                                 .build()
                 ).toList();
 
@@ -48,14 +48,31 @@ public class ReadDiagnosisListService implements ReadDiagnosisListUseCase {
 
     }
 
-    private List<DiseaseListResponseDto> createList(Diagnosis diagnosis) {
-        return diagnosis.getDiseases().stream()
-                .map(
-                        disease -> DiseaseListResponseDto.builder()
-                                .diseaseId(disease.getId())
-                                .diseaseName(disease.getDiseaseConst().getName())
-                                .ranking(disease.getRanking())
-                                .build()
-                ).toList();
+    private List<DiseaseListResponseDto> createList(Diagnosis diagnosis, String lang) {
+
+        switch (lang) {
+            case "en" : {
+                return diagnosis.getDiseases().stream()
+                        .map(
+                                disease -> DiseaseListResponseDto.builder()
+                                        .diseaseId(disease.getId())
+                                        .diseaseName(disease.getDiseaseConst().getEName())
+                                        .ranking(disease.getRanking())
+                                        .build()
+                        ).toList();
+            }
+            case "ko":
+            default: {
+                return diagnosis.getDiseases().stream()
+                        .map(
+                                disease -> DiseaseListResponseDto.builder()
+                                        .diseaseId(disease.getId())
+                                        .diseaseName(disease.getDiseaseConst().getName())
+                                        .ranking(disease.getRanking())
+                                        .build()
+                        ).toList();
+            }
+        }
+
     }
 }

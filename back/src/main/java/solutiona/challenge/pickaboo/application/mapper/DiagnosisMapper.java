@@ -20,7 +20,7 @@ public class DiagnosisMapper {
                 .build();
     }
 
-    public List<ReadDiseaseConstResponseDto> ofDiseaseConst(Diagnosis diagnosis) {
+    private List<ReadDiseaseConstResponseDto> ofDiseaseConst(Diagnosis diagnosis) {
         return diagnosis.getDiseases().stream()
                 .map(disease -> ReadDiseaseConstResponseDto.builder()
                         .diseaseId(disease.getId())
@@ -41,7 +41,7 @@ public class DiagnosisMapper {
                 ).toList();
     }
 
-    public List<ReadSymptomsResponseDto> ofSymptoms(Disease disease) {
+    private List<ReadSymptomsResponseDto> ofSymptoms(Disease disease) {
         return disease.getDiseaseConst().getSymptoms().stream()
                 .map(symptoms -> ReadSymptomsResponseDto.builder()
                         .name(symptoms.getName())
@@ -49,11 +49,61 @@ public class DiagnosisMapper {
                 .toList();
     }
 
-    public List<ReadDrugsResponseDto> ofDrugs(Disease disease) {
+    private List<ReadDrugsResponseDto> ofDrugs(Disease disease) {
         return disease.getDiseaseConst().getDrugs().stream()
                 .map(drug -> ReadDrugsResponseDto.builder()
                         .name(drug.getName())
                         .efficacy(drug.getEfficacy())
+                        .build())
+                .toList();
+    }
+
+
+
+
+
+
+    public ReadDiagnosisDetailResponseDto ofEDetail(Diagnosis diagnosis) {
+        return ReadDiagnosisDetailResponseDto.builder()
+                .customDescription(diagnosis.getEnCustomDescription())
+                .diseaseList(ofEDiseaseConst(diagnosis))
+                .build();
+    }
+
+    private List<ReadDiseaseConstResponseDto> ofEDiseaseConst(Diagnosis diagnosis) {
+        return diagnosis.getDiseases().stream()
+                .map(disease -> ReadDiseaseConstResponseDto.builder()
+                        .diseaseId(disease.getId())
+                        .diseaseName(disease.getDiseaseConst().getEName())
+                        .ranking(disease.getRanking())
+                        .percent(disease.getPercent())
+                        .description(disease.getDiseaseConst().getEDescription())
+                        .type(disease.getDiseaseConst().getEType())
+                        .site(disease.getDiseaseConst().getESite())
+                        .reason(disease.getDiseaseConst().getEReason())
+                        .mild(disease.getDiseaseConst().getEMild())
+                        .severe(disease.getDiseaseConst().getESevere())
+                        .preventive(disease.getDiseaseConst().getEPreventive())
+                        .caution(disease.getDiseaseConst().getECaution())
+                        .symptoms(ofESymptoms(disease))
+                        .drugs(ofEDrugs(disease))
+                        .build()
+                ).toList();
+    }
+
+    private List<ReadSymptomsResponseDto> ofESymptoms(Disease disease) {
+        return disease.getDiseaseConst().getSymptoms().stream()
+                .map(symptoms -> ReadSymptomsResponseDto.builder()
+                        .name(symptoms.getEName())
+                        .build())
+                .toList();
+    }
+
+    private List<ReadDrugsResponseDto> ofEDrugs(Disease disease) {
+        return disease.getDiseaseConst().getDrugs().stream()
+                .map(drug -> ReadDrugsResponseDto.builder()
+                        .name(drug.getEName())
+                        .efficacy(drug.getEEfficacy())
                         .build())
                 .toList();
     }

@@ -27,7 +27,13 @@ public class ReadDiagnosisDetailService implements ReadDiagnosisDetailUseCase {
 
         Diagnosis diagnosis = diagnosisRepository.findById(diagnosisId);
 
-        return diagnosisMapper.ofDetail(diagnosis);
+        switch (lang) {
+            case "en":
+                return diagnosisMapper.ofEDetail(diagnosis);
+            case "ko":
+            default:
+                return diagnosisMapper.ofDetail(diagnosis);
+        }
     }
 
 
