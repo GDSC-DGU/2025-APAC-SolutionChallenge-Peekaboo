@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("peekaboo.android.application")
     id("peekaboo.android.hilt")
@@ -5,10 +7,16 @@ plugins {
     id("peekaboo.retrofit")
 }
 
+val properties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
+}
+
 android {
     namespace = "com.peekaboo.baebae"
 
     defaultConfig {
+        val googleLogInKey = properties.getProperty("GOOGLE_CLIENT_ID")
+        buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleLogInKey\"")
     }
 }
 
