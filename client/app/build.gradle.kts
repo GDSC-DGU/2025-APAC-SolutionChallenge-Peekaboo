@@ -15,6 +15,9 @@ android {
     namespace = "com.peekaboo.baebae"
 
     defaultConfig {
+        val baseUrl = properties.getProperty("BASE_URL")
+        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
+
         val googleLogInKey = properties.getProperty("GOOGLE_CLIENT_ID")
         buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleLogInKey\"")
     }
