@@ -3,11 +3,13 @@ package com.peekaboo.design_system
 // Common
 const val BaeBae = "BaeBae"
 const val CourseNumberFormat = "%d/%d"
-const val Next = "다음"
+const val Next = "next"
 const val Add = "추가"
-const val Finish = "완료"
+const val Finish = "finish"
 const val Question = "?"
 const val And = " and "
+const val BackToMain =  "Back to Main"
+const val Percent = "%d%%"
 
 // Word
 const val Korea = "한국"
@@ -54,6 +56,18 @@ const val DiagnosingTypeListSemiTitle = "Check the symptoms quickly\nbefore diag
 
 // Diagnosis
 const val DiagnosisTitle = "Diagnosis of Symptoms"
+const val DiagnosisSelectArea = "Pleas select the area\nwhere you have symptoms"
+const val DiagnosisSelectPicture = "Please take a picture\nof the Symptom and register it"
+const val DiagnosisExplainHint = "Please write down the symptoms in detail.\nThe more detailed you write,\nthe more accurate the results will be."
+const val DiagnosisSelectAreaFront = "FRONT"
+const val DiagnosisSelectAreaSide = "SIDE"
+const val DiagnosisSelectAreaBack = "BACK"
+const val DiagnosisResultTitle = "Result of Diagnosis"
+const val DiagnosisResultRanking = "증상 진단 결과,\n"
+const val DiagnosingResultRankingEnd = "일 확률이 가장 높게 나왔어요"
+const val DiagnosingCustomizedResult = "Customized Information"
+const val DiagnosingResultEachTitle = "Symptom Description"
+const val DiagnosingResultBtn = "Download Medical Chart"
 
 // Diagnosis History
 const val DiagnosisHistoryTitle = "Diagnosis History"
@@ -64,3 +78,17 @@ const val DiagnosisHistoryRanking = "In addition, other results with a high prob
 
 // Diagnosis Quick
 const val QuickDiagnosisTitle =  "Quick Diagnosis"
+const val QuickDiagnosisSemiTitle = "Types of Skin Disease"
+const val QuickDiseaseSymptomsTitle = "Major Symptoms"
+const val QuickDiseaseSymptomsRating = "Risk Rating"
+const val QuickDiseaseSymptomsCategory = "Category"
+const val QuickDiseaseSymptomsType = "Type"
+const val QuickDiseaseSymptomsSite = "Site"
+const val QuickDiseaseSymptomsReason = "Reason"
+const val QuickDiseaseFirstAid = "First Aid(A Child Standard)"
+const val QuickDiseaseFirstAidMild = "Mild"
+const val QuickDiseaseFirstAidSevere = "Severe"
+const val QuickDiseaseMedicine = "Prescription Medicine"
+const val QuickDiseasePreventiveMeasure = "Preventive Measure"
+const val QuickDiseasePrecautions = "Precautions"
+const val QuickDiseaseAdditionalBtn = "Additional Diagnosis"

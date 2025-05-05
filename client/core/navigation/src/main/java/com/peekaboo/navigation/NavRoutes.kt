@@ -16,10 +16,13 @@ sealed class NavRoutes(val route: String) {
     data object DiagnosisGraph: NavRoutes("diagnosis_graph")
     data object DiagnosisScreen: NavRoutes("diagnosis")
     data object SelectAreaScreen: NavRoutes("select_area")
+    data object SelectPictureScreen: NavRoutes("select_picture")
+    data object ExplainSymptomScreen: NavRoutes("explain_symptom")
 
     data object DiagnosisHistoryGraph: NavRoutes("diagnosis_history_graph")
     data object DiagnosisHistoryScreen: NavRoutes("diagnosis_history")
 
     data object DiagnosisQuickGraph: NavRoutes("diagnosis_quick_graph")
     data object DiagnosisQuickScreen: NavRoutes("diagnosis_quick")
+    data object DetailQuickScreen: NavRoutes("detail_quick")
 }

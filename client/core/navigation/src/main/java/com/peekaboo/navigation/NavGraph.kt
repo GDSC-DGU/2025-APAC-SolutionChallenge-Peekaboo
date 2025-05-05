@@ -5,10 +5,14 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.peekaboo.diagnosis.DiagnosisScreen
+import com.peekaboo.diagnosis.explain.SymptomExplainScreen
+import com.peekaboo.diagnosis.picture.UploadPictureScreen
 import com.peekaboo.diagnosis.selectarea.SelectAreaScreen
 import com.peekaboo.diagnosishistory.DiagnosisHistoryScreen
 import com.peekaboo.diagnosisquick.QuickDiagnosisScreen
+import com.peekaboo.diagnosisquick.detail.DetailQuickScreen
 import com.peekaboo.domain.entity.request.CreateUserModel
+import com.peekaboo.domain.entity.request.DiagnosisModel
 import com.peekaboo.home.HomeScreen
 import com.peekaboo.onboarding.allergy.AllergyExistScreen
 import com.peekaboo.onboarding.diseasehistory.WriteDiseaseHistoryScreen
@@ -102,17 +106,49 @@ fun NavGraphBuilder.homeNavGraph(
 
 fun NavGraphBuilder.diagnosisNavGraph(
     navController: NavController,
+    setDiagnosisContent: (DiagnosisModel) -> Unit,
+    diagnosisContent: SharedFlow<DiagnosisModel>,
 ) {
     navigation(
-        startDestination = NavRoutes.DiagnosisScreen.route,
+        startDestination = NavRoutes.SelectAreaScreen.route,
         route = NavRoutes.DiagnosisGraph.route
     ) {
-        composable(NavRoutes.DiagnosisScreen.route) {
-            DiagnosisScreen()
+        composable(NavRoutes.SelectAreaScreen.route) {
+            SelectAreaScreen(
+                goToPicturePage = {
+                    setDiagnosisContent(it)
+                    navController.navigate(NavRoutes.SelectPictureScreen.route)
+                }
+            )
         }
 
-        composable(NavRoutes.SelectAreaScreen.route) {
-            SelectAreaScreen()
+        composable(NavRoutes.SelectPictureScreen.route) {
+            UploadPictureScreen(
+                goToExplainPage = {
+                    setDiagnosisContent(it)
+                    navController.navigate(NavRoutes.ExplainSymptomScreen.route)
+                },
+                diagnosisModel = diagnosisContent
+            )
+        }
+
+        composable(NavRoutes.ExplainSymptomScreen.route) {
+            SymptomExplainScreen(
+                goToDiagnosisResultPage = {
+                    navController.navigate(NavRoutes.DiagnosisScreen.route)
+                },
+                diagnosisModel = diagnosisContent
+            )
+        }
+
+        composable(NavRoutes.DiagnosisScreen.route) {
+            DiagnosisScreen(
+                goBackToMain = {
+                    navController.navigate(NavRoutes.HomeScreen.route) {
+                        popUpTo(0)
+                    }
+                }
+            )
         }
     }
 }
@@ -145,7 +181,24 @@ fun NavGraphBuilder.diagnosisQuickNavGraph(
         route = NavRoutes.DiagnosisQuickGraph.route
     ) {
         composable(NavRoutes.DiagnosisQuickScreen.route) {
-            QuickDiagnosisScreen()
+            QuickDiagnosisScreen(
+                goToDetailDiagnosisPage = {
+                    navController.navigate(NavRoutes.DetailQuickScreen.route)
+                }
+            )
+        }
+
+        composable(NavRoutes.DetailQuickScreen.route) {
+            DetailQuickScreen(
+                goBackToMain = {
+                    navController.navigate(NavRoutes.HomeScreen.route) {
+                        popUpTo(0)
+                    }
+                },
+                goToDiagnosisPage = {
+                    navController.navigate(NavRoutes.SelectAreaScreen.route)
+                }
+            )
         }
     }
 }

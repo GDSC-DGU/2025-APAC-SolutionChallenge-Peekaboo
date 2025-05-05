@@ -1,6 +1,7 @@
 package com.peekaboo.feature
 
 import com.peekaboo.domain.entity.request.CreateUserModel
+import com.peekaboo.domain.entity.request.DiagnosisModel
 import com.peekaboo.ui.base.BaseViewModel
 import com.peekaboo.ui.base.PageState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,4 +16,5 @@ class MainViewModel @Inject constructor(
 ) {
 
     val userModel = MutableSharedFlow<CreateUserModel>(replay = 1)
+    val diagnosisContent = MutableSharedFlow<DiagnosisModel>(replay = 1)
 }
