@@ -2,6 +2,8 @@ package com.peekaboo.login
 
 import android.app.Activity
 import androidx.lifecycle.viewModelScope
+import com.peekaboo.domain.entity.response.TokenStoreModel
+import com.peekaboo.domain.usecase.auth.SaveTokenUseCase
 import com.peekaboo.ui.base.BaseViewModel
 import com.peekaboo.ui.base.PageState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,8 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GoogleLogInViewModel @Inject constructor(
-
-): BaseViewModel<PageState.Default>(PageState.Default) {
+    private val saveTokenUseCase: SaveTokenUseCase,
+) : BaseViewModel<PageState.Default>(PageState.Default) {
 
     fun startGoogleLogIn(activity: Activity) {
         viewModelScope.launch {
@@ -21,6 +23,12 @@ class GoogleLogInViewModel @Inject constructor(
 
                 if (token != null) {
                     Timber.d("[로그인] 성공 -> $token")
+                    saveTokenUseCase(
+                        request = TokenStoreModel(
+                            accessToken = token,
+                            refreshToken = ""
+                        )
+                    ).collect { resultResponse(it, {}) }
                 }
             } catch (e: Exception) {
                 Timber.d("[로그인] 실패")
