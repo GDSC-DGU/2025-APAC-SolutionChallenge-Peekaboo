@@ -24,19 +24,19 @@ public class ReadDiagnosisListService implements ReadDiagnosisListUseCase {
 
 
     @Override
-    public ReadDiagnosisListResponseDto execute(UUID userId, String lang) {
+    public ReadDiagnosisListResponseDto execute(UUID userId) {
         User user = userRepository.findById(userId);
 
         List<Diagnosis> diagnoses = diagnosisRepository.findByUser(user);
-
+        String language = user.getLanguage();
         //historyList
         List<ReadDiagnosisResponseDto> readDiagnosisResponseDtos = diagnoses.stream()
                 .map(
                         diagnosis -> ReadDiagnosisResponseDto.builder()
                                 .diagnosisId(diagnosis.getId())
-                                .customDescription(lang.equals("ko") ? diagnosis.getKoCustomDescription() : diagnosis.getEnCustomDescription())
+                                .customDescription(language.equals("ko") ? diagnosis.getKoCustomDescription() : diagnosis.getEnCustomDescription())
                                 .createAt(diagnosis.getCreateAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
-                                .diseaseList(createList(diagnosis, lang))
+                                .diseaseList(createList(diagnosis, language))
                                 .build()
                 ).toList();
 

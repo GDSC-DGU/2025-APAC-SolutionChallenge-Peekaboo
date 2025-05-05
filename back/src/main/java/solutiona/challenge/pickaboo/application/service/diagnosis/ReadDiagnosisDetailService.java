@@ -22,12 +22,12 @@ public class ReadDiagnosisDetailService implements ReadDiagnosisDetailUseCase {
     private final DiagnosisMapper diagnosisMapper;
 
     @Override
-    public ReadDiagnosisDetailResponseDto execute(UUID userId, Long diagnosisId, String lang) {
+    public ReadDiagnosisDetailResponseDto execute(UUID userId, Long diagnosisId) {
         User user = userRepository.findById(userId);
 
         Diagnosis diagnosis = diagnosisRepository.findById(diagnosisId);
 
-        switch (lang) {
+        switch (user.getLanguage()) {
             case "en":
                 return diagnosisMapper.ofEDetail(diagnosis);
             case "ko":
