@@ -10,8 +10,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DiagnosisViewModel @Inject constructor(
-    private val getDiagnosisHistoryDetailUseCase: GetDiagnosisHistoryDetailUseCase
-): BaseViewModel<DiagnosisPageState>(
+    private val getDiagnosisHistoryDetailUseCase: GetDiagnosisHistoryDetailUseCase,
+) : BaseViewModel<DiagnosisPageState>(
     DiagnosisPageState()
 ) {
 
@@ -32,11 +32,23 @@ class DiagnosisViewModel @Inject constructor(
     }
 
     private fun onSuccessDiagnosisHistoryDetail(data: DiagnosisHistoryDetailModel) {
+        val firstDisease = matchDiseaseNumber(1, data)
+        val secondDisease = matchDiseaseNumber(2, data)
+        val thirdDisease = matchDiseaseNumber(3, data)
+
         updateState(
             uiState.value.copy(
                 customDescription = data.customDescription,
-                diseaseList = data.diseaseList
+                selectedDisease = firstDisease.diseaseName,
+                diseaseTotal = data.diseaseList,
+                firstDiseaseModel = firstDisease,
+                secondDiseaseModel = secondDisease,
+                thirdDiseaseModel = thirdDisease
             )
         )
     }
+
+    private fun matchDiseaseNumber(ranking: Int, data: DiagnosisHistoryDetailModel) =
+        data.diseaseList.firstOrNull { it.ranking == ranking }
+            ?: DiagnosisHistoryDetailModel.DiseaseDetailItem()
 }

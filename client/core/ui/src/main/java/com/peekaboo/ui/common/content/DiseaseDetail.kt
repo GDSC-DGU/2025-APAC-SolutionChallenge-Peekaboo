@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -45,42 +46,72 @@ import com.peekaboo.design_system.QuickDiseaseSymptomsSite
 import com.peekaboo.design_system.QuickDiseaseSymptomsTitle
 import com.peekaboo.design_system.QuickDiseaseSymptomsType
 import com.peekaboo.design_system.White3
+import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryDetailModel
+import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryDetailModel.DiseaseDetailItem.DrugItem
 
 @Composable
 fun DiseaseDetail(
     isDetailDescriptionValid: Boolean = false,
+    diseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
 ) {
     DiseaseDetailContent(
-        isDetailDescriptionValid = isDetailDescriptionValid
+        isDetailDescriptionValid = isDetailDescriptionValid,
+        diseaseModel = diseaseModel
     )
 }
 
 @Composable
 fun DiseaseDetailContent(
     isDetailDescriptionValid: Boolean = false,
+    diseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
 ) {
     if (isDetailDescriptionValid) {
-        DiseaseDetailDescription()
+        DiseaseDetailDescription(
+            diseaseName = diseaseModel.diseaseName,
+            description = diseaseModel.description
+        )
     }
-    DiseaseRating()
-    DiseaseSymptoms()
-    DiseaseType()
-    DiseaseDrugs()
-    DiseaseFirstAid()
-    DiseasePreventive()
-    DiseaseCaution()
+    DiseaseRating()     // TODO 처리
+    DiseaseSymptoms(
+        symptoms = diseaseModel.symptoms
+    )
+    DiseaseType(
+        type = diseaseModel.type,
+        site = diseaseModel.site,
+        reason = diseaseModel.reason
+    )
+    DiseaseDrugs(
+        drugs = diseaseModel.drugs
+    )
+    DiseaseFirstAid(
+        mild = diseaseModel.mild,
+        severe = diseaseModel.severe
+    )
+    DiseasePreventive(
+        preventives = contentToList(diseaseModel.preventive)
+    )
+    DiseaseCaution(
+        cautions = contentToList(diseaseModel.caution)
+    )
+}
+
+fun contentToList(content: String): List<String> {
+    return content.split("\\n")
+        .map { it.trim() }
+        .filter { it.isNotEmpty() }
 }
 
 @Composable
 fun DiseaseDetailDescription(
-    diseaseName: String = "땀띠",
+    diseaseName: String,
+    description: String,
 ) {
     Spacer(modifier = Modifier.height(35.dp))
 
     DescriptionTitle(title = diseaseName)
 
     Text(
-        text = "피부 표면으로 땀을 운반하는 좁은 관이 막혀 땀이 배출되지 못해 발생해요",
+        text = description,
         color = Gray3,
         style = BaeBaeTypo.Body3,
         modifier = Modifier
@@ -160,7 +191,9 @@ fun DiseaseRating(
 }
 
 @Composable
-fun DiseaseSymptoms() {
+fun DiseaseSymptoms(
+    symptoms: List<DiagnosisHistoryDetailModel.DiseaseDetailItem.SymptomItem>,
+) {
     DescriptionTitle(title = QuickDiseaseSymptomsTitle)
 
     LazyRow(
@@ -169,8 +202,10 @@ fun DiseaseSymptoms() {
         contentPadding = PaddingValues(horizontal = 23.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        items(2) {
-            DiseaseSymptomItem()
+        items(symptoms) { symptom ->
+            DiseaseSymptomItem(
+                name = symptom.name
+            )
         }
     }
 
@@ -178,14 +213,16 @@ fun DiseaseSymptoms() {
 }
 
 @Composable
-fun DiseaseSymptomItem() {
+fun DiseaseSymptomItem(
+    name: String,
+) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(100.dp))
             .background(Gray1)
     ) {
         Text(
-            text = "피부 붉은 발진",
+            text = name,
             color = Gray3,
             style = BaeBaeTypo.Caption4,
             modifier = Modifier
@@ -195,35 +232,41 @@ fun DiseaseSymptomItem() {
 }
 
 @Composable
-fun DiseaseType() {
+fun DiseaseType(
+    type: String,
+    site: String,
+    reason: String,
+) {
     DescriptionTitle(title = QuickDiseaseSymptomsCategory)
 
     Spacer(modifier = Modifier.height(15.dp))
 
     DescriptionSemiContent(
         title = QuickDiseaseSymptomsType,
-        content = "급성과 만성으로 구분되며, 급성은 붉은 발진과 진물 등이 나타나는 단계이며, 만성은 피부가 두꺼워지고 지속적인 가려움이 나타남",
+        content = type,
     )
 
     Spacer(modifier = Modifier.height(15.dp))
 
     DescriptionSemiContent(
         title = QuickDiseaseSymptomsSite,
-        content = "급성과 만성으로 구분되며, 급성은 붉은 발진과 진물 등이 나타나는 단계이며, 만성은 피부가 두꺼워지고 지속적인 가려움이 나타남",
+        content = site,
     )
 
     Spacer(modifier = Modifier.height(15.dp))
 
     DescriptionSemiContent(
         title = QuickDiseaseSymptomsReason,
-        content = "급성과 만성으로 구분되며, 급성은 붉은 발진과 진물 등이 나타나는 단계이며, 만성은 피부가 두꺼워지고 지속적인 가려움이 나타남",
+        content = reason,
     )
 
     DescriptionDivider()
 }
 
 @Composable
-fun DiseaseDrugs() {
+fun DiseaseDrugs(
+    drugs: List<DrugItem>,
+) {
     DescriptionTitle(title = QuickDiseaseMedicine)
 
     LazyRow(
@@ -232,8 +275,11 @@ fun DiseaseDrugs() {
         contentPadding = PaddingValues(horizontal = 23.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        items(2) {
-            DiseaseDrugsItem()
+        items(drugs) { drug ->
+            DiseaseDrugsItem(
+                name = drug.name,
+                efficacy = drug.efficacy
+            )
         }
     }
 
@@ -241,7 +287,10 @@ fun DiseaseDrugs() {
 }
 
 @Composable
-fun DiseaseDrugsItem() {
+fun DiseaseDrugsItem(
+    name: String,
+    efficacy: String,
+) {
     Row {
         Box(
             modifier = Modifier
@@ -249,7 +298,7 @@ fun DiseaseDrugsItem() {
                 .background(Main2)
         ) {
             Text(
-                text = "국소 스테로이드 크림",
+                text = name,
                 color = White3,
                 style = BaeBaeTypo.Caption4,
                 modifier = Modifier
@@ -263,7 +312,7 @@ fun DiseaseDrugsItem() {
                 .background(Gray1)
         ) {
             Text(
-                text = "염증 완화",
+                text = efficacy,
                 color = Black1,
                 style = BaeBaeTypo.Caption4,
                 modifier = Modifier
@@ -274,40 +323,51 @@ fun DiseaseDrugsItem() {
 }
 
 @Composable
-fun DiseaseFirstAid() {
+fun DiseaseFirstAid(
+    mild: String,
+    severe: String,
+) {
     DescriptionTitle(title = QuickDiseaseFirstAid)
 
     Spacer(modifier = Modifier.height(15.dp))
 
     DescriptionSemiContent(
         title = QuickDiseaseFirstAidMild,
-        content = "급성과 만성으로 구분되며, 급성은 붉은 발진과 진물 등이 나타나는 단계이며, 만성은 피부가 두꺼워지고 지속적인 가려움이 나타남",
+        content = mild,
     )
 
     Spacer(modifier = Modifier.height(15.dp))
 
     DescriptionSemiContent(
         title = QuickDiseaseFirstAidSevere,
-        content = "급성과 만성으로 구분되며, 급성은 붉은 발진과 진물 등이 나타나는 단계이며, 만성은 피부가 두꺼워지고 지속적인 가려움이 나타남",
+        content = severe,
     )
 
     DescriptionDivider()
 }
 
 @Composable
-fun DiseasePreventive() {
+fun DiseasePreventive(
+    preventives: List<String>,
+) {
     DescriptionTitle(title = QuickDiseasePreventiveMeasure)
 
-    DiseaseSemiContentList()
+    DiseaseSemiContentList(
+        contentList = preventives
+    )
 
     DescriptionDivider()
 }
 
 @Composable
-fun DiseaseCaution() {
+fun DiseaseCaution(
+    cautions: List<String>,
+) {
     DescriptionTitle(title = QuickDiseasePrecautions)
 
-    DiseaseSemiContentList()
+    DiseaseSemiContentList(
+        contentList = cautions
+    )
 
     Spacer(modifier = Modifier.height(50.dp))
 }
@@ -354,20 +414,26 @@ fun DescriptionSemiContent(
 }
 
 @Composable
-fun DiseaseSemiContentList() {
+fun DiseaseSemiContentList(
+    contentList: List<String>,
+) {
     Column(
         modifier = Modifier
             .padding(top = 15.dp, start = 20.dp, end = 20.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        repeat(3) {
-            DiseaseSemiContentListItem()
+        contentList.forEach { content ->
+            DiseaseSemiContentListItem(
+                content = content
+            )
         }
     }
 }
 
 @Composable
-fun DiseaseSemiContentListItem() {
+fun DiseaseSemiContentListItem(
+    content: String,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -378,7 +444,7 @@ fun DiseaseSemiContentListItem() {
         )
 
         Text(
-            text = "피부 보습 생활화하기",
+            text = content,
             color = Gray3,
             style = BaeBaeTypo.Body3,
             modifier = Modifier

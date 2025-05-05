@@ -4,7 +4,10 @@ import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryDetailModel
 import com.peekaboo.ui.base.PageState
 
 data class DiagnosisPageState(
-    val selectedDisease: String = "접촉성 피부염",
+    val selectedDisease: String = "",
     val customDescription: String = "",
-    val diseaseList: List<DiagnosisHistoryDetailModel.DiseaseDetailItem> = emptyList(),
+    val diseaseTotal: List<DiagnosisHistoryDetailModel.DiseaseDetailItem> = emptyList(),
+    val firstDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
+    val secondDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
+    val thirdDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem()
 ) : PageState
