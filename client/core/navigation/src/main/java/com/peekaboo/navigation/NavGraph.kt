@@ -30,7 +30,18 @@ fun NavGraphBuilder.loginNavGraph(
         route = NavRoutes.LogInGraph.route
     ) {
         composable(NavRoutes.GoogleLogInScreen.route) {
-            GoogleLogInScreen()
+            GoogleLogInScreen(
+                goToOnBoardingPage = {
+                    navController.navigate(NavRoutes.LanguageChoiceScreen.route) {
+                        popUpTo(0)
+                    }
+                },
+                goToHomePage = {
+                    navController.navigate(NavRoutes.HomeScreen.route) {
+                        popUpTo(0)
+                    }
+                }
+            )
         }
     }
 }

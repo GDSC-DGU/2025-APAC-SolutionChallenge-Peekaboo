@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -31,10 +32,27 @@ import com.peekaboo.design_system.R
 import com.peekaboo.design_system.White3
 
 @Composable
-fun GoogleLogInScreen() {
+fun GoogleLogInScreen(
+    goToOnBoardingPage: () -> Unit,
+    goToHomePage: () -> Unit,
+) {
     val viewModel: GoogleLogInViewModel = hiltViewModel()
     val context = LocalContext.current
     val activity: Activity = context as Activity
+
+    LaunchedEffect(Unit) {
+        viewModel.eventFlow.collect { event ->
+            when (event) {
+                is GoogleLogInEvent.GoToOnBoardingPage -> {
+                    goToOnBoardingPage()
+                }
+
+                is GoogleLogInEvent.GoToHomePage -> {
+                    goToHomePage()
+                }
+            }
+        }
+    }
 
     GoogleLogInContent(
         onClickGoogleLogIn = { viewModel.startGoogleLogIn(activity) }
@@ -43,7 +61,7 @@ fun GoogleLogInScreen() {
 
 @Composable
 fun GoogleLogInContent(
-    onClickGoogleLogIn: () -> Unit = {}
+    onClickGoogleLogIn: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier

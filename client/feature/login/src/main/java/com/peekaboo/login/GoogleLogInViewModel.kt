@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GoogleLogInViewModel @Inject constructor(
     private val saveTokenUseCase: SaveTokenUseCase,
-    private val postLogInUseCase: PostLogInUseCase
+    private val postLogInUseCase: PostLogInUseCase,
 ) : BaseViewModel<PageState.Default>(PageState.Default) {
 
     fun startGoogleLogIn(activity: Activity) {
@@ -58,7 +58,14 @@ class GoogleLogInViewModel @Inject constructor(
                 )
             ).collect { resultResponse(it, {}) }
 
-            //
+            setDestination(data.userFlag)
+        }
+    }
+
+    private fun setDestination(isUserFlag: Boolean) {
+        when (isUserFlag) {
+            true -> emitEventFlow(GoogleLogInEvent.GoToHomePage)
+            false -> emitEventFlow(GoogleLogInEvent.GoToOnBoardingPage)
         }
     }
 
