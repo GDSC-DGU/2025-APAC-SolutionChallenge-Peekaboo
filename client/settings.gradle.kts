@@ -34,6 +34,7 @@ include(":core:navigation")
 include(":core:design-system")
 include(":core:multipart")
 
+include(":feature:login")
 include(":feature:onboarding")
 include(":feature:home")
 include(":feature:diagnosis")
