@@ -70,7 +70,8 @@ fun DiagnosisScreen(
 
     LaunchedEffect(selectedDiagnosisHistoryId) {
         selectedDiagnosisHistoryId.collect {
-            Timber.d("[테스트] -> $it")
+//            Timber.d("[테스트] -> $it")
+            viewModel.setDiagnosisResult(it)
         }
     }
 
