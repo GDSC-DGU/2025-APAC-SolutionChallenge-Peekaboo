@@ -58,7 +58,7 @@ public class LoginByKakaoService implements LoginByGoogleUseCase {
 
         userRepository.updateRefreshToken(userSecurityForm.getId(), jwtTokenDto.refreshToken());
 
-        return LoginResponseDto.of(jwtTokenDto, "Asdf");
+        return LoginResponseDto.of(jwtTokenDto, true);
     }
 
 }
