@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -54,15 +55,25 @@ import com.peekaboo.design_system.White3
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.DiseaseDetail
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.collect
+import timber.log.Timber
 
 @Composable
 fun DiagnosisScreen(
     goBackToMain: () -> Unit,
+    selectedDiagnosisHistoryId: SharedFlow<Int>
 ) {
     val viewModel: DiagnosisViewModel = hiltViewModel()
     val uiState: DiagnosisPageState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val interactionSource = remember { MutableInteractionSource() }
+
+    LaunchedEffect(selectedDiagnosisHistoryId) {
+        selectedDiagnosisHistoryId.collect {
+            Timber.d("[테스트] -> $it")
+        }
+    }
 
     DiagnosisContent(
         interactionSource = interactionSource,

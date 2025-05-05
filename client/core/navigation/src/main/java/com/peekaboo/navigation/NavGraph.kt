@@ -133,6 +133,7 @@ fun NavGraphBuilder.diagnosisNavGraph(
     navController: NavController,
     setDiagnosisContent: (DiagnosisModel) -> Unit,
     diagnosisContent: SharedFlow<DiagnosisModel>,
+    selectedDiagnosisHistoryId: SharedFlow<Int>
 ) {
     navigation(
         startDestination = NavRoutes.SelectAreaScreen.route,
@@ -172,7 +173,8 @@ fun NavGraphBuilder.diagnosisNavGraph(
                     navController.navigate(NavRoutes.HomeScreen.route) {
                         popUpTo(0)
                     }
-                }
+                },
+                selectedDiagnosisHistoryId = selectedDiagnosisHistoryId
             )
         }
     }
@@ -180,6 +182,7 @@ fun NavGraphBuilder.diagnosisNavGraph(
 
 fun NavGraphBuilder.diagnosisHistoryNavGraph(
     navController: NavController,
+    setDiagnosisHistoryId: (Int) -> Unit,
 ) {
     navigation(
         startDestination = NavRoutes.DiagnosisHistoryScreen.route,
@@ -191,6 +194,7 @@ fun NavGraphBuilder.diagnosisHistoryNavGraph(
                     navController.navigate(NavRoutes.SelectAreaScreen.route)
                 },
                 goToDiagnosisResultPage = {
+                    setDiagnosisHistoryId(it)
                     navController.navigate(NavRoutes.DiagnosisScreen.route)
                 }
             )
