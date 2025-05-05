@@ -30,9 +30,8 @@ class DiagnosisHistoryViewModel @Inject constructor(
     private fun onSuccessDiagnosisHistory(data: DiagnosisHistoryResponseModel) {
         updateState(
             uiState.value.copy(
-                diagnosisHistoryList2 = data.historyList
+                diagnosisHistoryList = data.historyList
             )
         )
     }
-
 }

@@ -74,6 +74,7 @@ const val DiagnosisHistoryTitle = "Diagnosis History"
 const val DiagnosisEmptyTitle = "No symptom diagnosis results yet"
 const val MajorSymptoms = "Major symptoms: "
 const val ImproveMethod = "How to improve: "
+const val CustomizedInfo = "Customized Information: "
 const val DiagnosisHistoryRanking = "In addition, other results with a high probability of diagnosis were "
 
 // Diagnosis Quick

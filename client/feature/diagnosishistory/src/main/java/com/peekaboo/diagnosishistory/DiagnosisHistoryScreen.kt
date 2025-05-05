@@ -35,26 +35,25 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.peekaboo.design_system.And
 import com.peekaboo.design_system.BaeBaeTypo
 import com.peekaboo.design_system.Black1
+import com.peekaboo.design_system.CustomizedInfo
 import com.peekaboo.design_system.DiagnosingBtn
 import com.peekaboo.design_system.DiagnosisEmptyTitle
 import com.peekaboo.design_system.DiagnosisHistoryRanking
 import com.peekaboo.design_system.DiagnosisHistoryTitle
 import com.peekaboo.design_system.Gray1
 import com.peekaboo.design_system.Gray3
-import com.peekaboo.design_system.ImproveMethod
 import com.peekaboo.design_system.Main2
-import com.peekaboo.design_system.MajorSymptoms
 import com.peekaboo.design_system.R
 import com.peekaboo.design_system.White2
 import com.peekaboo.design_system.White3
-import com.peekaboo.domain.entity.response.DiseaseHistoryItem
+import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryResponseModel
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
 
 @Composable
 fun DiagnosisHistoryScreen(
     goToDiagnosisPage: () -> Unit,
-    goToDiagnosisResultPage: (Int) -> Unit
+    goToDiagnosisResultPage: (Int) -> Unit,
 ) {
 
     val viewModel: DiagnosisHistoryViewModel = hiltViewModel()
@@ -71,7 +70,7 @@ fun DiagnosisHistoryScreen(
 fun DiagnosisHistoryContent(
     onClickDiagnosingBtn: () -> Unit = {},
     onClickDiagnosisDetail: (Int) -> Unit = {},
-    diagnosisHistoryList: List<DiseaseHistoryItem> = emptyList(),
+    diagnosisHistoryList: List<DiagnosisHistoryResponseModel.DiagnosisHistoryItem> = emptyList(),
 ) {
     Column(
         modifier = Modifier
@@ -99,8 +98,8 @@ fun DiagnosisHistoryContent(
 
 @Composable
 fun DiagnosisHistoryDataContent(
-    diagnosisHistoryList: List<DiseaseHistoryItem>,
-    onClickDiagnosisDetail: (Int) -> Unit
+    diagnosisHistoryList: List<DiagnosisHistoryResponseModel.DiagnosisHistoryItem>,
+    onClickDiagnosisDetail: (Int) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -110,7 +109,7 @@ fun DiagnosisHistoryDataContent(
         items(diagnosisHistoryList) { historyData ->
             DiagnosisHistoryDataItem(
                 historyData = historyData,
-                onClickAction = { onClickDiagnosisDetail(historyData.historyId)}
+                onClickAction = { onClickDiagnosisDetail(historyData.diagnosisId) }
             )
         }
     }
@@ -118,9 +117,15 @@ fun DiagnosisHistoryDataContent(
 
 @Composable
 fun DiagnosisHistoryDataItem(
-    historyData: DiseaseHistoryItem,
-    onClickAction: () -> Unit
+    historyData: DiagnosisHistoryResponseModel.DiagnosisHistoryItem,
+    onClickAction: () -> Unit,
 ) {
+    val rankingFirstDisease =
+        DiagnosisHistoryCheckRanking(data = historyData.diseaseList, ranking = 1)
+    val rankingSecondName =
+        DiagnosisHistoryCheckRanking(data = historyData.diseaseList, ranking = 2)
+    val rankingThirdName = DiagnosisHistoryCheckRanking(data = historyData.diseaseList, ranking = 3)
+
     Row(
         modifier = Modifier
             .padding(horizontal = 23.dp)
@@ -132,7 +137,7 @@ fun DiagnosisHistoryDataItem(
         )
 
         Text(
-            text = historyData.date,
+            text = historyData.createAt,
             color = Black1,
             style = BaeBaeTypo.Caption4,
             modifier = Modifier
@@ -153,7 +158,7 @@ fun DiagnosisHistoryDataItem(
             )
     ) {
         Text(
-            text = historyData.diseaseName,
+            text = rankingFirstDisease,
             color = Main2,
             style = BaeBaeTypo.Body3,
             modifier = Modifier
@@ -162,9 +167,9 @@ fun DiagnosisHistoryDataItem(
 
         Text(
             text = buildAnnotatedString {
-                append(MajorSymptoms)
+                append(CustomizedInfo)
                 withStyle(style = SpanStyle(color = Gray3)) {
-                    append(historyData.symptoms)
+                    append(historyData.customDescription)
                 }
             },
             color = Black1,
@@ -175,28 +180,15 @@ fun DiagnosisHistoryDataItem(
 
         Text(
             text = buildAnnotatedString {
-                append(ImproveMethod)
-                withStyle(style = SpanStyle(color = Gray3)) {
-                    append(historyData.methods)
-                }
-            },
-            color = Black1,
-            style = BaeBaeTypo.Caption2,
-            modifier = Modifier
-                .padding(top = 1.dp, start = 15.dp)
-        )
-
-        Text(
-            text = buildAnnotatedString {
                 append(DiagnosisHistoryRanking)
                 withStyle(style = SpanStyle(color = Main2)) {
-                    append(historyData.rankingSecondName)
+                    append(rankingSecondName)
                 }
 
                 append(And)
 
                 withStyle(style = SpanStyle(color = Main2)) {
-                    append(historyData.rankingThirdName)
+                    append(rankingThirdName)
                 }
             },
             color = Gray3,
@@ -205,6 +197,14 @@ fun DiagnosisHistoryDataItem(
                 .padding(vertical = 12.dp, horizontal = 15.dp)
         )
     }
+}
+
+fun DiagnosisHistoryCheckRanking(
+    data: List<DiagnosisHistoryResponseModel.DiagnosisHistoryItem.DiseaseItem>,
+    ranking: Int,
+): String {
+    val rankingDisase: String = data.firstOrNull { it.ranking == ranking }?.diseaseName ?: ""
+    return rankingDisase
 }
 
 @Composable
