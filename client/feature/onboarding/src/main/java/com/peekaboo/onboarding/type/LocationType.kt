@@ -4,6 +4,6 @@ enum class LocationType(
     val location: String,
     val locationApi: String
 ) {
-    KOREA("한국", "Ko"),
-    AMERICA("America", "Am");
+    KOREA("한국", "ko"),
+    AMERICA("America", "am");
 }
