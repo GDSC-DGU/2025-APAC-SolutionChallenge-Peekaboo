@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 
@@ -23,18 +24,24 @@ class LocalDataStore(context: Context) {
             preferences[REFRESH_TOKEN_KEY]
         }
 
-    suspend fun saveAccessToken(token: String) {
+    suspend fun saveAccessToken(token: String): Boolean {
         dataStore.edit { preferences ->
             preferences[ACCESS_TOKEN_KEY] = token
             Timber.d("[datastore] access token: $token")
         }
+
+        val savedToken = dataStore.data.map { it[ACCESS_TOKEN_KEY] }.firstOrNull()
+        return savedToken == token
     }
 
-    suspend fun saveRefreshToken(token: String) {
+    suspend fun saveRefreshToken(token: String): Boolean {
         dataStore.edit { preferences ->
             preferences[REFRESH_TOKEN_KEY] = token
             Timber.d("[datastore] refresh token: $token")
         }
+
+        val savedToken = dataStore.data.map { it[REFRESH_TOKEN_KEY] }.firstOrNull()
+        return savedToken == token
     }
 
     companion object {

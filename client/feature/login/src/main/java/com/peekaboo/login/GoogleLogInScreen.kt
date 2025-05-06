@@ -1,6 +1,8 @@
 package com.peekaboo.login
 
 import android.app.Activity
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,6 +33,7 @@ import com.peekaboo.design_system.Main2
 import com.peekaboo.design_system.R
 import com.peekaboo.design_system.White3
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 @Composable
 fun GoogleLogInScreen(
     goToOnBoardingPage: () -> Unit,

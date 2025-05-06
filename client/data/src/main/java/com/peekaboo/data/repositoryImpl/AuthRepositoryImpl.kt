@@ -18,9 +18,11 @@ class AuthRepositoryImpl @Inject constructor(
     private val authDataSource: AuthDataSource,
 ) : AuthRepository {
 
-    override suspend fun saveToken(request: TokenStoreModel): Flow<Result<Unit>> = flow {
+    override suspend fun saveToken(request: TokenStoreModel): Flow<Result<Boolean>> = flow {
         localDataStore.saveAccessToken(request.accessToken)
         localDataStore.saveRefreshToken(request.refreshToken)
+
+        emit(Result.success(localDataStore.saveAccessToken(request.accessToken) && localDataStore.saveRefreshToken(request.refreshToken)))
     }
 
     override suspend fun postLogIn(): Flow<Result<LogInResponseModel>> =

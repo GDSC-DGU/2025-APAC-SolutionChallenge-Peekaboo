@@ -16,20 +16,19 @@ abstract class BaseMapper {
         val defaultModel = responseToModel(null)
 
         response?.let {
-            when (response.isSuccessful) {
-                true -> {
-                    val apiResponse: BaseResponse<DTO> = response.body() ?: BaseResponse()
-                    val data = responseToModel(apiResponse.data) ?: defaultModel
+            val apiResponse = response.body()
 
+            if (response.isSuccessful && apiResponse != null) {
+                if (apiResponse.error != null) {
+                    emit(Result.failure(Exception(apiResponse.error.message)))
+                } else {
+                    val data = responseToModel(apiResponse.data) ?: defaultModel
                     emit(Result.success(data))
                 }
-
-                false -> {
-                    val errorBody = response.errorBody()?.string() ?: ""
-                    val errorMessage = fromGson<DTO>(errorBody).error?.message
-
-                    emit(Result.failure(Exception(errorMessage)))
-                }
+            } else {
+                val errorBody = response.errorBody()?.string() ?: ""
+                val errorMessage = fromGson<DTO>(errorBody).error?.message
+                emit(Result.failure(Exception(errorMessage)))
             }
         } ?: emit(Result.success(defaultModel))
 
