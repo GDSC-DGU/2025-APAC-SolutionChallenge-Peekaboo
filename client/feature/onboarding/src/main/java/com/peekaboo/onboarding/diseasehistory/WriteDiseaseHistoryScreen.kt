@@ -27,8 +27,8 @@ import com.peekaboo.design_system.CautionNotice
 import com.peekaboo.design_system.DiseaseHistoryInputHint
 import com.peekaboo.design_system.DiseaseHistoryInputSemiTitle
 import com.peekaboo.design_system.DiseaseHistoryInputTitle
+import com.peekaboo.design_system.Finish
 import com.peekaboo.design_system.Gray3
-import com.peekaboo.design_system.Next
 import com.peekaboo.design_system.OnBoardingTitle
 import com.peekaboo.design_system.White3
 import com.peekaboo.domain.entity.request.CreateUserModel
@@ -44,7 +44,7 @@ import kotlinx.coroutines.flow.SharedFlow
 @Composable
 fun WriteDiseaseHistoryScreen(
     userModel: SharedFlow<CreateUserModel>,
-    goToMainPage: (CreateUserModel) -> Unit
+    goToMainPage: () -> Unit,
 ) {
 
     val viewModel: WriteDiseaseHistoryViewmodel = hiltViewModel()
@@ -56,13 +56,25 @@ fun WriteDiseaseHistoryScreen(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.eventFlow.collect { event ->
+            when (event) {
+                is WriteDiseaseHistoryEvent.GoToMainPage -> {
+                    goToMainPage()
+                }
+            }
+        }
+    }
+
     WriteDiseaseHistoryContent(
         diseaseHistoryInputList = uiState.diseaseHistoryInputList,
         onDiseaseHistoryListChange = { index, content ->
             viewModel.onDiseaseHistoryValueChange(index, content)
         },
         onClickListAddBtn = { viewModel.addDiseaseHistoryList() },
-        onClickBtnAction = { goToMainPage(viewModel.updateUserModel()) },
+        onClickBtnAction = {
+            viewModel.createUser()
+        },
         onClickDiseaseDeleteBtn = { index -> viewModel.deleteDiseaseHistory(index) }
     )
 }
@@ -132,7 +144,7 @@ fun WriteDiseaseHistoryContent(
 
         BottomRectangleBtn(
             horizontalPadding = 20,
-            btnText = Next,
+            btnText = Finish,
             isBtnValid = diseaseHistoryInputList.all { it.description.isNotEmpty() },
             onClickAction = onClickBtnAction
         )
