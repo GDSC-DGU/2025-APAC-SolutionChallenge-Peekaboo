@@ -1,7 +1,7 @@
 package com.peekaboo.data.mapper.auth
 
 import com.peekaboo.data.base.BaseMapper
-import com.peekaboo.data.base.BaseResponse
+import com.peekaboo.data.base.BaseResponseNoData
 import com.peekaboo.data.entity.request.auth.CreateUserRequestDto
 import com.peekaboo.domain.entity.request.CreateUserModel
 import kotlinx.coroutines.flow.Flow
@@ -24,10 +24,9 @@ object CreateUserMapper : BaseMapper() {
         }
     )
 
-    fun responseToModel(apiCall: suspend () -> Response<BaseResponse<Unit>>): Flow<Result<Unit>> {
-        return baseMapper(
-            apiCall = { apiCall() },
-            responseToModel = {}
+    fun responseToModel(apiCall: suspend () -> Response<BaseResponseNoData>): Flow<Result<Boolean>> {
+        return baseBooleanMapper(
+            apiCall = { apiCall() }
         )
     }
 }

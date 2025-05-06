@@ -8,8 +8,8 @@ import javax.inject.Inject
 
 class PostCreateUserUseCase @Inject constructor(
     private val authRepository: AuthRepository,
-) : UseCase<CreateUserModel, Result<Unit>>() {
+) : UseCase<CreateUserModel, Result<Boolean>>() {
 
-    override suspend fun invoke(request: CreateUserModel): Flow<Result<Unit>> =
+    override suspend fun invoke(request: CreateUserModel): Flow<Result<Boolean>> =
         authRepository.postCreateUser(request)
 }

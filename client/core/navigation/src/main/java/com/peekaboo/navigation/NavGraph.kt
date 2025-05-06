@@ -98,7 +98,6 @@ fun NavGraphBuilder.onboardingNavGraph(
             WriteDiseaseHistoryScreen(
                 userModel = userModel,
                 goToMainPage = {
-                    setUserModel(it)
                     navController.navigate(NavRoutes.HomeScreen.route)
                 }
             )
@@ -133,7 +132,7 @@ fun NavGraphBuilder.diagnosisNavGraph(
     navController: NavController,
     setDiagnosisContent: (DiagnosisModel) -> Unit,
     diagnosisContent: SharedFlow<DiagnosisModel>,
-    selectedDiagnosisHistoryId: SharedFlow<Int>
+    selectedDiagnosisHistoryId: SharedFlow<Int>,
 ) {
     navigation(
         startDestination = NavRoutes.SelectAreaScreen.route,

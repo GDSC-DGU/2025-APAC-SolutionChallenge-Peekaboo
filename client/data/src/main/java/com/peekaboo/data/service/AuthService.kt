@@ -1,6 +1,7 @@
 package com.peekaboo.data.service
 
 import com.peekaboo.data.base.BaseResponse
+import com.peekaboo.data.base.BaseResponseNoData
 import com.peekaboo.data.base.EndPoints
 import com.peekaboo.data.entity.request.auth.CreateUserRequestDto
 import com.peekaboo.data.entity.response.auth.LogInResponseDto
@@ -17,5 +18,5 @@ interface AuthService {
     @POST(EndPoints.Auth.USER)
     suspend fun createUser(
         @Body body: CreateUserRequestDto,
-    ): Response<BaseResponse<Unit>>
+    ): Response<BaseResponseNoData>
 }

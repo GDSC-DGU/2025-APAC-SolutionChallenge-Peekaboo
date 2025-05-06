@@ -28,6 +28,6 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun postLogIn(): Flow<Result<LogInResponseModel>> =
         LogInMapper.responseToModel(apiCall = { authDataSource.postLogIn() })
 
-    override suspend fun postCreateUser(request: CreateUserModel): Flow<Result<Unit>> =
+    override suspend fun postCreateUser(request: CreateUserModel): Flow<Result<Boolean>> =
         CreateUserMapper.responseToModel(apiCall = { authDataSource.postUser(request.toDto()) })
 }

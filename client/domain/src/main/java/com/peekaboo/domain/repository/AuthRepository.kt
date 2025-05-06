@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.Flow
 interface AuthRepository {
     suspend fun saveToken(request: TokenStoreModel): Flow<Result<Boolean>>
     suspend fun postLogIn(): Flow<Result<LogInResponseModel>>
-    suspend fun postCreateUser(request: CreateUserModel): Flow<Result<Unit>>
+    suspend fun postCreateUser(request: CreateUserModel): Flow<Result<Boolean>>
 }
