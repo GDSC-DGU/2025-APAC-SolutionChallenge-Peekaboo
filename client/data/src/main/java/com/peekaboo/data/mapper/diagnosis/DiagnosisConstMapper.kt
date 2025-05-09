@@ -18,7 +18,7 @@ object DiagnosisConstMapper : BaseMapper() {
                 response?.let { data ->
                     DiagnosisConstModel(
                         diseaseName = data.diseaseName,
-                        ranting = data.ranting,
+                        rating = data.rating,
                         description = data.description,
                         type = data.type,
                         site = data.site,

@@ -2,7 +2,7 @@ package com.peekaboo.domain.entity.response.diagnosis
 
 data class DiagnosisConstModel (
     val diseaseName: String = "",
-    val ranting: Int = 0,
+    val rating: Int = 0,
     val description: String = "",
     val type: String = "",
     val site: String = "",

@@ -7,8 +7,8 @@ import kotlinx.serialization.Serializable
 data class DiagnosisConstResponseDto (
     @SerialName("diseaseName")
     val diseaseName: String = "",
-    @SerialName("ranting")
-    val ranting: Int = 0,
+    @SerialName("rating")
+    val rating: Int = 0,
     @SerialName("description")
     val description: String = "",
     @SerialName("type")
