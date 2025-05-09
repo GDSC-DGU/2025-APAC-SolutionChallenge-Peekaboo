@@ -203,6 +203,8 @@ fun NavGraphBuilder.diagnosisHistoryNavGraph(
 
 fun NavGraphBuilder.diagnosisQuickNavGraph(
     navController: NavController,
+    setDiagnosisConstId: (Int) -> Unit,
+    diagnosisConstId: SharedFlow<Int>
 ) {
     navigation(
         startDestination = NavRoutes.DiagnosisQuickScreen.route,
@@ -211,6 +213,7 @@ fun NavGraphBuilder.diagnosisQuickNavGraph(
         composable(NavRoutes.DiagnosisQuickScreen.route) {
             QuickDiagnosisScreen(
                 goToDetailDiagnosisPage = {
+                    setDiagnosisConstId(it)
                     navController.navigate(NavRoutes.DetailQuickScreen.route)
                 }
             )
@@ -225,7 +228,8 @@ fun NavGraphBuilder.diagnosisQuickNavGraph(
                 },
                 goToDiagnosisPage = {
                     navController.navigate(NavRoutes.SelectAreaScreen.route)
-                }
+                },
+                diagnosisConstId = diagnosisConstId
             )
         }
     }
