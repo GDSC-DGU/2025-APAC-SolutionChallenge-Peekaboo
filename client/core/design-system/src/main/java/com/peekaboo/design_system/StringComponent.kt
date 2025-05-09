@@ -76,6 +76,7 @@ const val MajorSymptoms = "Major symptoms: "
 const val ImproveMethod = "How to improve: "
 const val CustomizedInfo = "Customized Information: "
 const val DiagnosisHistoryRanking = "In addition, other results with a high probability of diagnosis were "
+const val DiagnosisRating = "%s급"
 
 // Diagnosis Quick
 const val QuickDiagnosisTitle =  "Quick Diagnosis"

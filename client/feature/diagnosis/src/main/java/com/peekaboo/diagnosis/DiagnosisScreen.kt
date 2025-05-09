@@ -99,6 +99,8 @@ fun DiagnosisContent(
     secondDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
     thirdDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
 ) {
+    val diseaseModel =
+        diseaseTotal.firstOrNull { it.diseaseName == selectedDisease } ?: firstDiseaseModel
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -141,7 +143,18 @@ fun DiagnosisContent(
 
                 DiseaseDetail(
                     isDetailDescriptionValid = true,
-                    diseaseModel = diseaseTotal.firstOrNull { it.diseaseName == selectedDisease } ?: firstDiseaseModel
+                    diseaseName = diseaseModel.diseaseName,
+                    description = diseaseModel.description,
+                    rating = diseaseModel.rating,
+                    symptoms = diseaseModel.symptoms,
+                    type = diseaseModel.type,
+                    site = diseaseModel.site,
+                    reason = diseaseModel.reason,
+                    drugs = diseaseModel.drugs,
+                    mild = diseaseModel.mild,
+                    severe = diseaseModel.severe,
+                    preventive = diseaseModel.preventive,
+                    caution = diseaseModel.caution
                 )
             }
         }

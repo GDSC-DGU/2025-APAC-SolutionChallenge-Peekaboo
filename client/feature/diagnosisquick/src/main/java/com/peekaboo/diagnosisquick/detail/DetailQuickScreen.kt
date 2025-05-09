@@ -14,6 +14,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +23,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.peekaboo.design_system.BackToMain
 import com.peekaboo.design_system.BaeBaeTypo
 import com.peekaboo.design_system.Gray2
@@ -30,21 +34,34 @@ import com.peekaboo.design_system.QuickDiagnosisTitle
 import com.peekaboo.design_system.QuickDiseaseAdditionalBtn
 import com.peekaboo.design_system.White2
 import com.peekaboo.design_system.White3
+import com.peekaboo.domain.entity.response.diagnosis.DiagnosisConstModel
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.DiseaseDetail
+import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
 fun DetailQuickScreen(
+    diagnosisConstId: SharedFlow<Int>,
     goBackToMain: () -> Unit,
     goToDiagnosisPage: () -> Unit,
 ) {
+    val viewModel: DetailQuickViewModel = hiltViewModel()
+    val uiState: DetailQuickPageState by viewModel.uiState.collectAsStateWithLifecycle()
+
     val interactionSource = remember { MutableInteractionSource() }
+
+    LaunchedEffect(diagnosisConstId) {
+        diagnosisConstId.collect {
+            viewModel.initSetDiagnosisModel(it)
+        }
+    }
 
     DetailQuickContent(
         interactionSource = interactionSource,
         onClickBackToMain = { goBackToMain() },
-        onClickAdditionalDiagnosis = { goToDiagnosisPage() }
+        onClickAdditionalDiagnosis = { goToDiagnosisPage() },
+        diseaseModel = uiState.diagnosisModel
     )
 }
 
@@ -53,6 +70,7 @@ fun DetailQuickContent(
     interactionSource: MutableInteractionSource = MutableInteractionSource(),
     onClickBackToMain: () -> Unit = {},
     onClickAdditionalDiagnosis: () -> Unit = {},
+    diseaseModel: DiagnosisConstModel = DiagnosisConstModel()
 ) {
     Column(
         modifier = Modifier
@@ -64,7 +82,10 @@ fun DetailQuickContent(
             isIconValid = true
         )
 
-        DetailDescriptionBanner()
+        DetailDescriptionBanner(
+            diseaseName = diseaseModel.diseaseName,
+            description = diseaseModel.description
+        )
 
         LazyColumn(
             modifier = Modifier
@@ -72,7 +93,20 @@ fun DetailQuickContent(
                 .fillMaxWidth(),
         ) {
             item {
-                DiseaseDetail()
+                DiseaseDetail(
+                    diseaseName = diseaseModel.diseaseName,
+                    description = diseaseModel.description,
+                    rating = diseaseModel.rating,
+                    symptoms = diseaseModel.symptoms,
+                    type = diseaseModel.type,
+                    site = diseaseModel.site,
+                    reason = diseaseModel.reason,
+                    drugs = diseaseModel.drugs,
+                    mild = diseaseModel.mild,
+                    severe = diseaseModel.severe,
+                    preventive = diseaseModel.preventive,
+                    caution = diseaseModel.caution
+                )
             }
         }
 
@@ -102,7 +136,10 @@ fun DetailQuickContent(
 }
 
 @Composable
-fun DetailDescriptionBanner() {
+fun DetailDescriptionBanner(
+    diseaseName: String,
+    description: String
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -115,13 +152,13 @@ fun DetailDescriptionBanner() {
                 .weight(1f)
         ) {
             Text(
-                text = "아토피 피부염",
+                text = diseaseName,
                 color = White2,
                 style = BaeBaeTypo.Head1,
             )
 
             Text(
-                text = "만성적인 염증성 피부질환, 주로 영유아기에 시작되어 피부의 건조, 가려움, 반복적인 염증이 특징",
+                text = description,
                 color = Gray2,
                 style = BaeBaeTypo.Caption1,
                 modifier = Modifier

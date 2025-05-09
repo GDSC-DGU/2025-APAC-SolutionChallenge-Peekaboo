@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -30,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.peekaboo.design_system.BaeBaeTypo
 import com.peekaboo.design_system.Black1
+import com.peekaboo.design_system.DiagnosisRating
 import com.peekaboo.design_system.Gray1
 import com.peekaboo.design_system.Gray3
 import com.peekaboo.design_system.Main2
@@ -46,56 +48,89 @@ import com.peekaboo.design_system.QuickDiseaseSymptomsSite
 import com.peekaboo.design_system.QuickDiseaseSymptomsTitle
 import com.peekaboo.design_system.QuickDiseaseSymptomsType
 import com.peekaboo.design_system.White3
-import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryDetailModel
 import com.peekaboo.domain.entity.response.diagnosis.DrugItem
 import com.peekaboo.domain.entity.response.diagnosis.SymptomItem
+import com.peekaboo.ui.common.type.RatingType
 
 @Composable
 fun DiseaseDetail(
     isDetailDescriptionValid: Boolean = false,
-    diseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
+    diseaseName: String,
+    description: String,
+    rating: Int,
+    symptoms: List<SymptomItem>,
+    type: String,
+    site: String,
+    reason: String,
+    drugs: List<DrugItem>,
+    mild: String,
+    severe: String,
+    preventive: String,
+    caution: String,
 ) {
     DiseaseDetailContent(
         isDetailDescriptionValid = isDetailDescriptionValid,
-        diseaseModel = diseaseModel
+        diseaseName = diseaseName,
+        description = description,
+        rating = rating,
+        symptoms = symptoms,
+        type = type,
+        site = site,
+        reason = reason,
+        drugs = drugs,
+        mild = mild,
+        severe = severe,
+        preventive = preventive,
+        caution = caution
     )
 }
 
 @Composable
 fun DiseaseDetailContent(
     isDetailDescriptionValid: Boolean = false,
-    diseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
+    diseaseName: String = "",
+    description: String = "",
+    rating: Int = 0,
+    symptoms: List<SymptomItem> = emptyList(),
+    type: String = "",
+    site: String = "",
+    reason: String = "",
+    drugs: List<DrugItem> = emptyList(),
+    mild: String = "",
+    severe: String = "",
+    preventive: String = "",
+    caution: String = "",
 ) {
     if (isDetailDescriptionValid) {
         DiseaseDetailDescription(
-            diseaseName = diseaseModel.diseaseName,
-            description = diseaseModel.description
+            diseaseName = diseaseName,
+            description = description
         )
     }
     DiseaseRating(
-        rating = diseaseModel.ranting,
+        rating = rating,
         isDetailDescriptionValid = isDetailDescriptionValid
     )
     DiseaseSymptoms(
-        symptoms = diseaseModel.symptoms
+        symptoms = symptoms
     )
     DiseaseType(
-        type = diseaseModel.type,
-        site = diseaseModel.site,
-        reason = diseaseModel.reason
+        type = type,
+        site = site,
+        reason = reason
     )
     DiseaseDrugs(
-        drugs = diseaseModel.drugs
+        drugs = drugs
     )
     DiseaseFirstAid(
-        mild = diseaseModel.mild,
-        severe = diseaseModel.severe
+        mild = mild,
+        severe = severe
     )
     DiseasePreventive(
-        preventives = contentToList(diseaseModel.preventive)
+        preventives = contentToList(preventive)
     )
     DiseaseCaution(
-        cautions = contentToList(diseaseModel.caution)
+        cautions = contentToList(caution)
     )
 }
 
@@ -130,6 +165,7 @@ fun DiseaseRating(
     rating: Int = 4,
     isDetailDescriptionValid: Boolean = false,
 ) {
+
     if (!isDetailDescriptionValid) {
         Spacer(modifier = Modifier.height(30.dp))
     }
@@ -150,7 +186,7 @@ fun DiseaseRating(
 
         Box(
             modifier = Modifier
-                .width(maxWidth * 0.25f)
+                .width(maxWidth * 0.25f * (5 - rating))
                 .height(5.dp)
                 .clip(RoundedCornerShape(100.dp))
                 .background(Main2)
@@ -161,9 +197,9 @@ fun DiseaseRating(
                 .padding(top = 6.dp)
                 .fillMaxWidth(),
         ) {
-            items(4) { index ->
+            itemsIndexed(RatingType.entries, key = { index, item -> index }) { index, item ->
                 Text(
-                    text = "4급",
+                    text = String.format(DiagnosisRating, item.rating),
                     color = if (index + rating == 4) Main2 else Gray3,
                     style = BaeBaeTypo.Caption2,
                     textAlign = TextAlign.End,
@@ -178,9 +214,9 @@ fun DiseaseRating(
                 .padding(top = 18.dp)
                 .fillMaxWidth(),
         ) {
-            items(4) { index ->
+            itemsIndexed(RatingType.entries, key = { index, item -> index }) { index, item ->
                 Text(
-                    text = "감시.예방 중심",
+                    text = item.ratingText,
                     color = if (index + rating == 4) Main2 else Color.Transparent,
                     style = BaeBaeTypo.Caption2,
                     textAlign = TextAlign.End,
