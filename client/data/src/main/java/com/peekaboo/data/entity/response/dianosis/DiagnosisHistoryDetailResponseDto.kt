@@ -40,19 +40,5 @@ data class DiagnosisHistoryDetailResponseDto(
         val symptoms: List<SymptomItem> = emptyList(),
         @SerialName("drugs")
         val drugs: List<DrugItem> = emptyList(),
-    ) {
-        @Serializable
-        data class SymptomItem(
-            @SerialName("name")
-            val name: String = "",
-        )
-
-        @Serializable
-        data class DrugItem(
-            @SerialName("name")
-            val name: String = "",
-            @SerialName("efficacy")
-            val efficacy: String = "",
-        )
-    }
+    )
 }

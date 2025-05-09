@@ -47,7 +47,8 @@ import com.peekaboo.design_system.QuickDiseaseSymptomsTitle
 import com.peekaboo.design_system.QuickDiseaseSymptomsType
 import com.peekaboo.design_system.White3
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryDetailModel
-import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryDetailModel.DiseaseDetailItem.DrugItem
+import com.peekaboo.domain.entity.response.diagnosis.DrugItem
+import com.peekaboo.domain.entity.response.diagnosis.SymptomItem
 
 @Composable
 fun DiseaseDetail(
@@ -192,7 +193,7 @@ fun DiseaseRating(
 
 @Composable
 fun DiseaseSymptoms(
-    symptoms: List<DiagnosisHistoryDetailModel.DiseaseDetailItem.SymptomItem>,
+    symptoms: List<SymptomItem>,
 ) {
     DescriptionTitle(title = QuickDiseaseSymptomsTitle)
 

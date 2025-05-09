@@ -4,6 +4,8 @@ import com.peekaboo.data.base.BaseMapper
 import com.peekaboo.data.base.BaseResponse
 import com.peekaboo.data.entity.response.dianosis.DiagnosisHistoryDetailResponseDto
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryDetailModel
+import com.peekaboo.domain.entity.response.diagnosis.DrugItem
+import com.peekaboo.domain.entity.response.diagnosis.SymptomItem
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
@@ -31,12 +33,12 @@ object DiagnosisHistoryDetailMapper : BaseMapper() {
                                 preventive = disease.preventive,
                                 caution = disease.caution,
                                 symptoms = disease.symptoms.map { symptom ->
-                                    DiagnosisHistoryDetailModel.DiseaseDetailItem.SymptomItem(
+                                    SymptomItem(
                                         name = symptom.name
                                     )
                                 },
                                 drugs = disease.drugs.map { drug ->
-                                    DiagnosisHistoryDetailModel.DiseaseDetailItem.DrugItem(
+                                    DrugItem(
                                         name = drug.name,
                                         efficacy = drug.efficacy
                                     )

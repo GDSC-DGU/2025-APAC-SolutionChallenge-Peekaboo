@@ -19,14 +19,5 @@ data class DiagnosisHistoryDetailModel(
         val caution: String = "",
         val symptoms: List<SymptomItem> = emptyList(),
         val drugs: List<DrugItem> = emptyList(),
-    ) {
-        data class SymptomItem(
-            val name: String = "",
-        )
-
-        data class DrugItem(
-            val name: String = "",
-            val efficacy: String = "",
-        )
-    }
+    )
 }
