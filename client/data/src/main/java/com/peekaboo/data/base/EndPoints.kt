@@ -13,4 +13,8 @@ object EndPoints {
         const val HISTORYDETAIL = "$HISTORY/{historyId}"
         const val HISTORYCONST = "$DIAGNOSIS/const/{constId}"
     }
+
+    object Crawling {
+        const val TOPBANNER = "."
+    }
 }

@@ -181,8 +181,10 @@ fun HomeDiseaseBannerItem(
     Row(
         modifier = Modifier
             .width(screenWidthDp.dp)
+            .height(180.dp)
             .clip(RoundedCornerShape(bottomStart = 3.dp, bottomEnd = 3.dp))
-            .background(Main3)
+            .background(Main3),
+        verticalAlignment = Alignment.Top
     ) {
         Column(
             modifier = Modifier
