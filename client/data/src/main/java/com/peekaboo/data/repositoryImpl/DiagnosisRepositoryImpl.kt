@@ -1,8 +1,10 @@
 package com.peekaboo.data.repositoryImpl
 
 import com.peekaboo.data.dataSource.DiagnosisDataSource
+import com.peekaboo.data.mapper.diagnosis.DiagnosisConstMapper
 import com.peekaboo.data.mapper.diagnosis.DiagnosisHistoryDetailMapper
 import com.peekaboo.data.mapper.diagnosis.DiagnosisHistoryMapper
+import com.peekaboo.domain.entity.response.diagnosis.DiagnosisConstModel
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryDetailModel
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryResponseModel
 import com.peekaboo.domain.repository.DiagnosisRepository
@@ -20,6 +22,13 @@ class DiagnosisRepositoryImpl @Inject constructor(
         DiagnosisHistoryDetailMapper.responseToModel(apiCall = {
             diagnosisDataSource.getDiagnosisHistoryDetail(
                 historyId
+            )
+        })
+
+    override suspend fun getDiagnosisConst(constId: Int): Flow<Result<DiagnosisConstModel>> =
+        DiagnosisConstMapper.responseToModel(apiCall = {
+            diagnosisDataSource.getDiagnosisConst(
+                constId
             )
         })
 }

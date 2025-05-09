@@ -2,6 +2,7 @@ package com.peekaboo.data.service
 
 import com.peekaboo.data.base.BaseResponse
 import com.peekaboo.data.base.EndPoints
+import com.peekaboo.data.entity.response.dianosis.DiagnosisConstResponseDto
 import com.peekaboo.data.entity.response.dianosis.DiagnosisHistoryDetailResponseDto
 import com.peekaboo.data.entity.response.dianosis.DiagnosisHistoryResponseDto
 import retrofit2.Response
@@ -17,4 +18,9 @@ interface DiagnosisService {
     suspend fun diagnosisHistoryDetail(
         @Path("historyId") historyId: Int
     ): Response<BaseResponse<DiagnosisHistoryDetailResponseDto>>
+
+    @GET(EndPoints.Diagnosis.HISTORYCONST)
+    suspend fun diagnosisConst(
+        @Path("constId") constId: Int
+    ): Response<BaseResponse<DiagnosisConstResponseDto>>
 }

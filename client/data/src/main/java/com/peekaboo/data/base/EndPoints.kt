@@ -11,5 +11,6 @@ object EndPoints {
         private const val DIAGNOSIS = "api/v1/diagnosis"
         const val HISTORY = "$DIAGNOSIS/history"
         const val HISTORYDETAIL = "$HISTORY/{historyId}"
+        const val HISTORYCONST = "$DIAGNOSIS/const/{constId}"
     }
 }

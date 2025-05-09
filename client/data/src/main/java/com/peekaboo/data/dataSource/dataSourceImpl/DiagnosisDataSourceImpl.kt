@@ -2,6 +2,7 @@ package com.peekaboo.data.dataSource.dataSourceImpl
 
 import com.peekaboo.data.base.BaseResponse
 import com.peekaboo.data.dataSource.DiagnosisDataSource
+import com.peekaboo.data.entity.response.dianosis.DiagnosisConstResponseDto
 import com.peekaboo.data.entity.response.dianosis.DiagnosisHistoryDetailResponseDto
 import com.peekaboo.data.entity.response.dianosis.DiagnosisHistoryResponseDto
 import com.peekaboo.data.service.DiagnosisService
@@ -17,4 +18,7 @@ class DiagnosisDataSourceImpl @Inject constructor(
 
     override suspend fun getDiagnosisHistoryDetail(historyId: Int): Response<BaseResponse<DiagnosisHistoryDetailResponseDto>> =
         diagnosisService.diagnosisHistoryDetail(historyId)
+
+    override suspend fun getDiagnosisConst(constId: Int): Response<BaseResponse<DiagnosisConstResponseDto>> =
+        diagnosisService.diagnosisConst(constId)
 }
