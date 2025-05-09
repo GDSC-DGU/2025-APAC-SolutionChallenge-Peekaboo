@@ -18,6 +18,9 @@ android {
         val baseUrl = properties.getProperty("BASE_URL")
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
 
+        val crawlUrl = properties.getProperty("CRAWL_URL")
+        buildConfigField("String", "CRAWL_URL", "\"$crawlUrl\"")
+
         val googleLogInKey = properties.getProperty("GOOGLE_CLIENT_ID")
         buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleLogInKey\"")
     }

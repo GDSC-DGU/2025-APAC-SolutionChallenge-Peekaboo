@@ -1,6 +1,7 @@
 package com.peekaboo.baebae.di
 
 import com.peekaboo.data.service.AuthService
+import com.peekaboo.data.service.CrawlService
 import com.peekaboo.data.service.DiagnosisService
 import dagger.Module
 import dagger.Provides
@@ -20,5 +21,10 @@ object ServiceModule {
     @Provides
     fun provideDiagnosisService(@BaeBaeRetrofit retrofit: Retrofit): DiagnosisService {
         return retrofit.create(DiagnosisService::class.java)
+    }
+
+    @Provides
+    fun provideCrawlingService(@CrawlRetrofit retrofit: Retrofit): CrawlService {
+        return retrofit.create(CrawlService::class.java)
     }
 }

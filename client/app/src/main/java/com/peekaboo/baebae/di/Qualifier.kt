@@ -5,3 +5,7 @@ import javax.inject.Qualifier
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class BaeBaeRetrofit
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class CrawlRetrofit
