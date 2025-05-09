@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisConstModel
 import com.peekaboo.domain.usecase.diagnosis.GetDiagnosisConstUseCase
 import com.peekaboo.ui.base.BaseViewModel
+import com.peekaboo.ui.common.type.DiseaseType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,7 +16,12 @@ class DetailQuickViewModel @Inject constructor(
     DetailQuickPageState()
 ) {
 
-    fun initSetDiagnosisModel(constId: Int) {
+    fun initGetDiagnosisConstId(constId: Int) {
+        initSetDiagnosisModel(constId)
+        initSetDiagnosisImg(constId)
+    }
+
+    private fun initSetDiagnosisModel(constId: Int) {
         viewModelScope.launch {
             diagnosisConstUseCase(request = constId).collect {
                 resultResponse(it, ::onSuccessDiagnosisConstModel)
@@ -27,6 +33,14 @@ class DetailQuickViewModel @Inject constructor(
         updateState(
             uiState.value.copy(
                 diagnosisModel = data
+            )
+        )
+    }
+
+    private fun initSetDiagnosisImg(constId: Int) {
+        updateState(
+            uiState.value.copy(
+                diagnosisImg = DiseaseType.getDiagnosisImg(constId)
             )
         )
     }

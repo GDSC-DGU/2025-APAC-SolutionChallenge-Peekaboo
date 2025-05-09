@@ -1,9 +1,9 @@
 package com.peekaboo.diagnosisquick.detail
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,6 +33,7 @@ import com.peekaboo.design_system.Gray3
 import com.peekaboo.design_system.Main3
 import com.peekaboo.design_system.QuickDiagnosisTitle
 import com.peekaboo.design_system.QuickDiseaseAdditionalBtn
+import com.peekaboo.design_system.R
 import com.peekaboo.design_system.White2
 import com.peekaboo.design_system.White3
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisConstModel
@@ -53,7 +55,7 @@ fun DetailQuickScreen(
 
     LaunchedEffect(diagnosisConstId) {
         diagnosisConstId.collect {
-            viewModel.initSetDiagnosisModel(it)
+            viewModel.initGetDiagnosisConstId(it)
         }
     }
 
@@ -61,7 +63,8 @@ fun DetailQuickScreen(
         interactionSource = interactionSource,
         onClickBackToMain = { goBackToMain() },
         onClickAdditionalDiagnosis = { goToDiagnosisPage() },
-        diseaseModel = uiState.diagnosisModel
+        diseaseModel = uiState.diagnosisModel,
+        diseaseImg = uiState.diagnosisImg
     )
 }
 
@@ -70,7 +73,8 @@ fun DetailQuickContent(
     interactionSource: MutableInteractionSource = MutableInteractionSource(),
     onClickBackToMain: () -> Unit = {},
     onClickAdditionalDiagnosis: () -> Unit = {},
-    diseaseModel: DiagnosisConstModel = DiagnosisConstModel()
+    diseaseModel: DiagnosisConstModel = DiagnosisConstModel(),
+    diseaseImg: Int = 0,
 ) {
     Column(
         modifier = Modifier
@@ -84,7 +88,8 @@ fun DetailQuickContent(
 
         DetailDescriptionBanner(
             diseaseName = diseaseModel.diseaseName,
-            description = diseaseModel.description
+            description = diseaseModel.description,
+            diseaseImg = diseaseImg
         )
 
         LazyColumn(
@@ -138,7 +143,8 @@ fun DetailQuickContent(
 @Composable
 fun DetailDescriptionBanner(
     diseaseName: String,
-    description: String
+    description: String,
+    diseaseImg: Int = R.drawable.ic_disease_1,
 ) {
     Row(
         modifier = Modifier
@@ -166,13 +172,14 @@ fun DetailDescriptionBanner(
             )
         }
 
-        Box(
+        Image(
+            painter = painterResource(id = diseaseImg),
+            contentDescription = "disease",
             modifier = Modifier
                 .padding(vertical = 39.dp)
                 .padding(end = 30.dp)
                 .size(width = 85.dp, height = 122.dp)
                 .clip(RoundedCornerShape(10.dp))
-                .background(Gray2),
         )
     }
 }
