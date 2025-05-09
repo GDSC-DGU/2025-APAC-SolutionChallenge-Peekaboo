@@ -24,6 +24,7 @@ object DiagnosisHistoryDetailMapper : BaseMapper() {
                                 diseaseName = disease.diseaseName,
                                 ranking = disease.ranking,
                                 percent = disease.percent,
+                                ranting = disease.ranting,
                                 description = disease.description,
                                 type = disease.type,
                                 site = disease.site,

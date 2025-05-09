@@ -72,7 +72,10 @@ fun DiseaseDetailContent(
             description = diseaseModel.description
         )
     }
-    DiseaseRating()     // TODO 처리
+    DiseaseRating(
+        rating = diseaseModel.ranting,
+        isDetailDescriptionValid = isDetailDescriptionValid
+    )
     DiseaseSymptoms(
         symptoms = diseaseModel.symptoms
     )

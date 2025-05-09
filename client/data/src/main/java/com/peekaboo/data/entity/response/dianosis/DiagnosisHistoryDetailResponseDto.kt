@@ -20,6 +20,8 @@ data class DiagnosisHistoryDetailResponseDto(
         val ranking: Int = 0,
         @SerialName("percent")
         val percent: Int = 0,
+        @SerialName("ranting")
+        val ranting: Int = 0,
         @SerialName("description")
         val description: String = "",
         @SerialName("type")

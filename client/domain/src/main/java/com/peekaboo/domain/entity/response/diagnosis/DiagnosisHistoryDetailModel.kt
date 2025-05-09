@@ -9,6 +9,7 @@ data class DiagnosisHistoryDetailModel(
         val diseaseName: String = "",
         val ranking: Int = 0,
         val percent: Int = 0,
+        val ranting: Int = 0,
         val description: String = "",
         val type: String = "",
         val site: String = "",
