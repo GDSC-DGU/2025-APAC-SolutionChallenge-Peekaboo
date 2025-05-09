@@ -30,7 +30,18 @@ fun NavGraphBuilder.loginNavGraph(
         route = NavRoutes.LogInGraph.route
     ) {
         composable(NavRoutes.GoogleLogInScreen.route) {
-            GoogleLogInScreen()
+            GoogleLogInScreen(
+                goToOnBoardingPage = {
+                    navController.navigate(NavRoutes.LanguageChoiceScreen.route) {
+                        popUpTo(0)
+                    }
+                },
+                goToHomePage = {
+                    navController.navigate(NavRoutes.HomeScreen.route) {
+                        popUpTo(0)
+                    }
+                }
+            )
         }
     }
 }
@@ -87,7 +98,6 @@ fun NavGraphBuilder.onboardingNavGraph(
             WriteDiseaseHistoryScreen(
                 userModel = userModel,
                 goToMainPage = {
-                    setUserModel(it)
                     navController.navigate(NavRoutes.HomeScreen.route)
                 }
             )
@@ -122,6 +132,7 @@ fun NavGraphBuilder.diagnosisNavGraph(
     navController: NavController,
     setDiagnosisContent: (DiagnosisModel) -> Unit,
     diagnosisContent: SharedFlow<DiagnosisModel>,
+    selectedDiagnosisHistoryId: SharedFlow<Int>,
 ) {
     navigation(
         startDestination = NavRoutes.SelectAreaScreen.route,
@@ -161,7 +172,8 @@ fun NavGraphBuilder.diagnosisNavGraph(
                     navController.navigate(NavRoutes.HomeScreen.route) {
                         popUpTo(0)
                     }
-                }
+                },
+                selectedDiagnosisHistoryId = selectedDiagnosisHistoryId
             )
         }
     }
@@ -169,6 +181,7 @@ fun NavGraphBuilder.diagnosisNavGraph(
 
 fun NavGraphBuilder.diagnosisHistoryNavGraph(
     navController: NavController,
+    setDiagnosisHistoryId: (Int) -> Unit,
 ) {
     navigation(
         startDestination = NavRoutes.DiagnosisHistoryScreen.route,
@@ -180,6 +193,7 @@ fun NavGraphBuilder.diagnosisHistoryNavGraph(
                     navController.navigate(NavRoutes.SelectAreaScreen.route)
                 },
                 goToDiagnosisResultPage = {
+                    setDiagnosisHistoryId(it)
                     navController.navigate(NavRoutes.DiagnosisScreen.route)
                 }
             )
@@ -189,6 +203,8 @@ fun NavGraphBuilder.diagnosisHistoryNavGraph(
 
 fun NavGraphBuilder.diagnosisQuickNavGraph(
     navController: NavController,
+    setDiagnosisConstId: (Int) -> Unit,
+    diagnosisConstId: SharedFlow<Int>
 ) {
     navigation(
         startDestination = NavRoutes.DiagnosisQuickScreen.route,
@@ -197,6 +213,7 @@ fun NavGraphBuilder.diagnosisQuickNavGraph(
         composable(NavRoutes.DiagnosisQuickScreen.route) {
             QuickDiagnosisScreen(
                 goToDetailDiagnosisPage = {
+                    setDiagnosisConstId(it)
                     navController.navigate(NavRoutes.DetailQuickScreen.route)
                 }
             )
@@ -211,7 +228,8 @@ fun NavGraphBuilder.diagnosisQuickNavGraph(
                 },
                 goToDiagnosisPage = {
                     navController.navigate(NavRoutes.SelectAreaScreen.route)
-                }
+                },
+                diagnosisConstId = diagnosisConstId
             )
         }
     }

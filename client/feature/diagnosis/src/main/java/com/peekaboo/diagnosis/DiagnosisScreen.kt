@@ -18,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -51,24 +52,38 @@ import com.peekaboo.design_system.Percent
 import com.peekaboo.design_system.R
 import com.peekaboo.design_system.White2
 import com.peekaboo.design_system.White3
+import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryDetailModel
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.DiseaseDetail
+import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
 fun DiagnosisScreen(
     goBackToMain: () -> Unit,
+    selectedDiagnosisHistoryId: SharedFlow<Int>,
 ) {
     val viewModel: DiagnosisViewModel = hiltViewModel()
     val uiState: DiagnosisPageState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val interactionSource = remember { MutableInteractionSource() }
 
+    LaunchedEffect(selectedDiagnosisHistoryId) {
+        selectedDiagnosisHistoryId.collect {
+            viewModel.setDiagnosisResult(it)
+        }
+    }
+
     DiagnosisContent(
         interactionSource = interactionSource,
         onSelectDisease = { viewModel.setSelectedDisease(it) },
         selectedDisease = uiState.selectedDisease,
-        onClickBackToMain = { goBackToMain() }
+        onClickBackToMain = { goBackToMain() },
+        diseaseTotal = uiState.diseaseTotal,
+        customDescription = uiState.customDescription,
+        firstDiseaseModel = uiState.firstDiseaseModel,
+        secondDiseaseModel = uiState.secondDiseaseModel,
+        thirdDiseaseModel = uiState.thirdDiseaseModel
     )
 }
 
@@ -78,7 +93,14 @@ fun DiagnosisContent(
     onSelectDisease: (String) -> Unit = {},
     selectedDisease: String = "",
     onClickBackToMain: () -> Unit = {},
+    customDescription: String = "",
+    diseaseTotal: List<DiagnosisHistoryDetailModel.DiseaseDetailItem> = emptyList(),
+    firstDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
+    secondDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
+    thirdDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
 ) {
+    val diseaseModel =
+        diseaseTotal.firstOrNull { it.diseaseName == selectedDisease } ?: firstDiseaseModel
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -94,9 +116,16 @@ fun DiagnosisContent(
                 .fillMaxWidth(),
         ) {
             item {
-                DiagnosisRanking()
+                DiagnosisRanking(
+                    firstDiseaseModel = firstDiseaseModel,
+                    secondDiseaseModel = secondDiseaseModel,
+                    thirdDiseaseModel = thirdDiseaseModel
+                )
 
-                DiagnosingSummaryContent()
+                DiagnosingSummaryContent(
+                    customDescription = customDescription,
+                    firstDiseaseName = firstDiseaseModel.diseaseName
+                )
 
                 Divider(
                     modifier = Modifier
@@ -106,11 +135,26 @@ fun DiagnosisContent(
 
                 DiagnosingEachResult(
                     selectedDisease = selectedDisease,
-                    onSelectDisease = onSelectDisease
+                    onSelectDisease = onSelectDisease,
+                    firstDiseaseModel = firstDiseaseModel,
+                    secondDiseaseModel = secondDiseaseModel,
+                    thirdDiseaseModel = thirdDiseaseModel
                 )
 
                 DiseaseDetail(
-                    isDetailDescriptionValid = true
+                    isDetailDescriptionValid = true,
+                    diseaseName = diseaseModel.diseaseName,
+                    description = diseaseModel.description,
+                    rating = diseaseModel.rating,
+                    symptoms = diseaseModel.symptoms,
+                    type = diseaseModel.type,
+                    site = diseaseModel.site,
+                    reason = diseaseModel.reason,
+                    drugs = diseaseModel.drugs,
+                    mild = diseaseModel.mild,
+                    severe = diseaseModel.severe,
+                    preventive = diseaseModel.preventive,
+                    caution = diseaseModel.caution
                 )
             }
         }
@@ -140,7 +184,11 @@ fun DiagnosisContent(
 }
 
 @Composable
-fun DiagnosisRanking() {
+fun DiagnosisRanking(
+    firstDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem,
+    secondDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem,
+    thirdDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem,
+) {
     Row(
         modifier = Modifier
             .padding(horizontal = 56.dp, vertical = 25.dp)
@@ -149,20 +197,20 @@ fun DiagnosisRanking() {
         verticalAlignment = Alignment.Bottom
     ) {
         DiagnosingRankingItem(
-            diseaseName = "접촉성 피부염",
-            percent = 20,
+            diseaseName = thirdDiseaseModel.diseaseName,
+            percent = thirdDiseaseModel.percent,
             height = 60,
         )
 
         DiagnosingRankingItem(
-            diseaseName = "수두",
-            percent = 60,
+            diseaseName = secondDiseaseModel.diseaseName,
+            percent = secondDiseaseModel.percent,
             height = 90,
         )
 
         DiagnosingRankingItem(
-            diseaseName = "땀띠",
-            percent = 80,
+            diseaseName = firstDiseaseModel.diseaseName,
+            percent = firstDiseaseModel.percent,
             height = 120,
             isRankingFirst = true
         )
@@ -202,7 +250,10 @@ fun DiagnosingRankingItem(
 }
 
 @Composable
-fun DiagnosingSummaryContent() {
+fun DiagnosingSummaryContent(
+    customDescription: String,
+    firstDiseaseName: String,
+) {
     Box(
         modifier = Modifier
             .padding(horizontal = 20.dp)
@@ -214,7 +265,7 @@ fun DiagnosingSummaryContent() {
             text = buildAnnotatedString {
                 append(DiagnosisResultRanking)
                 withStyle(style = SpanStyle(color = Main2)) {
-                    append("땀띠")
+                    append(firstDiseaseName)
                 }
                 append(DiagnosingResultRankingEnd)
             },
@@ -255,7 +306,7 @@ fun DiagnosingSummaryContent() {
         }
 
         Text(
-            text = "맞춤형 정보 어쩌고 저쩌고 ",
+            text = customDescription,
             color = White2,
             style = BaeBaeTypo.Body3,
             modifier = Modifier
@@ -269,6 +320,9 @@ fun DiagnosingSummaryContent() {
 fun DiagnosingEachResult(
     onSelectDisease: (String) -> Unit = {},
     selectedDisease: String = "",
+    firstDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem,
+    secondDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem,
+    thirdDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem,
 ) {
     Text(
         text = DiagnosingResultEachTitle,
@@ -281,14 +335,20 @@ fun DiagnosingEachResult(
 
     SelectAreaPictureShapeChip(
         onSelectDiseaseChip = onSelectDisease,
-        selectedDisease = selectedDisease
+        selectedDisease = selectedDisease,
+        firstDiseaseModel = firstDiseaseModel,
+        secondDiseaseModel = secondDiseaseModel,
+        thirdDiseaseModel = thirdDiseaseModel
     )
 }
 
 @Composable
 fun SelectAreaPictureShapeChip(
     onSelectDiseaseChip: (String) -> Unit,
-    selectedDisease: String = "접촉성 피부염",
+    selectedDisease: String,
+    firstDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem,
+    secondDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem,
+    thirdDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem,
 ) {
     Row(
         modifier = Modifier
@@ -302,14 +362,14 @@ fun SelectAreaPictureShapeChip(
                 .padding(vertical = 4.dp, horizontal = 4.dp)
                 .weight(1f)
                 .clip(RoundedCornerShape(5.dp))
-                .background(if (selectedDisease == "접촉성 피부염") White2 else Gray1)
+                .background(if (selectedDisease == thirdDiseaseModel.diseaseName) White2 else Gray1)
                 .clickable(
-                    onClick = { onSelectDiseaseChip("접촉성 피부염") }
+                    onClick = { onSelectDiseaseChip(thirdDiseaseModel.diseaseName) }
                 )
         ) {
             Text(
-                text = "접촉성 피부염",
-                color = if (selectedDisease == "접촉성 피부염") Black1 else Gray3,
+                text = thirdDiseaseModel.diseaseName,
+                color = if (selectedDisease == thirdDiseaseModel.diseaseName) Black1 else Gray3,
                 style = BaeBaeTypo.Body3,
                 modifier = Modifier
                     .align(Alignment.Center)
@@ -322,14 +382,14 @@ fun SelectAreaPictureShapeChip(
                 .padding(vertical = 4.dp)
                 .clip(RoundedCornerShape(5.dp))
                 .weight(1f)
-                .background(if (selectedDisease == "수두") White2 else Gray1)
+                .background(if (selectedDisease == secondDiseaseModel.diseaseName) White2 else Gray1)
                 .clickable(
-                    onClick = { onSelectDiseaseChip("수두") }
+                    onClick = { onSelectDiseaseChip(secondDiseaseModel.diseaseName) }
                 )
         ) {
             Text(
-                text = "수두",
-                color = if (selectedDisease == "수두") Black1 else Gray3,
+                text = secondDiseaseModel.diseaseName,
+                color = if (selectedDisease == secondDiseaseModel.diseaseName) Black1 else Gray3,
                 style = BaeBaeTypo.Body3,
                 modifier = Modifier
                     .align(Alignment.Center)
@@ -342,14 +402,14 @@ fun SelectAreaPictureShapeChip(
                 .padding(vertical = 4.dp, horizontal = 4.dp)
                 .weight(1f)
                 .clip(RoundedCornerShape(5.dp))
-                .background(if (selectedDisease == "땀띠") White2 else Gray1)
+                .background(if (selectedDisease == firstDiseaseModel.diseaseName) White2 else Gray1)
                 .clickable(
-                    onClick = { onSelectDiseaseChip("땀띠") }
+                    onClick = { onSelectDiseaseChip(firstDiseaseModel.diseaseName) }
                 )
         ) {
             Text(
-                text = "땀띠",
-                color = if (selectedDisease == "땀띠") Black1 else Gray3,
+                text = firstDiseaseModel.diseaseName,
+                color = if (selectedDisease == firstDiseaseModel.diseaseName) Black1 else Gray3,
                 style = BaeBaeTypo.Body3,
                 modifier = Modifier
                     .align(Alignment.Center)

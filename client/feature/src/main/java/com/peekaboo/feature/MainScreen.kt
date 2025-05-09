@@ -39,6 +39,16 @@ fun MainScreen() {
             viewModel.diagnosisContent.emit(it)
         }
     }
+    val settingDiagnosisHistory: (Int) -> Unit = {
+        scope.launch {
+            viewModel.selectedDiagnosisHistory.emit(it)
+        }
+    }
+    val settingDiagnosisConstId: (Int) -> Unit = {
+        scope.launch {
+            viewModel.diagnosisConstId.emit(it)
+        }
+    }
 
     DismissKeyboardOnClick {
         Scaffold { innerPadding ->
@@ -65,13 +75,17 @@ fun MainScreen() {
                     diagnosisNavGraph(
                         navController = navController,
                         setDiagnosisContent = settingDiagnosisContent,
-                        diagnosisContent = viewModel.diagnosisContent
+                        diagnosisContent = viewModel.diagnosisContent,
+                        selectedDiagnosisHistoryId = viewModel.selectedDiagnosisHistory
                     )
                     diagnosisHistoryNavGraph(
-                        navController = navController
+                        navController = navController,
+                        setDiagnosisHistoryId = settingDiagnosisHistory
                     )
                     diagnosisQuickNavGraph(
-                        navController = navController
+                        navController = navController,
+                        setDiagnosisConstId = settingDiagnosisConstId,
+                        diagnosisConstId = viewModel.diagnosisConstId
                     )
                 }
             }

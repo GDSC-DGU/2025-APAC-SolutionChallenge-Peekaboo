@@ -55,6 +55,22 @@ object RetrofitModule {
 
     @Singleton
     @Provides
+    @CrawlRetrofit
+    fun providesCrawlInterceptor(
+        localDataSource: LocalDataStore
+    ): Interceptor = Interceptor { chain ->
+        val request = chain.request()
+        val response = chain.proceed(
+            request
+                .newBuilder()
+                .addHeader(CONTENT_TYPE, APPLICATION_JSON)
+                .build()
+        )
+        return@Interceptor response
+    }
+
+    @Singleton
+    @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         val loggingInterceptor = HttpLoggingInterceptor { message ->
             when {
@@ -80,7 +96,7 @@ object RetrofitModule {
     @BaeBaeRetrofit
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
-        @BaeBaeRetrofit interceptor: Interceptor
+        @BaeBaeRetrofit interceptor: Interceptor,
     ): OkHttpClient =
         OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
@@ -90,6 +106,22 @@ object RetrofitModule {
             .addInterceptor(interceptor)
             .build()
 
+    @Singleton
+    @Provides
+    @CrawlRetrofit
+    fun provideCrawlOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+        @CrawlRetrofit interceptor: Interceptor,
+    ): OkHttpClient =
+        OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(interceptor)
+            .build()
+
+
     @Provides
     @Singleton
     @BaeBaeRetrofit
@@ -98,6 +130,18 @@ object RetrofitModule {
     ): Retrofit =
         Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(json.asConverterFactory(APPLICATION_JSON.toMediaType()))
+            .build()
+
+    @Provides
+    @Singleton
+    @CrawlRetrofit
+    fun providesCrawlRetrofit(
+        @CrawlRetrofit okHttpClient: OkHttpClient
+    ): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(BuildConfig.CRAWL_URL)
             .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory(APPLICATION_JSON.toMediaType()))
             .build()

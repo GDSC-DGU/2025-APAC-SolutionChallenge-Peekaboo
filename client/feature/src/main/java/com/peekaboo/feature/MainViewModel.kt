@@ -17,4 +17,6 @@ class MainViewModel @Inject constructor(
 
     val userModel = MutableSharedFlow<CreateUserModel>(replay = 1)
     val diagnosisContent = MutableSharedFlow<DiagnosisModel>(replay = 1)
+    val selectedDiagnosisHistory = MutableSharedFlow<Int>(replay = 1)
+    val diagnosisConstId = MutableSharedFlow<Int>(replay = 1)
 }

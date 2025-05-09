@@ -30,7 +30,7 @@ const val LocationChoiceSemiTitle = "현재 거주하는 지역을 선택해 주
 const val LanguageChoiceSemiTitle = "현재 사용하는 언어를 선택해 주세요."
 const val PersonalInputTitle = "증상 진단을 사용하는 대상의 기본 정보를\n입력해 주세요."
 const val BirthInputSemiTitle = "출생일을 작성해 주세요."
-const val BirthInputHint = "0000.00.00의 형태로 작성해 주세요."
+const val BirthInputHint = "0000-00-00의 형태로 작성해 주세요."
 const val SexChoiceSemiTitle = "성별을 선택해 주세요."
 const val BloodTypeSemiTitle = "혈액형을 선택해 주세요."
 const val SkinColorSelectTitle = "증상 진단을 사용하는 대상의 skin color를\n선택해 주세요."
@@ -74,7 +74,9 @@ const val DiagnosisHistoryTitle = "Diagnosis History"
 const val DiagnosisEmptyTitle = "No symptom diagnosis results yet"
 const val MajorSymptoms = "Major symptoms: "
 const val ImproveMethod = "How to improve: "
+const val CustomizedInfo = "Customized Information: "
 const val DiagnosisHistoryRanking = "In addition, other results with a high probability of diagnosis were "
+const val DiagnosisRating = "%s급"
 
 // Diagnosis Quick
 const val QuickDiagnosisTitle =  "Quick Diagnosis"

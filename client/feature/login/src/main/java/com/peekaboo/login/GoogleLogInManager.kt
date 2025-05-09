@@ -2,6 +2,8 @@ package com.peekaboo.login
 
 import android.app.Activity
 import android.credentials.GetCredentialException
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
@@ -10,8 +12,8 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-
 object GoogleLoginManager {
+    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     suspend fun signInWithGoogle(activity: Activity): String? {
         val credentialManager = CredentialManager.create(activity)
 

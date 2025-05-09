@@ -30,7 +30,7 @@ import com.peekaboo.design_system.SexChoiceSemiTitle
 import com.peekaboo.design_system.White3
 import com.peekaboo.domain.entity.request.CreateUserModel
 import com.peekaboo.onboarding.type.BloodType
-import com.peekaboo.onboarding.type.SexType
+import com.peekaboo.onboarding.type.GenderType
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.CourseNumber
@@ -177,7 +177,7 @@ fun SexChoiceBox(
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        SexType.entries.forEach { sex ->
+        GenderType.entries.forEach { sex ->
             SelectItem(
                 itemText = sex.content,
                 modifier = Modifier.weight(1f),

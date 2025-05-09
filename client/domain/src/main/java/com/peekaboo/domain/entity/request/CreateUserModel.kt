@@ -4,7 +4,7 @@ data class CreateUserModel(
     val location: String = "",
     val language: String = "",
     val birth: String = "",
-    val sex: String = "",
+    val gender: String = "",
     val bloodType: String = "",
     val skinType: String = "",
     val allergyList: List<InputDescriptionModel> = emptyList(),
