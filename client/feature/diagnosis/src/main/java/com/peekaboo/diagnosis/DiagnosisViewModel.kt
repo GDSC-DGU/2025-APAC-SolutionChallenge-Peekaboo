@@ -6,6 +6,7 @@ import com.peekaboo.domain.usecase.diagnosis.GetDiagnosisHistoryDetailUseCase
 import com.peekaboo.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,4 +52,10 @@ class DiagnosisViewModel @Inject constructor(
     private fun matchDiseaseNumber(ranking: Int, data: DiagnosisHistoryDetailModel) =
         data.diseaseList.firstOrNull { it.ranking == ranking }
             ?: DiagnosisHistoryDetailModel.DiseaseDetailItem()
+
+    fun setSelectedLanguage(language: String) {
+        Timber.d("[language] -> $language")
+
+        // TODO 진단하기
+    }
 }

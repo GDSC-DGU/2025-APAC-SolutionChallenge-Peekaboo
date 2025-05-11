@@ -100,9 +100,19 @@ fun MainScreen() {
                     when (currentSheet) {
                         BottomSheetType.LANGUAGE -> {
                             LanguageBottomSheet(
-                                selectedLanguage = "",
-                                onClickCancel = {},
-                                onClickCreate = {}
+                                selectedLanguage = uiState.selectedLanguage,
+                                onSelectLanguage = { viewModel.updateSelectedLanguage(it) },
+                                onClickCancel = {
+                                    scope.launch {
+                                        sheetState.hide()
+                                    }
+                                },
+                                onClickCreate = {
+                                    scope.launch {
+                                        viewModel.finalSelectedLanguage.emit(uiState.selectedLanguage)
+                                        sheetState.hide()
+                                    }
+                                }
                             )
                         }
 
@@ -139,7 +149,8 @@ fun MainScreen() {
                             setDiagnosisContent = settingDiagnosisContent,
                             diagnosisContent = viewModel.diagnosisContent,
                             selectedDiagnosisHistoryId = viewModel.selectedDiagnosisHistory,
-                            showLanguageBottomSheet = showLanguageBottomSheet
+                            showLanguageBottomSheet = showLanguageBottomSheet,
+                            selectedLanguage = viewModel.finalSelectedLanguage
                         )
                         diagnosisHistoryNavGraph(
                             navController = navController,

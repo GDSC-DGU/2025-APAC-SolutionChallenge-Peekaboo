@@ -5,4 +5,5 @@ import com.peekaboo.ui.common.type.BottomSheetType
 
 data class MainPageState(
     val bottomSheetType: BottomSheetType = BottomSheetType.DEFAULT,
+    val selectedLanguage: String = ""
 ) : PageState

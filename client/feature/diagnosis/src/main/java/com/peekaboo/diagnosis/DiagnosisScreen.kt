@@ -62,7 +62,8 @@ import kotlinx.coroutines.flow.SharedFlow
 fun DiagnosisScreen(
     goBackToMain: () -> Unit,
     selectedDiagnosisHistoryId: SharedFlow<Int>,
-    showLanguageBottomSheet: () -> Unit
+    showLanguageBottomSheet: () -> Unit,
+    selectedLanguage: SharedFlow<String>
 ) {
     val viewModel: DiagnosisViewModel = hiltViewModel()
     val uiState: DiagnosisPageState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -72,6 +73,12 @@ fun DiagnosisScreen(
     LaunchedEffect(selectedDiagnosisHistoryId) {
         selectedDiagnosisHistoryId.collect {
             viewModel.setDiagnosisResult(it)
+        }
+    }
+
+    LaunchedEffect(selectedLanguage) {
+        selectedLanguage.collect {
+            viewModel.setSelectedLanguage(it)
         }
     }
 
