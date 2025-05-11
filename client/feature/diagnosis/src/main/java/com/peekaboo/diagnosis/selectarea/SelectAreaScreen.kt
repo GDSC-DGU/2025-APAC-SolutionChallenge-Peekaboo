@@ -33,15 +33,14 @@ import com.peekaboo.design_system.Black1
 import com.peekaboo.design_system.DiagnosisSelectArea
 import com.peekaboo.design_system.DiagnosisSelectAreaBack
 import com.peekaboo.design_system.DiagnosisSelectAreaFront
-import com.peekaboo.design_system.DiagnosisSelectAreaSide
 import com.peekaboo.design_system.DiagnosisTitle
 import com.peekaboo.design_system.Gray1
 import com.peekaboo.design_system.Gray3
 import com.peekaboo.design_system.Main2
 import com.peekaboo.design_system.Next
+import com.peekaboo.design_system.R
 import com.peekaboo.design_system.White2
 import com.peekaboo.design_system.White3
-import com.peekaboo.design_system.R
 import com.peekaboo.domain.entity.request.DiagnosisModel
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
@@ -172,26 +171,6 @@ fun SelectAreaPictureShapeChip(
             Text(
                 text = DiagnosisSelectAreaFront,
                 color = if (selectedShape == DiagnosisSelectAreaFront) Black1 else Gray3,
-                style = BaeBaeTypo.Body3,
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(vertical = 10.dp)
-            )
-        }
-
-        Box(
-            modifier = Modifier
-                .padding(vertical = 4.dp)
-                .clip(RoundedCornerShape(5.dp))
-                .weight(1f)
-                .background(if (selectedShape == DiagnosisSelectAreaSide) White2 else Gray1)
-                .clickable(
-                    onClick = { onSelectShapeChip(DiagnosisSelectAreaSide) }
-                )
-        ) {
-            Text(
-                text = DiagnosisSelectAreaSide,
-                color = if (selectedShape == DiagnosisSelectAreaSide) Black1 else Gray3,
                 style = BaeBaeTypo.Body3,
                 modifier = Modifier
                     .align(Alignment.Center)

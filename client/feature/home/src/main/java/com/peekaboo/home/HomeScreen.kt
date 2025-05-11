@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -188,10 +189,12 @@ fun HomeDiseaseBannerItem(
     ) {
         Column(
             modifier = Modifier
-                .padding(start = 20.dp, end = 15.dp, top = 24.dp, bottom = 26.dp)
+                .padding(start = 20.dp, end = 20.dp, top = 44.dp)
                 .weight(1f)
         ) {
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
                     text = diseaseItem.name,
                     color = White2,
@@ -203,7 +206,7 @@ fun HomeDiseaseBannerItem(
                     color = Gray2,
                     style = BaeBaeTypo.Body1,
                     modifier = Modifier
-                        .padding(top = 5.dp, start = 15.dp)
+                        .padding(start = 15.dp)
                 )
             }
 
@@ -212,32 +215,47 @@ fun HomeDiseaseBannerItem(
                 color = Gray2,
                 style = BaeBaeTypo.Caption1,
                 modifier = Modifier
-                    .padding(top = 10.dp)
+                    .padding(top = 20.dp)
             )
         }
 
         Box(
             modifier = Modifier
-                .padding(vertical = 16.dp)
-                .size(80.dp)
-                .clip(RoundedCornerShape(3.dp))
-                .background(Gray2),
-        )
-
-        Box(
-            modifier = Modifier
-                .align(Alignment.Bottom)
-                .padding(start = 5.dp, end = 6.dp, bottom = 5.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .background(BannerIndicator)
+                .fillMaxHeight()
         ) {
-            Text(
-                text = String.format(CourseNumberFormat, page, size),
-                color = Gray3,
-                style = BaeBaeTypo.Caption5,
+            Box(
                 modifier = Modifier
-                    .padding(vertical = 2.dp, horizontal = 5.dp)
+                    .padding(top = 30.dp, end = 20.dp)
+                    .align(Alignment.TopEnd)
+                    .size(100.dp)
+                    .clip(RoundedCornerShape(3.dp))
+                    .background(Gray2),
             )
+            Image(
+                painter = painterResource(id = R.drawable.ic_home_banner),
+                contentDescription = "banner",
+                modifier = Modifier
+                    .padding(top = 30.dp, end = 20.dp)
+                    .align(Alignment.TopEnd)
+                    .size(100.dp)
+                    .clip(RoundedCornerShape(3.dp)),
+            )
+
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 14.dp, bottom = 11.dp)
+                    .clip(RoundedCornerShape(10.dp))
+                    .background(BannerIndicator)
+            ) {
+                Text(
+                    text = String.format(CourseNumberFormat, page, size),
+                    color = Gray3,
+                    style = BaeBaeTypo.Caption3,
+                    modifier = Modifier
+                        .padding(vertical = 2.dp, horizontal = 5.dp)
+                )
+            }
         }
     }
 }
