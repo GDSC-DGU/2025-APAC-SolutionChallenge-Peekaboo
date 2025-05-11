@@ -14,6 +14,7 @@ class Settings(BaseSettings):
     allow_headers: str = "*"
     allow_credentials: bool = True
 
+    qdrant_url: str
     qdrant_api_key: str
     gemini_api_key: str
 
