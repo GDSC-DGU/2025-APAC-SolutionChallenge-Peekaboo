@@ -4,7 +4,8 @@ from typing import Annotated
 
 from fastapi import File, Form, UploadFile
 from pydantic import BaseModel
-from schemas.base import BaseResponse
+
+from .base_response import BaseResponse
 
 
 class DiagnosisRequest(BaseModel):
@@ -16,6 +17,9 @@ class DiagnosisRequest(BaseModel):
         image: Annotated[UploadFile, File(...)],
     ) -> DiagnosisRequest:
         return cls(affected_area=affected_area, symptoms=symptoms, image=image)
+
+    class Config:
+        arbitrary_types_allowed = True
 
 
 class Symptom(BaseModel):
@@ -49,7 +53,12 @@ class Data(BaseModel):
     diseaseList: list[Disease]
 
 
-class DiagnosisResponse(BaseResponse[Data]):
+class CVResult(BaseModel):
+    name: str
+    confidence: float
+
+
+class DiagnosisResponse(BaseResponse):
     success: bool = True
     data: Data
     error: str | None = None
