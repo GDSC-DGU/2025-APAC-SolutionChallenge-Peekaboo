@@ -23,7 +23,7 @@ class User(Base):
     email = Column(String(255))
     password = Column(String(255))
     profile = Column(String(255))
-    created_at = Column(DateTime, default=datetime.datetime.now)
+    created_at = Column(DateTime, default=datetime.now)
     location = Column(String(255))
     language = Column(String(50))
     birth = Column(Date)
