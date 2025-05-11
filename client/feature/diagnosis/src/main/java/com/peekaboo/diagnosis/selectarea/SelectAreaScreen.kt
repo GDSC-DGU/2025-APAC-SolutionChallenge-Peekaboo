@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,9 +37,11 @@ import com.peekaboo.design_system.DiagnosisSelectAreaSide
 import com.peekaboo.design_system.DiagnosisTitle
 import com.peekaboo.design_system.Gray1
 import com.peekaboo.design_system.Gray3
+import com.peekaboo.design_system.Main2
 import com.peekaboo.design_system.Next
 import com.peekaboo.design_system.White2
 import com.peekaboo.design_system.White3
+import com.peekaboo.design_system.R
 import com.peekaboo.domain.entity.request.DiagnosisModel
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
@@ -116,7 +119,8 @@ fun SelectAreaContent(
                 onClickShapePosition = onClickShapePosition,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally),
-                interactionSource = interactionSource
+                interactionSource = interactionSource,
+                selectedBodyPosition = selectedArea
             )
         }
 
@@ -223,8 +227,38 @@ fun SelectAreaPictureBox(
     onClickShapePosition: (String) -> Unit,
     modifier: Modifier,
     interactionSource: MutableInteractionSource,
+    selectedBodyPosition: String
 ) {
+    when (selectedShapeImg == R.drawable.ic_body_front) {
+        true -> {
+            SelectAreaPictureBoxFront(
+                selectedShapeImg = selectedShapeImg,
+                onClickShapePosition = onClickShapePosition,
+                modifier = modifier,
+                interactionSource = interactionSource,
+                selectedBodyPosition = selectedBodyPosition
+            )
+        }
+        false -> {
+            SelectAreaPictureBoxBack(
+                selectedShapeImg = selectedShapeImg,
+                onClickShapePosition = onClickShapePosition,
+                modifier = modifier,
+                interactionSource = interactionSource,
+                selectedBodyPosition = selectedBodyPosition
+            )
+        }
+    }
+}
 
+@Composable
+fun SelectAreaPictureBoxFront(
+    selectedShapeImg: Int,
+    onClickShapePosition: (String) -> Unit,
+    modifier: Modifier,
+    interactionSource: MutableInteractionSource,
+    selectedBodyPosition: String
+) {
     Box(
         modifier = modifier
             .padding(top = 34.dp)
@@ -239,10 +273,12 @@ fun SelectAreaPictureBox(
         )
 
         // 머리
-        Box(
+        Image(
+            painter = painterResource(id = R.drawable.ic_body_head),
+            contentDescription = "body head",
+            colorFilter = ColorFilter.tint(if (selectedBodyPosition == "head") Main2 else Color.Transparent),
             modifier = Modifier
-                .size(width = 133.dp, height = 53.dp)
-                .background(Color.Transparent)
+                .padding(top = 13.dp)
                 .align(Alignment.TopCenter)
                 .clickable(
                     onClick = { onClickShapePosition("head") },
@@ -250,12 +286,14 @@ fun SelectAreaPictureBox(
                     indication = null
                 )
         )
+
         //얼굴
-        Box(
+        Image(
+            painter = painterResource(id = R.drawable.ic_body_face),
+            contentDescription = "body face",
+            colorFilter = ColorFilter.tint(if (selectedBodyPosition == "face") Main2 else Color.Transparent),
             modifier = Modifier
-                .padding(top = 59.dp)
-                .size(width = 71.dp, height = 50.dp)
-                .background(Color.Transparent)
+                .padding(top = 61.dp)
                 .align(Alignment.TopCenter)
                 .clickable(
                     onClick = { onClickShapePosition("face") },
@@ -263,12 +301,14 @@ fun SelectAreaPictureBox(
                     indication = null
                 )
         )
+
         // 배
-        Box(
+        Image(
+            painter = painterResource(id = R.drawable.ic_body_stomach),
+            contentDescription = "body stomach",
+            colorFilter = ColorFilter.tint(if (selectedBodyPosition == "stomach") Main2 else Color.Transparent),
             modifier = Modifier
-                .padding(top = 154.dp)
-                .size(width = 71.dp, height = 50.dp)
-                .background(Color.Transparent)
+                .padding(top = 180.dp)
                 .align(Alignment.TopCenter)
                 .clickable(
                     onClick = { onClickShapePosition("stomach") },
@@ -276,12 +316,14 @@ fun SelectAreaPictureBox(
                     indication = null
                 )
         )
+
         // 엉덩이
-        Box(
+        Image(
+            painter = painterResource(id = R.drawable.ic_body_hip),
+            contentDescription = "body hip",
+            colorFilter = ColorFilter.tint(if (selectedBodyPosition == "hip") Main2 else Color.Transparent),
             modifier = Modifier
-                .padding(top = 210.dp)
-                .size(width = 71.dp, height = 39.dp)
-                .background(Color.Transparent)
+                .padding(top = 218.dp)
                 .align(Alignment.TopCenter)
                 .clickable(
                     onClick = { onClickShapePosition("hip") },
@@ -289,25 +331,42 @@ fun SelectAreaPictureBox(
                     indication = null
                 )
         )
+
         // 다리
-        Box(
+        Image(
+            painter = painterResource(id = R.drawable.ic_body_leg_left),
+            contentDescription = "body leg",
+            colorFilter = ColorFilter.tint(if (selectedBodyPosition == "leg") Main2 else Color.Transparent),
             modifier = Modifier
-                .padding(bottom = 7.dp)
-                .size(width = 122.dp, height = 89.dp)
-                .background(Color.Transparent)
-                .align(Alignment.BottomCenter)
+                .padding(top = 251.dp, start = 83.dp)
+                .align(Alignment.TopStart)
                 .clickable(
                     onClick = { onClickShapePosition("leg") },
                     interactionSource = interactionSource,
                     indication = null
                 )
         )
-        // 팔
-        Box(
+        Image(
+            painter = painterResource(id = R.drawable.ic_body_leg_right),
+            contentDescription = "body leg",
+            colorFilter = ColorFilter.tint(if (selectedBodyPosition == "leg") Main2 else Color.Transparent),
             modifier = Modifier
-                .padding(top = 117.dp, start = 8.dp)
-                .size(width = 70.dp, height = 132.dp)
-                .background(Color.Transparent)
+                .padding(top = 251.dp, end = 84.dp)
+                .align(Alignment.TopEnd)
+                .clickable(
+                    onClick = { onClickShapePosition("leg") },
+                    interactionSource = interactionSource,
+                    indication = null
+                )
+        )
+
+        // 팔
+        Image(
+            painter = painterResource(id = R.drawable.ic_body_arm_left),
+            contentDescription = "body arm",
+            colorFilter = ColorFilter.tint(if (selectedBodyPosition == "arm") Main2 else Color.Transparent),
+            modifier = Modifier
+                .padding(top = 127.dp, start = 59.dp)
                 .align(Alignment.TopStart)
                 .clickable(
                     onClick = { onClickShapePosition("arm") },
@@ -315,14 +374,124 @@ fun SelectAreaPictureBox(
                     indication = null
                 )
         )
-        Box(
+        Image(
+            painter = painterResource(id = R.drawable.ic_body_arm_right),
+            contentDescription = "body arm",
+            colorFilter = ColorFilter.tint(if (selectedBodyPosition == "arm") Main2 else Color.Transparent),
             modifier = Modifier
-                .padding(top = 117.dp, end = 8.dp)
-                .size(width = 70.dp, height = 132.dp)
-                .background(Color.Transparent)
+                .padding(top = 127.dp, end = 60.dp)
                 .align(Alignment.TopEnd)
                 .clickable(
                     onClick = { onClickShapePosition("arm") },
+                    interactionSource = interactionSource,
+                    indication = null
+                )
+        )
+    }
+}
+
+@Composable
+fun SelectAreaPictureBoxBack(
+    selectedShapeImg: Int,
+    onClickShapePosition: (String) -> Unit,
+    modifier: Modifier,
+    interactionSource: MutableInteractionSource,
+    selectedBodyPosition: String
+) {
+    Box(
+        modifier = modifier
+            .padding(top = 35.dp)
+    ) {
+        Image(
+            painter = painterResource(id = selectedShapeImg),
+            contentDescription = "body",
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .size(width = 234.dp, height = 351.dp)
+                .clip(RoundedCornerShape(5.dp))
+        )
+
+        // 배
+        Image(
+            painter = painterResource(id = R.drawable.ic_body_back),
+            contentDescription = "body back",
+            colorFilter = ColorFilter.tint(if (selectedBodyPosition == "back") Main2 else Color.Transparent),
+            modifier = Modifier
+                .padding(top = 156.dp)
+                .align(Alignment.TopCenter)
+                .clickable(
+                    onClick = { onClickShapePosition("back") },
+                    interactionSource = interactionSource,
+                    indication = null
+                )
+        )
+
+        // 엉덩이
+        Image(
+            painter = painterResource(id = R.drawable.ic_body_hip_back),
+            contentDescription = "body hip",
+            colorFilter = ColorFilter.tint(if (selectedBodyPosition == "hip") Main2 else Color.Transparent),
+            modifier = Modifier
+                .padding(top = 194.dp)
+                .align(Alignment.TopCenter)
+                .clickable(
+                    onClick = { onClickShapePosition("hip") },
+                    interactionSource = interactionSource,
+                    indication = null
+                )
+        )
+
+        // 손
+        Image(
+            painter = painterResource(id = R.drawable.ic_body_hand_left),
+            contentDescription = "body hand",
+            colorFilter = ColorFilter.tint(if (selectedBodyPosition == "hand") Main2 else Color.Transparent),
+            modifier = Modifier
+                .padding(top = 194.dp, start = 55.dp)
+                .align(Alignment.TopStart)
+                .clickable(
+                    onClick = { onClickShapePosition("hand") },
+                    interactionSource = interactionSource,
+                    indication = null
+                )
+        )
+        Image(
+            painter = painterResource(id = R.drawable.ic_body_hand_right),
+            contentDescription = "body hand",
+            colorFilter = ColorFilter.tint(if (selectedBodyPosition == "hand") Main2 else Color.Transparent),
+            modifier = Modifier
+                .padding(top = 196.dp, end = 61.dp)
+                .align(Alignment.TopEnd)
+                .clickable(
+                    onClick = { onClickShapePosition("hand") },
+                    interactionSource = interactionSource,
+                    indication = null
+                )
+        )
+
+        // 발
+        Image(
+            painter = painterResource(id = R.drawable.ic_body_foot_left),
+            contentDescription = "body foot",
+            colorFilter = ColorFilter.tint(if (selectedBodyPosition == "foot") Main2 else Color.Transparent),
+            modifier = Modifier
+                .padding(top = 297.dp, start = 78.dp)
+                .align(Alignment.TopStart)
+                .clickable(
+                    onClick = { onClickShapePosition("foot") },
+                    interactionSource = interactionSource,
+                    indication = null
+                )
+        )
+        Image(
+            painter = painterResource(id = R.drawable.ic_body_foot_right),
+            contentDescription = "body foot",
+            colorFilter = ColorFilter.tint(if (selectedBodyPosition == "foot") Main2 else Color.Transparent),
+            modifier = Modifier
+                .padding(top = 297.dp, end = 82.dp)
+                .align(Alignment.TopEnd)
+                .clickable(
+                    onClick = { onClickShapePosition("foot") },
                     interactionSource = interactionSource,
                     indication = null
                 )
