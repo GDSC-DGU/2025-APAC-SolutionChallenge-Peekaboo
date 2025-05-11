@@ -14,9 +14,24 @@ class Settings(BaseSettings):
     allow_headers: str = "*"
     allow_credentials: bool = True
 
+    qdrant_api_key: str
+    gemini_api_key: str
+
+    project_id: str
+    region: str
+    vertex_ai_endpoint_id: str
+
     @property
     def database_url(self) -> str:
         return f"mysql+pymysql://{self.db_user}:{self.db_password}@{self.db_host}:{self.db_port}/{self.db_name}"
+
+    @property
+    def vertex_ai_endpoint(self) -> str:
+        return (
+            f"projects/{self.project_id}/"
+            f"locations/{self.region}/"
+            f"endpoints/{self.vertex_ai_endpoint_id}"
+        )
 
     @property
     def cors_origins(self) -> list[str]:
