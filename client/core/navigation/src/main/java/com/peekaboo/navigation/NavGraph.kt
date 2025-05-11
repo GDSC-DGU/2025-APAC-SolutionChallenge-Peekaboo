@@ -133,6 +133,7 @@ fun NavGraphBuilder.diagnosisNavGraph(
     setDiagnosisContent: (DiagnosisModel) -> Unit,
     diagnosisContent: SharedFlow<DiagnosisModel>,
     selectedDiagnosisHistoryId: SharedFlow<Int>,
+    showLanguageBottomSheet: () -> Unit
 ) {
     navigation(
         startDestination = NavRoutes.SelectAreaScreen.route,
@@ -173,7 +174,8 @@ fun NavGraphBuilder.diagnosisNavGraph(
                         popUpTo(0)
                     }
                 },
-                selectedDiagnosisHistoryId = selectedDiagnosisHistoryId
+                selectedDiagnosisHistoryId = selectedDiagnosisHistoryId,
+                showLanguageBottomSheet = showLanguageBottomSheet
             )
         }
     }

@@ -62,6 +62,7 @@ import kotlinx.coroutines.flow.SharedFlow
 fun DiagnosisScreen(
     goBackToMain: () -> Unit,
     selectedDiagnosisHistoryId: SharedFlow<Int>,
+    showLanguageBottomSheet: () -> Unit
 ) {
     val viewModel: DiagnosisViewModel = hiltViewModel()
     val uiState: DiagnosisPageState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -83,7 +84,8 @@ fun DiagnosisScreen(
         customDescription = uiState.customDescription,
         firstDiseaseModel = uiState.firstDiseaseModel,
         secondDiseaseModel = uiState.secondDiseaseModel,
-        thirdDiseaseModel = uiState.thirdDiseaseModel
+        thirdDiseaseModel = uiState.thirdDiseaseModel,
+        onClickDiagnosisBtn = { showLanguageBottomSheet() }
     )
 }
 
@@ -98,6 +100,7 @@ fun DiagnosisContent(
     firstDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
     secondDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
     thirdDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
+    onClickDiagnosisBtn: () -> Unit = {}
 ) {
     val diseaseModel =
         diseaseTotal.firstOrNull { it.diseaseName == selectedDisease } ?: firstDiseaseModel
@@ -162,7 +165,8 @@ fun DiagnosisContent(
         BottomRectangleBtn(
             horizontalPadding = 20,
             btnText = DiagnosingResultBtn,
-            isBtnValid = true
+            isBtnValid = true,
+            onClickAction = onClickDiagnosisBtn
         )
 
         Text(
