@@ -23,6 +23,9 @@ langchain = "^0.3.25"
 langchain-community = "^0.3.23"
 python-multipart = "^0.0.20"
 google-cloud-secret-manager = "^2.23.3"
+qdrant-client = "^1.14.2"
+sentence-transformers = "^4.1.0"
+langchain-huggingface = "^0.2.0"
 
 [[tool.poetry.packages]]
 from = "app"
