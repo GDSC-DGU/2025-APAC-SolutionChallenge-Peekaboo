@@ -18,7 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.peekaboo.design_system.BaeBaeTypo
 import com.peekaboo.design_system.Black1
 import com.peekaboo.design_system.DiagnosisExplainHint
-import com.peekaboo.design_system.DiagnosisSelectPicture
+import com.peekaboo.design_system.DiagnosisExplainTitle
 import com.peekaboo.design_system.DiagnosisTitle
 import com.peekaboo.design_system.Finish
 import com.peekaboo.design_system.White3
@@ -88,7 +88,7 @@ fun SymptomExplainContent(
             )
 
             Text(
-                text = DiagnosisSelectPicture,
+                text = DiagnosisExplainTitle,
                 color = Black1,
                 style = BaeBaeTypo.Body1,
                 modifier = Modifier

@@ -60,6 +60,7 @@ const val DiagnosingTypeListSemiTitle = "Check the symptoms quickly\nbefore diag
 const val DiagnosisTitle = "Diagnosis of Symptoms"
 const val DiagnosisSelectArea = "Pleas select the area\nwhere you have symptoms"
 const val DiagnosisSelectPicture = "Please take a picture\nof the Symptom and register it"
+const val DiagnosisExplainTitle = "Please explain the symptoms"
 const val DiagnosisExplainHint = "Please write down the symptoms in detail.\nThe more detailed you write,\nthe more accurate the results will be."
 const val DiagnosisSelectAreaFront = "FRONT"
 const val DiagnosisSelectAreaSide = "SIDE"

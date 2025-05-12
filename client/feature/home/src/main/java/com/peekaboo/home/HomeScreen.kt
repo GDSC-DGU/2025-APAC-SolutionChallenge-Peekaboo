@@ -434,7 +434,7 @@ fun DiseaseTypeList() {
         items(DiseaseType.entries) { diseaseType ->
             DiseaseTypeItem(
                 diseaseImg = diseaseType.diseaseImg,
-                diseaseName = diseaseType.diseaseName
+                diseaseName = diseaseType.diseaseNameEng
             )
         }
     }
