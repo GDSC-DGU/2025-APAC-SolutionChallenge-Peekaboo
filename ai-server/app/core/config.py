@@ -22,6 +22,9 @@ class Settings(BaseSettings):
     region: str
     vertex_ai_endpoint_id: str
 
+    PROMPT_DIR: str = "app/prompt"
+    LLM_MODEL: str = "gemini-1.5-pro"
+
     @property
     def database_url(self) -> str:
         return f"mysql+pymysql://{self.db_user}:{self.db_password}@{self.db_host}:{self.db_port}/{self.db_name}"
