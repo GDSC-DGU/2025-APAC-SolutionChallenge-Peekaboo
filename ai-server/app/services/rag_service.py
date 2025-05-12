@@ -35,10 +35,7 @@ class RagService:
             return "No relevant disease context found."
 
         return "\n\n".join(
-            f"{
-                {item.payload.get('disease', 'Unknown')}:{
-                    item.payload.get('description', 'No description')
-                }
-            }"
+            f"{item.payload.get('disease', 'Unknown')}:\n{item.payload.get('description', 'No description')}"
             for item in search_result
         )
+
