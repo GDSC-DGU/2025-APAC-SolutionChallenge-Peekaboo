@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -69,6 +70,7 @@ fun DiagnosisScreen(
     val uiState: DiagnosisPageState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val interactionSource = remember { MutableInteractionSource() }
+    val context = LocalContext.current
 
     LaunchedEffect(selectedDiagnosisHistoryId) {
         selectedDiagnosisHistoryId.collect {
@@ -78,7 +80,7 @@ fun DiagnosisScreen(
 
     LaunchedEffect(selectedLanguage) {
         selectedLanguage.collect {
-            viewModel.setSelectedLanguage(it)
+            viewModel.setSelectedLanguage(it, context)
         }
     }
 
@@ -92,7 +94,9 @@ fun DiagnosisScreen(
         firstDiseaseModel = uiState.firstDiseaseModel,
         secondDiseaseModel = uiState.secondDiseaseModel,
         thirdDiseaseModel = uiState.thirdDiseaseModel,
-        onClickDiagnosisBtn = { showLanguageBottomSheet() }
+        onClickDiagnosisBtn = {
+            showLanguageBottomSheet()
+        }
     )
 }
 
