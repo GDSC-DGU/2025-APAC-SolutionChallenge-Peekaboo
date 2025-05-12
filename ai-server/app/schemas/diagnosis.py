@@ -58,7 +58,14 @@ class CVResult(BaseModel):
     confidence: float
 
 
+class DiagnosisResult(BaseModel):
+    id: int
+    disease: str
+    probability: int
+    reason: str
+
+
 class DiagnosisResponse(BaseResponse):
     success: bool = True
-    data: Data
+    data: list[DiagnosisResult]
     error: str | None = None
