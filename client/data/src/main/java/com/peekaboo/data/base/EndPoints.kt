@@ -12,7 +12,7 @@ object EndPoints {
         const val HISTORY = "$DIAGNOSIS/history"
         const val HISTORYDETAIL = "$HISTORY/{historyId}"
         const val HISTORYCONST = "$DIAGNOSIS/const/{constId}"
-        const val DIAGNOSISPDF = "/diagnosis/pdf/{diagnosisId}"
+        const val DIAGNOSISPDF = "/api/v1/diagnosis/pdf/{diagnosisId}"
     }
 
     object Crawling {

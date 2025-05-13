@@ -5,17 +5,19 @@ import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import androidx.lifecycle.viewModelScope
+import com.peekaboo.domain.entity.request.diagnosis.DiagnosisPdfRequestModel
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryDetailModel
 import com.peekaboo.domain.usecase.diagnosis.GetDiagnosisHistoryDetailUseCase
+import com.peekaboo.domain.usecase.diagnosis.GetDiagnosisPdfUseCase
 import com.peekaboo.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class DiagnosisViewModel @Inject constructor(
     private val getDiagnosisHistoryDetailUseCase: GetDiagnosisHistoryDetailUseCase,
+    private val getDiagnosisPdfUseCase: GetDiagnosisPdfUseCase,
 ) : BaseViewModel<DiagnosisPageState>(
     DiagnosisPageState()
 ) {
@@ -29,11 +31,21 @@ class DiagnosisViewModel @Inject constructor(
     }
 
     fun setDiagnosisResult(historyId: Int) {
+        setDiagnosisId(historyId)
+
         viewModelScope.launch {
             getDiagnosisHistoryDetailUseCase(request = historyId).collect {
                 resultResponse(it, ::onSuccessDiagnosisHistoryDetail)
             }
         }
+    }
+
+    private fun setDiagnosisId(id: Int) {
+        updateState(
+            uiState.value.copy(
+                diagnosisId = id
+            )
+        )
     }
 
     private fun onSuccessDiagnosisHistoryDetail(data: DiagnosisHistoryDetailModel) {
@@ -57,13 +69,16 @@ class DiagnosisViewModel @Inject constructor(
         data.diseaseList.firstOrNull { it.ranking == ranking }
             ?: DiagnosisHistoryDetailModel.DiseaseDetailItem()
 
-    fun setSelectedLanguage(language: String, context: Context) {
-        Timber.d("[language] -> $language")
+    fun getDiagnosisPdf(language: String, context: Context) {
+        val diagnosisId = uiState.value.diagnosisId
 
-        // TODO 진단하기 서버통신
-        val url = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-
-        downloadPdf(context, url)
+        viewModelScope.launch {
+            getDiagnosisPdfUseCase(DiagnosisPdfRequestModel(diagnosisId, language)).collect {
+                resultResponse(it, { data ->
+                    downloadPdf(context, data)
+                })
+            }
+        }
     }
 
     private fun downloadPdf(context: Context, url: String, title: String = "Diagnosis") {

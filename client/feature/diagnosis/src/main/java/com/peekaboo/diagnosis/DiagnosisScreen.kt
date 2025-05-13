@@ -80,7 +80,7 @@ fun DiagnosisScreen(
 
     LaunchedEffect(selectedLanguage) {
         selectedLanguage.collect {
-            viewModel.setSelectedLanguage(it, context)
+            viewModel.getDiagnosisPdf(it, context)
         }
     }
 
