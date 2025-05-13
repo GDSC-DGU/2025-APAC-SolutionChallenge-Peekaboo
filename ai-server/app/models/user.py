@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime
 
 from sqlalchemy import Column, Date, DateTime, Enum, String
+from sqlalchemy.orm import relationship
 
 from app.db.base import Base
 from app.models.enums import EProvider, ERole
@@ -29,3 +30,8 @@ class User(Base):
     gender = Column(String(50))
     skin_type = Column(String(50))
     blood_type = Column(String(50))
+
+    allergies = relationship("Allergy", back_populates="user")
+    onboarding_diseases = relationship(
+        "OnboardingDisease", back_populates="user", cascade="save-update, merge"
+    )
