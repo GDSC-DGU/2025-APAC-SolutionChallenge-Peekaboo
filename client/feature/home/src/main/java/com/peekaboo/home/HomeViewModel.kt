@@ -23,9 +23,9 @@ class HomeViewModel @Inject constructor(
     private fun initSetDiseaseBannerList() {
         val diseaseList: List<DiseaseBannerItem> = listOf(
             DiseaseBannerItem(
-                "콜레라",
-                "앙골라",
-                "25년 1월 초부터 3월 23일까지 앙골라에서 콜레라 누적 8,543명 발생, 329명 사망 보고"
+                "whooping cough",
+                "several countries",
+                "In the Americas, the number of cases of whooping cough has been increasing rapidly in the US and Mexico for 25 years, and Japan has also recently seen an increase in cases, including deaths due to whooping cough related to antibiotic resistance, and Australia is also seeing a very high incidence compared to the average year."
             ),
         )
 

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -120,9 +119,15 @@ fun HomeContent(
             )
         }
 
-        HomeDiseaseBanner(
-            bannerDiseaseList = diseaseBannerList
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            HomeDiseaseBanner(
+                bannerDiseaseList = diseaseBannerList
+            )
+        }
 
         Text(
             text = buildAnnotatedString {
@@ -134,7 +139,7 @@ fun HomeContent(
             color = Black1,
             style = BaeBaeTypo.Body1,
             modifier = Modifier
-                .padding(top = 43.dp, start = 20.dp)
+                .padding(top = 30.dp, start = 20.dp)
         )
 
         HomeDiagnosingBox(
@@ -179,83 +184,74 @@ fun HomeDiseaseBannerItem(
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp
 
-    Row(
+    Box(
         modifier = Modifier
             .width(screenWidthDp.dp)
-            .height(180.dp)
-            .clip(RoundedCornerShape(bottomStart = 3.dp, bottomEnd = 3.dp))
+            .wrapContentHeight()
+            .clip(RoundedCornerShape(bottomStart = 5.dp, bottomEnd = 5.dp))
             .background(Main3),
-        verticalAlignment = Alignment.Top
     ) {
-        Column(
+        Row(
             modifier = Modifier
-                .padding(start = 20.dp, end = 20.dp, top = 44.dp)
-                .weight(1f)
+                .padding(bottom = 50.dp, top = 20.dp)
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+            Column(
+                modifier = Modifier
+                    .padding(start = 20.dp, end = 20.dp)
+                    .weight(1f)
             ) {
-                Text(
-                    text = diseaseItem.name,
-                    color = White2,
-                    style = BaeBaeTypo.Head1,
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = diseaseItem.name,
+                        color = White2,
+                        style = BaeBaeTypo.Head1,
+                    )
+
+                    Text(
+                        text = diseaseItem.location,
+                        color = Gray2,
+                        style = BaeBaeTypo.Body1,
+                        modifier = Modifier
+                            .padding(start = 15.dp)
+                    )
+                }
 
                 Text(
-                    text = diseaseItem.location,
+                    text = diseaseItem.description,
                     color = Gray2,
-                    style = BaeBaeTypo.Body1,
+                    style = BaeBaeTypo.Caption1,
                     modifier = Modifier
-                        .padding(start = 15.dp)
+                        .padding(top = 20.dp)
                 )
             }
 
-            Text(
-                text = diseaseItem.description,
-                color = Gray2,
-                style = BaeBaeTypo.Caption1,
+            Image(
+                painter = painterResource(id = R.drawable.ic_home_banner),
+                contentDescription = "banner",
                 modifier = Modifier
-                    .padding(top = 20.dp)
+                    .padding(end = 20.dp)
+//                    .align(Alignment.TopEnd)
+                    .size(100.dp)
+                    .clip(RoundedCornerShape(3.dp)),
             )
         }
 
         Box(
             modifier = Modifier
-                .fillMaxHeight()
+                .align(Alignment.BottomEnd)
+                .padding(end = 14.dp, bottom = 11.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(BannerIndicator)
         ) {
-            Box(
+            Text(
+                text = String.format(CourseNumberFormat, page, size),
+                color = Gray3,
+                style = BaeBaeTypo.Caption3,
                 modifier = Modifier
-                    .padding(top = 30.dp, end = 20.dp)
-                    .align(Alignment.TopEnd)
-                    .size(100.dp)
-                    .clip(RoundedCornerShape(3.dp))
-                    .background(Gray2),
+                    .padding(vertical = 2.dp, horizontal = 5.dp)
             )
-            Image(
-                painter = painterResource(id = R.drawable.ic_home_banner),
-                contentDescription = "banner",
-                modifier = Modifier
-                    .padding(top = 30.dp, end = 20.dp)
-                    .align(Alignment.TopEnd)
-                    .size(100.dp)
-                    .clip(RoundedCornerShape(3.dp)),
-            )
-
-            Box(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(end = 14.dp, bottom = 11.dp)
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(BannerIndicator)
-            ) {
-                Text(
-                    text = String.format(CourseNumberFormat, page, size),
-                    color = Gray3,
-                    style = BaeBaeTypo.Caption3,
-                    modifier = Modifier
-                        .padding(vertical = 2.dp, horizontal = 5.dp)
-                )
-            }
         }
     }
 }

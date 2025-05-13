@@ -69,7 +69,6 @@ class DiagnosisViewModel @Inject constructor(
     private fun downloadPdf(context: Context, url: String, title: String = "Diagnosis") {
         val request = DownloadManager.Request(Uri.parse(url)).apply {
             setTitle(title)
-            setDescription("Download diagnosis pdf")
             setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "${title}.pdf")
             setAllowedOverMetered(true)

@@ -138,7 +138,7 @@ fun SelectAreaContent(
         BottomRectangleBtn(
             horizontalPadding = 20,
             btnText = Next,
-            isBtnValid = true,
+            isBtnValid = selectedArea.isNotEmpty(),
             onClickAction = onClickNextBtn
         )
 

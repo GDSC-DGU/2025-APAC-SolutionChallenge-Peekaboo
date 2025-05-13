@@ -64,7 +64,7 @@ fun DiagnosisScreen(
     goBackToMain: () -> Unit,
     selectedDiagnosisHistoryId: SharedFlow<Int>,
     showLanguageBottomSheet: () -> Unit,
-    selectedLanguage: SharedFlow<String>
+    selectedLanguage: SharedFlow<String>,
 ) {
     val viewModel: DiagnosisViewModel = hiltViewModel()
     val uiState: DiagnosisPageState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -111,7 +111,7 @@ fun DiagnosisContent(
     firstDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
     secondDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
     thirdDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
-    onClickDiagnosisBtn: () -> Unit = {}
+    onClickDiagnosisBtn: () -> Unit = {},
 ) {
     val diseaseModel =
         diseaseTotal.firstOrNull { it.diseaseName == selectedDisease } ?: firstDiseaseModel

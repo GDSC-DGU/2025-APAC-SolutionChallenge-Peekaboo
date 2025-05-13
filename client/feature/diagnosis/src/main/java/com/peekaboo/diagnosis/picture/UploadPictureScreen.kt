@@ -145,7 +145,7 @@ fun UploadPictureContent(
         BottomRectangleBtn(
             horizontalPadding = 20,
             btnText = Next,
-            isBtnValid = true,
+            isBtnValid = (selectedImg != null),
             onClickAction = onClickNextBtn
         )
 
