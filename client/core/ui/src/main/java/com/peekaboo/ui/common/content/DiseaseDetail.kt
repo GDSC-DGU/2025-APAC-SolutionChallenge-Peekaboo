@@ -134,6 +134,10 @@ fun DiseaseDetailContent(
     )
 }
 
+fun removeEnter(content: String): String {
+    return content.trimEnd('\n')
+}
+
 fun contentToList(content: String): List<String> {
     return content.split("\\n")
         .map { it.trim() }
@@ -165,10 +169,19 @@ fun DiseaseRating(
     rating: Int = 4,
     isDetailDescriptionValid: Boolean = false,
 ) {
+    var ratingForLevel = rating
+    var widthForRating = 0f
+    if (rating != 0) {
+        widthForRating = 0.25f * (5 - rating)
+    } else {
+        ratingForLevel = 5
+        widthForRating = 0.01f
+    }
 
     if (!isDetailDescriptionValid) {
         Spacer(modifier = Modifier.height(30.dp))
     }
+
 
     DescriptionTitle(title = QuickDiseaseSymptomsRating)
 
@@ -186,7 +199,7 @@ fun DiseaseRating(
 
         Box(
             modifier = Modifier
-                .width(maxWidth * 0.25f * (5 - rating))
+                .width(maxWidth * widthForRating)
                 .height(5.dp)
                 .clip(RoundedCornerShape(100.dp))
                 .background(Main2)
@@ -214,15 +227,28 @@ fun DiseaseRating(
                 .padding(top = 18.dp)
                 .fillMaxWidth(),
         ) {
-            itemsIndexed(RatingType.entries, key = { index, item -> index }) { index, item ->
-                Text(
-                    text = item.ratingText,
-                    color = if (index + rating == 4) Main2 else Color.Transparent,
-                    style = BaeBaeTypo.Caption2,
-                    textAlign = TextAlign.End,
-                    modifier = Modifier
-                        .width(maxWidth * 0.25f)
-                )
+            if (rating == 0) {
+                item {
+                    Text(
+                        text = "N/A",
+                        color = Main2,
+                        style = BaeBaeTypo.Caption2,
+                        textAlign = TextAlign.End,
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                    )
+                }
+            } else {
+                itemsIndexed(RatingType.entries, key = { index, item -> index }) { index, item ->
+                    Text(
+                        text = item.ratingText,
+                        color = if (index + rating == 4) Main2 else Color.Transparent,
+                        style = BaeBaeTypo.Caption2,
+                        textAlign = TextAlign.End,
+                        modifier = Modifier
+                            .width(maxWidth * 0.25f)
+                    )
+                }
             }
         }
     }
@@ -244,7 +270,7 @@ fun DiseaseSymptoms(
     ) {
         items(symptoms) { symptom ->
             DiseaseSymptomItem(
-                name = symptom.name
+                name = removeEnter(symptom.name)
             )
         }
     }
@@ -317,8 +343,8 @@ fun DiseaseDrugs(
     ) {
         items(drugs) { drug ->
             DiseaseDrugsItem(
-                name = drug.name,
-                efficacy = drug.efficacy
+                name = removeEnter(drug.name),
+                efficacy = removeEnter(drug.efficacy)
             )
         }
     }

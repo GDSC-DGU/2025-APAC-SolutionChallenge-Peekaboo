@@ -283,11 +283,11 @@ fun SelectAreaPictureBoxFront(
 
         // 배
         Image(
-            painter = painterResource(id = R.drawable.ic_body_stomach),
+            painter = painterResource(id = R.drawable.ic_body_back),
             contentDescription = "body stomach",
             colorFilter = ColorFilter.tint(if (selectedBodyPosition == "stomach") Main2 else Color.Transparent),
             modifier = Modifier
-                .padding(top = 180.dp)
+                .padding(top = 142.dp)
                 .align(Alignment.TopCenter)
                 .clickable(
                     onClick = { onClickShapePosition("stomach") },
@@ -396,7 +396,7 @@ fun SelectAreaPictureBoxBack(
             contentDescription = "body back",
             colorFilter = ColorFilter.tint(if (selectedBodyPosition == "back") Main2 else Color.Transparent),
             modifier = Modifier
-                .padding(top = 156.dp)
+                .padding(top = 119.dp)
                 .align(Alignment.TopCenter)
                 .clickable(
                     onClick = { onClickShapePosition("back") },
