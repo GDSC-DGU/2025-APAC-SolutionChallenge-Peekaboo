@@ -53,6 +53,7 @@ import com.peekaboo.design_system.Percent
 import com.peekaboo.design_system.R
 import com.peekaboo.design_system.White2
 import com.peekaboo.design_system.White3
+import com.peekaboo.domain.entity.request.DiagnosisModel
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryDetailModel
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
@@ -65,6 +66,7 @@ fun DiagnosisScreen(
     selectedDiagnosisHistoryId: SharedFlow<Int>,
     showLanguageBottomSheet: () -> Unit,
     selectedLanguage: SharedFlow<String>,
+    diagnosisContent: SharedFlow<DiagnosisModel>,
 ) {
     val viewModel: DiagnosisViewModel = hiltViewModel()
     val uiState: DiagnosisPageState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -81,6 +83,12 @@ fun DiagnosisScreen(
     LaunchedEffect(selectedLanguage) {
         selectedLanguage.collect {
             viewModel.getDiagnosisPdf(it, context)
+        }
+    }
+
+    LaunchedEffect(diagnosisContent) {
+        diagnosisContent.collect {
+            viewModel.getDiagnosisAI(it)
         }
     }
 
