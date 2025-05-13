@@ -9,14 +9,22 @@ from .base_response import BaseResponse
 
 
 class DiagnosisRequest(BaseModel):
+    userId: str
+    affected_area: str
+    symptoms: str
+    image: UploadFile
+
     @classmethod
     def as_form(
         cls,
+        userId: Annotated[str, Form(...)],
         affected_area: Annotated[str, Form(...)],
         symptoms: Annotated[str, Form(...)],
         image: Annotated[UploadFile, File(...)],
     ) -> DiagnosisRequest:
-        return cls(affected_area=affected_area, symptoms=symptoms, image=image)
+        return cls(
+            userId=userId, affected_area=affected_area, symptoms=symptoms, image=image
+        )
 
     class Config:
         arbitrary_types_allowed = True
@@ -61,7 +69,7 @@ class CVResult(BaseModel):
 class DiagnosisResult(BaseModel):
     id: int
     disease: str
-    probability: int
+    probability: float
     reason: str
 
 
