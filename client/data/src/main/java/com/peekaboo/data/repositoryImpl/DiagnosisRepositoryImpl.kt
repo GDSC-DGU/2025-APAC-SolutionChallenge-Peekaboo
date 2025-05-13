@@ -4,6 +4,8 @@ import com.peekaboo.data.dataSource.DiagnosisDataSource
 import com.peekaboo.data.mapper.diagnosis.DiagnosisConstMapper
 import com.peekaboo.data.mapper.diagnosis.DiagnosisHistoryDetailMapper
 import com.peekaboo.data.mapper.diagnosis.DiagnosisHistoryMapper
+import com.peekaboo.data.mapper.diagnosis.DiagnosisPdfMapper
+import com.peekaboo.domain.entity.request.diagnosis.DiagnosisPdfRequestModel
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisConstModel
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryDetailModel
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryResponseModel
@@ -29,6 +31,14 @@ class DiagnosisRepositoryImpl @Inject constructor(
         DiagnosisConstMapper.responseToModel(apiCall = {
             diagnosisDataSource.getDiagnosisConst(
                 constId
+            )
+        })
+
+    override suspend fun getDiagnosisPdf(diagnosis: DiagnosisPdfRequestModel): Flow<Result<String>> =
+        DiagnosisPdfMapper.responseToModel(apiCall = {
+            diagnosisDataSource.getDiagnosisPdf(
+                diagnosis.diagnosisId,
+                diagnosis.lang
             )
         })
 }
