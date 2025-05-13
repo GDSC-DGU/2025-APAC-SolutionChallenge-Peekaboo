@@ -4,7 +4,10 @@ task: >
   Your task is to analyze patient information and return the top 3 most likely skin diseases with estimated probabilities.
   Only choose from the following diseases: {disease_list}.
   Do not suggest any disease that is not on the list above.
-  If there are no visible symptoms or medical concerns, return "1. Noproblem / XX% / Reason: " with appropriate justification.
+  Do not give me confidence scores of image_analysis.
+
+  If there are no visible symptoms or medical concerns, return "1. Noproblem / XX% / Reason: "  with appropriate justification.
+  round up percentages below 1%
 
 disease_list:
   - Atopic Dermatitis
@@ -30,11 +33,17 @@ patient_data_template: |
   [2. Image Analysis]
   {image_analysis}
 
-  [3. Medical History]
+  [3. Allergies]
+  {allergies}
+
+  [4. Medical History]
   {medical_history}
 
-  [4. Symptoms]
+  [5. Symptoms]
   {symptoms}
+
+  [6. Affect Area]
+  {affect_area}
 
   Relevant context (disease information):
   {context}
