@@ -162,6 +162,7 @@ fun NavGraphBuilder.diagnosisNavGraph(
         composable(NavRoutes.ExplainSymptomScreen.route) {
             SymptomExplainScreen(
                 goToDiagnosisResultPage = {
+                    setDiagnosisContent(it)
                     navController.navigate(NavRoutes.DiagnosisScreen.route)
                 },
                 diagnosisModel = diagnosisContent
@@ -177,7 +178,8 @@ fun NavGraphBuilder.diagnosisNavGraph(
                 },
                 selectedDiagnosisHistoryId = selectedDiagnosisHistoryId,
                 showLanguageBottomSheet = showLanguageBottomSheet,
-                selectedLanguage = selectedLanguage
+                selectedLanguage = selectedLanguage,
+                diagnosisContent = diagnosisContent
             )
         }
     }

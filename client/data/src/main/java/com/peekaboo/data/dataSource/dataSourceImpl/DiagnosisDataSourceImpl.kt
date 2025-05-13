@@ -7,6 +7,7 @@ import com.peekaboo.data.entity.response.dianosis.DiagnosisHistoryDetailResponse
 import com.peekaboo.data.entity.response.dianosis.DiagnosisHistoryResponseDto
 import com.peekaboo.data.entity.response.dianosis.DiagnosisPdfResponseDto
 import com.peekaboo.data.service.DiagnosisService
+import okhttp3.MultipartBody
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -25,7 +26,15 @@ class DiagnosisDataSourceImpl @Inject constructor(
 
     override suspend fun getDiagnosisPdf(
         diagnosisId: Int,
-        lang: String
+        lang: String,
     ): Response<BaseResponse<DiagnosisPdfResponseDto>> =
         diagnosisService.diagnosisPdf(diagnosisId, lang)
+
+
+    override suspend fun getDiagnosisAI(
+        area: String,
+        image: MultipartBody.Part?,
+        symptom: String,
+    ): Response<BaseResponse<DiagnosisHistoryDetailResponseDto>> =
+        diagnosisService.diagnosisAI(area, image, symptom)
 }

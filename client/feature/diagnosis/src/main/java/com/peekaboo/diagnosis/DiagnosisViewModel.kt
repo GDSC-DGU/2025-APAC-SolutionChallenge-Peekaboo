@@ -5,8 +5,12 @@ import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import androidx.lifecycle.viewModelScope
+import com.peekaboo.domain.entity.request.DiagnosisModel
+import com.peekaboo.domain.entity.request.ImageModel
+import com.peekaboo.domain.entity.request.diagnosis.DiagnosisAIRequestModel
 import com.peekaboo.domain.entity.request.diagnosis.DiagnosisPdfRequestModel
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryDetailModel
+import com.peekaboo.domain.usecase.diagnosis.GetDiagnosisAIUseCase
 import com.peekaboo.domain.usecase.diagnosis.GetDiagnosisHistoryDetailUseCase
 import com.peekaboo.domain.usecase.diagnosis.GetDiagnosisPdfUseCase
 import com.peekaboo.ui.base.BaseViewModel
@@ -18,6 +22,7 @@ import javax.inject.Inject
 class DiagnosisViewModel @Inject constructor(
     private val getDiagnosisHistoryDetailUseCase: GetDiagnosisHistoryDetailUseCase,
     private val getDiagnosisPdfUseCase: GetDiagnosisPdfUseCase,
+    private val getDiagnosisAIUseCase: GetDiagnosisAIUseCase
 ) : BaseViewModel<DiagnosisPageState>(
     DiagnosisPageState()
 ) {
@@ -94,4 +99,21 @@ class DiagnosisViewModel @Inject constructor(
         downloadManager.enqueue(request)
     }
 
+    fun getDiagnosisAI(diagnosis: DiagnosisModel) {
+        viewModelScope.launch {
+            getDiagnosisAIUseCase(
+                DiagnosisAIRequestModel(
+                    area = diagnosis.selectedArea,
+                    symptoms = diagnosis.symptomsExplain,
+                    image = ImageModel(diagnosis.photo, IMAGE)
+                )
+            ).collect {
+                resultResponse(it, ::onSuccessDiagnosisHistoryDetail)
+            }
+        }
+    }
+
+    companion object {
+        const val IMAGE = "image"
+    }
 }
