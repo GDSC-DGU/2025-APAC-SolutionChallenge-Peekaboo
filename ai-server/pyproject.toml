@@ -3,7 +3,7 @@ name = "ai-server"
 version = "0.1.0"
 description = ""
 authors = ["choijian <an032944@daum.net>"]
-readme = "README.md"
+# readme = "README.md"
 license = "MIT"
 
 [tool.poetry.dependencies]
