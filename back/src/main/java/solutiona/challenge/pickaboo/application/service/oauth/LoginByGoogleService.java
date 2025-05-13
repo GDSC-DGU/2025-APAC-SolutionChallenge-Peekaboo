@@ -19,7 +19,7 @@ import solutiona.challenge.pickaboo.infrastructure.jpa.UserJpaRepository;
 
 @Service
 @RequiredArgsConstructor
-public class LoginByKakaoService implements LoginByGoogleUseCase {
+public class LoginByGoogleService implements LoginByGoogleUseCase {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final UserRepository userRepository;
