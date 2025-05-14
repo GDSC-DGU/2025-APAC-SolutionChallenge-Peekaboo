@@ -1,6 +1,9 @@
-from crud.user import get_patient_info
+from uuid import UUID
+
 from fastapi import UploadFile
 from sqlalchemy.orm import Session
+
+from app.crud.user import get_patient_info
 
 from .cv_service import CVService
 from .llm_service import LLMService
@@ -25,7 +28,7 @@ class DiagnosisService:
         self.rag_service = rag_service
         self.llm_service = llm_service
 
-    def _get_patient_info(self, db: Session, user_id: int) -> str:
+    def _get_patient_info(self, db: Session, user_id: UUID) -> str:
         """formaating patient info for the prompt"""
         info = get_patient_info(db, user_id)
 
@@ -36,12 +39,7 @@ class DiagnosisService:
             f"blood_type: {info.get('blood_type', 'Unknown')}\n"
             f"skin_type: {info.get('skin_type', 'Unknown')}\n"
             f"allergies: {', '.join(info.get('allergies', [])) or 'None'}\n"
-            f"onboarding_diseases: {
-                ', '.join(
-                    disease.name for disease in info.get('onboarding_diseases', [])
-                )
-                or 'None'
-            }\n"
+            f"onboarding_diseases: {', '.join(info.get('onboarding_diseases', [])) or 'None'}\n"  # noqa: E501
         )
 
     def _parse_request_info(self, user_inputs: dict) -> dict:
@@ -54,7 +52,7 @@ class DiagnosisService:
         }
 
     async def run(
-        self, db: Session, user_id: int, user_inputs: dict, image_file: UploadFile
+        self, db: Session, user_id: UUID, user_inputs: dict, image_file: UploadFile
     ) -> str:
         patient_info = self._get_patient_info(db, user_id)
         parsed_inputs = self._parse_request_info(user_inputs)
@@ -67,14 +65,16 @@ class DiagnosisService:
             "image_analysis": image_analysis,
             "symptoms": parsed_inputs["symptoms"],
             "affected_area": parsed_inputs["affected_area"],
-            "medical_history": patient_info.split("allergies:")[1],
+            "allergies": patient_info.split("allergies:")[1],
+            "medical_history": patient_info.split("onboarding_diseases:")[1],
+            # medical_history == onboarding_diseases
             "context": context,
         }
 
         prompt_data = self.prompt_service.load_prompt()
         prompt = self.prompt_service.build_prompt(prompt_data, inputs)
         llm_result = await self.llm_service.generate(prompt)
-        print(llm_result)
+
         return llm_result
         # return self.translation_service.translate(
         #     llm_result, target_lang=user_inputs.get("lang", "en")
