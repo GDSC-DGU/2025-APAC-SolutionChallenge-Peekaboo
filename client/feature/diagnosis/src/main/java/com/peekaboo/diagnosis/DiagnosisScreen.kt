@@ -9,10 +9,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
@@ -24,6 +27,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -44,6 +49,7 @@ import com.peekaboo.design_system.DiagnosingResultEachTitle
 import com.peekaboo.design_system.DiagnosingResultRankingEnd
 import com.peekaboo.design_system.DiagnosisResultRanking
 import com.peekaboo.design_system.DiagnosisResultTitle
+import com.peekaboo.design_system.Empty
 import com.peekaboo.design_system.Gray1
 import com.peekaboo.design_system.Gray2
 import com.peekaboo.design_system.Gray3
@@ -58,6 +64,8 @@ import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryDetailModel
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
 import com.peekaboo.ui.common.content.DiseaseDetail
+import com.peekaboo.ui.common.content.LoadingShimmerEffect
+import com.peekaboo.ui.common.content.LoadingShimmerMainEffect
 import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
@@ -104,7 +112,8 @@ fun DiagnosisScreen(
         thirdDiseaseModel = uiState.thirdDiseaseModel,
         onClickDiagnosisBtn = {
             showLanguageBottomSheet()
-        }
+        },
+        isDataUpdateSuccess = uiState.isDataUpdateSuccess
     )
 }
 
@@ -120,6 +129,7 @@ fun DiagnosisContent(
     secondDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
     thirdDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
     onClickDiagnosisBtn: () -> Unit = {},
+    isDataUpdateSuccess: Boolean = false,
 ) {
     val diseaseModel =
         diseaseTotal.firstOrNull { it.diseaseName == selectedDisease } ?: firstDiseaseModel
@@ -138,16 +148,24 @@ fun DiagnosisContent(
                 .fillMaxWidth(),
         ) {
             item {
-                DiagnosisRanking(
-                    firstDiseaseModel = firstDiseaseModel,
-                    secondDiseaseModel = secondDiseaseModel,
-                    thirdDiseaseModel = thirdDiseaseModel
-                )
+                if (isDataUpdateSuccess) {
+                    DiagnosisRanking(
+                        firstDiseaseModel = firstDiseaseModel,
+                        secondDiseaseModel = secondDiseaseModel,
+                        thirdDiseaseModel = thirdDiseaseModel
+                    )
+                } else {
+                    DiagnosisRankingShimmer()
+                }
 
-                DiagnosingSummaryContent(
-                    customDescription = customDescription,
-                    firstDiseaseName = firstDiseaseModel.diseaseName
-                )
+                if (isDataUpdateSuccess) {
+                    DiagnosingSummaryContent(
+                        customDescription = customDescription,
+                        firstDiseaseName = firstDiseaseModel.diseaseName
+                    )
+                } else {
+                    DiagnosisSummaryShimmer()
+                }
 
                 Divider(
                     modifier = Modifier
@@ -160,24 +178,29 @@ fun DiagnosisContent(
                     onSelectDisease = onSelectDisease,
                     firstDiseaseModel = firstDiseaseModel,
                     secondDiseaseModel = secondDiseaseModel,
-                    thirdDiseaseModel = thirdDiseaseModel
+                    thirdDiseaseModel = thirdDiseaseModel,
+                    isDataUpdateSuccess = isDataUpdateSuccess
                 )
 
-                DiseaseDetail(
-                    isDetailDescriptionValid = true,
-                    diseaseName = diseaseModel.diseaseName,
-                    description = diseaseModel.description,
-                    rating = diseaseModel.rating,
-                    symptoms = diseaseModel.symptoms,
-                    type = diseaseModel.type,
-                    site = diseaseModel.site,
-                    reason = diseaseModel.reason,
-                    drugs = diseaseModel.drugs,
-                    mild = diseaseModel.mild,
-                    severe = diseaseModel.severe,
-                    preventive = diseaseModel.preventive,
-                    caution = diseaseModel.caution
-                )
+                if (isDataUpdateSuccess) {
+                    DiseaseDetail(
+                        isDetailDescriptionValid = true,
+                        diseaseName = diseaseModel.diseaseName,
+                        description = diseaseModel.description,
+                        rating = diseaseModel.rating,
+                        symptoms = diseaseModel.symptoms,
+                        type = diseaseModel.type,
+                        site = diseaseModel.site,
+                        reason = diseaseModel.reason,
+                        drugs = diseaseModel.drugs,
+                        mild = diseaseModel.mild,
+                        severe = diseaseModel.severe,
+                        preventive = diseaseModel.preventive,
+                        caution = diseaseModel.caution
+                    )
+                } else {
+                    DiseaseDetailDescriptionShimmer()
+                }
             }
         }
 
@@ -216,7 +239,7 @@ fun DiagnosisRanking(
         modifier = Modifier
             .padding(horizontal = 56.dp, vertical = 25.dp)
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.Bottom
     ) {
         DiagnosingRankingItem(
@@ -261,8 +284,10 @@ fun DiagnosingRankingItem(
             text = diseaseName,
             color = if (isRankingFirst) Main2 else Gray3,
             style = BaeBaeTypo.Caption4,
+            textAlign = TextAlign.Center,
             modifier = Modifier
                 .padding(top = 10.dp)
+                .width(80.dp)
         )
         Text(
             text = String.format(Percent, percent),
@@ -346,6 +371,7 @@ fun DiagnosingEachResult(
     firstDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem,
     secondDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem,
     thirdDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem,
+    isDataUpdateSuccess: Boolean = false,
 ) {
     Text(
         text = DiagnosingResultEachTitle,
@@ -356,13 +382,17 @@ fun DiagnosingEachResult(
             .fillMaxWidth()
     )
 
-    SelectAreaPictureShapeChip(
-        onSelectDiseaseChip = onSelectDisease,
-        selectedDisease = selectedDisease,
-        firstDiseaseModel = firstDiseaseModel,
-        secondDiseaseModel = secondDiseaseModel,
-        thirdDiseaseModel = thirdDiseaseModel
-    )
+    if (isDataUpdateSuccess) {
+        SelectAreaPictureShapeChip(
+            onSelectDiseaseChip = onSelectDisease,
+            selectedDisease = selectedDisease,
+            firstDiseaseModel = firstDiseaseModel,
+            secondDiseaseModel = secondDiseaseModel,
+            thirdDiseaseModel = thirdDiseaseModel
+        )
+    } else {
+        SelectAreaChipShimmer()
+    }
 }
 
 @Composable
@@ -440,6 +470,160 @@ fun SelectAreaPictureShapeChip(
             )
         }
     }
+}
+
+@Composable
+fun DiagnosisRankingShimmer() {
+    LoadingShimmerEffect { shimmer ->
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 56.dp, vertical = 25.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.Bottom
+        ) {
+            DiagnosisRankingShimmerItem(
+                height = 60,
+                brush = shimmer
+            )
+
+            DiagnosisRankingShimmerItem(
+                height = 90,
+                brush = shimmer
+            )
+
+            DiagnosisRankingShimmerItem(
+                height = 120,
+                brush = shimmer
+            )
+        }
+    }
+}
+
+@Composable
+internal fun DiagnosisRankingShimmerItem(
+    height: Int,
+    brush: Brush,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .size(width = 52.dp, height = height.dp)
+                .clip(RoundedCornerShape(5.dp))
+                .background(brush)
+        )
+
+        Text(
+            text = Empty,
+            color = Color.Transparent,
+            style = BaeBaeTypo.Caption4,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .padding(top = 10.dp)
+                .width(80.dp)
+        )
+        Text(
+            text = Empty,
+            color = Color.Transparent,
+            style = BaeBaeTypo.Caption4,
+        )
+    }
+}
+
+@Composable
+fun DiagnosisSummaryShimmer() {
+    LoadingShimmerEffect { shimmer ->
+        Box(
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(6.dp))
+                .background(shimmer)
+        ) {
+            Text(
+                text = DiagnosisResultRanking + DiagnosingResultRankingEnd,
+                color = Color.Transparent,
+                textAlign = TextAlign.Center,
+                style = BaeBaeTypo.Body3,
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(vertical = 25.dp)
+            )
+        }
+    }
+
+    LoadingShimmerMainEffect { shimmer ->
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 20.dp, vertical = 12.dp)
+                .clip(RoundedCornerShape(6.dp))
+                .background(shimmer)
+        ) {
+            Row(
+                modifier = Modifier
+                    .padding(top = 12.dp, start = 20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Text(
+                    text = Empty,
+                    color = Color.Transparent,
+                    style = BaeBaeTypo.Body3,
+                    modifier = Modifier
+                        .padding(start = 5.dp)
+                )
+            }
+
+            Text(
+                text = Empty,
+                color = Color.Transparent,
+                style = BaeBaeTypo.Body3,
+                modifier = Modifier
+                    .padding(top = 10.dp, start = 20.dp, end = 20.dp, bottom = 20.dp)
+                    .fillMaxWidth()
+            )
+        }
+    }
+}
+
+@Composable
+fun SelectAreaChipShimmer() {
+    LoadingShimmerEffect { shimmer ->
+        Box(
+            modifier = Modifier
+                .padding(top = 35.dp, start = 23.dp, end = 23.dp)
+                .fillMaxWidth()
+                .height(44.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(shimmer)
+        )
+    }
+}
+
+@Composable
+fun DiseaseDetailDescriptionShimmer() {
+
+    LoadingShimmerEffect { shimmer ->
+        Spacer(modifier = Modifier.height(35.dp))
+
+        Box(
+            modifier = Modifier
+                .padding(start = 20.dp)
+                .size(width = 40.dp, height = 20.dp)
+                .background(shimmer)
+        )
+
+        Box(
+            modifier = Modifier
+                .padding(top = 10.dp, start = 23.dp, end = 23.dp)
+                .fillMaxWidth()
+                .height(35.dp)
+                .background(shimmer)
+        )
+    }
+
 }
 
 @Preview(showBackground = true, showSystemUi = true)

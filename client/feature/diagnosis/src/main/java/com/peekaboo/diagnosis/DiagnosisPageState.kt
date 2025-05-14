@@ -13,4 +13,5 @@ data class DiagnosisPageState(
     val secondDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
     val thirdDiseaseModel: DiagnosisHistoryDetailModel.DiseaseDetailItem = DiagnosisHistoryDetailModel.DiseaseDetailItem(),
     val diagnosisModel: DiagnosisConstModel = DiagnosisConstModel(),
+    val isDataUpdateSuccess: Boolean = false
 ) : PageState

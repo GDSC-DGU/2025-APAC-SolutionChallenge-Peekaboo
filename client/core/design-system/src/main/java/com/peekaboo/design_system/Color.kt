@@ -32,3 +32,10 @@ val Russet = Color(0xFF8D5524)
 
 // ETC
 val BannerIndicator = Color(0x8014385C)
+
+// Shimmer
+val MainShimmer1 = Color(0x201C548B)
+val MainShimmer2 = Color(0x601C548B)
+
+val GrayShimmer1 = Color(0x209FA4A9)
+val GrayShimmer2 = Color(0x609FA4A9)

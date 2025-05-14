@@ -22,7 +22,7 @@ import javax.inject.Inject
 class DiagnosisViewModel @Inject constructor(
     private val getDiagnosisHistoryDetailUseCase: GetDiagnosisHistoryDetailUseCase,
     private val getDiagnosisPdfUseCase: GetDiagnosisPdfUseCase,
-    private val getDiagnosisAIUseCase: GetDiagnosisAIUseCase
+    private val getDiagnosisAIUseCase: GetDiagnosisAIUseCase,
 ) : BaseViewModel<DiagnosisPageState>(
     DiagnosisPageState()
 ) {
@@ -65,7 +65,8 @@ class DiagnosisViewModel @Inject constructor(
                 diseaseTotal = data.diseaseList,
                 firstDiseaseModel = firstDisease,
                 secondDiseaseModel = secondDisease,
-                thirdDiseaseModel = thirdDisease
+                thirdDiseaseModel = thirdDisease,
+                isDataUpdateSuccess = true
             )
         )
     }

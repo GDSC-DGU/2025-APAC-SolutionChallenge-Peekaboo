@@ -12,6 +12,7 @@ const val BackToMain =  "Back to Main"
 const val Percent = "%d%%"
 const val CancelDiagnosis = "Cancel"
 const val CreateDiagnosis = "Create"
+const val Empty = ""
 
 // Word
 const val Korea = "한국"
