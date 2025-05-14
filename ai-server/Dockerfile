@@ -1,20 +1,27 @@
 FROM python:3.12-slim
 
-RUN pip install --no-cache-dir poetry
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    POETRY_VERSION=1.8.2 \
+    POETRY_VIRTUALENVS_CREATE=false \
+    POETRY_NO_INTERACTION=1 \
+    PYTHONPATH=/app/app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    build-essential \
+ && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN curl -sSL https://install.python-poetry.org | python3 - && \
+    ln -s /root/.local/bin/poetry /usr/local/bin/poetry
 
 WORKDIR /app
 
 COPY pyproject.toml poetry.lock /app/
 
-RUN poetry config virtualenvs.create false \
-  && poetry install --no-interaction --no-ansi --only main --no-root
+RUN poetry install --only main
 
 COPY ./app /app/app
-
-RUN apt-get update && apt-get install -y tree
-RUN tree /app
-
-ENV PYTHONPATH=/app/app
 
 EXPOSE 8080
 

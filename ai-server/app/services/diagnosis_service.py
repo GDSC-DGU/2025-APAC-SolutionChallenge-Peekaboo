@@ -9,8 +9,7 @@ from .cv_service import CVService
 from .llm_service import LLMService
 from .prompt_service import PromptService
 from .rag_service import RagService
-
-# from .translation_service import TranslationService
+from .translation_service import TranslationService
 
 
 class DiagnosisService:
@@ -18,13 +17,13 @@ class DiagnosisService:
         self,
         cv_service: CVService,
         prompt_service: PromptService,
-        # translation_service: TranslationService,
+        translation_service: TranslationService,
         rag_service: RagService,
         llm_service: LLMService,
     ):
         self.cv_service = cv_service
         self.prompt_service = prompt_service
-        # self.translation_service = translation_service
+        self.translation_service = translation_service
         self.rag_service = rag_service
         self.llm_service = llm_service
 
@@ -52,7 +51,12 @@ class DiagnosisService:
         }
 
     async def run(
-        self, db: Session, user_id: UUID, user_inputs: dict, image_file: UploadFile
+        self,
+        db: Session,
+        user_id: UUID,
+        user_inputs: dict,
+        image_file: UploadFile,
+        lang: str = "en",
     ) -> str:
         patient_info = self._get_patient_info(db, user_id)
         parsed_inputs = self._parse_request_info(user_inputs)
@@ -75,7 +79,8 @@ class DiagnosisService:
         prompt = self.prompt_service.build_prompt(prompt_data, inputs)
         llm_result = await self.llm_service.generate(prompt)
 
-        return llm_result
-        # return self.translation_service.translate(
-        #     llm_result, target_lang=user_inputs.get("lang", "en")
-        # )
+        translate_result = self.translation_service.conditional_translate(
+            llm_result, lang
+        )
+
+        return translate_result

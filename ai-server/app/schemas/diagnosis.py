@@ -69,7 +69,7 @@ class CVResult(BaseModel):
 class DiagnosisResult(BaseModel):
     id: int
     disease: str
-    probability: float
+    probability: int
     reason: str
 
 

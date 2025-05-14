@@ -5,7 +5,9 @@ from sqlalchemy import Column, Date, DateTime, Enum, String
 from sqlalchemy.orm import relationship
 
 from app.db.base import Base
+from app.models.allergy import Allergy
 from app.models.enums import EProvider, ERole
+from app.models.onboarding_disease import OnboardingDisease
 
 
 class User(Base):
@@ -31,7 +33,7 @@ class User(Base):
     skin_type = Column(String(50))
     blood_type = Column(String(50))
 
-    allergies = relationship("Allergy", back_populates="user")
+    allergies = relationship(Allergy, back_populates="user")
     onboarding_diseases = relationship(
-        "OnboardingDisease", back_populates="user", cascade="save-update, merge"
+        OnboardingDisease, back_populates="user", cascade="save-update, merge"
     )
