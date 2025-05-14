@@ -6,6 +6,7 @@ from app.services.cv_service import CVService
 from app.services.llm_service import LLMService
 from app.services.prompt_service import PromptService
 from app.services.rag_service import RagService
+from app.services.translation_service import TranslationService
 
 
 def get_cv_service() -> CVService:
@@ -32,3 +33,8 @@ def get_rag_service() -> RagService:
 def get_llm_service() -> LLMService:
     logger.info("LLMService initialized with model")
     return LLMService(model=settings.LLM_MODEL)
+
+
+def get_translation_service() -> TranslationService:
+    logger.info("TranslationService initialized.")
+    return TranslationService()
