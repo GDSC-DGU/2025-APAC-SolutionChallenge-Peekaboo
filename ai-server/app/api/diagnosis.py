@@ -1,18 +1,17 @@
 import re
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.db.dependency import get_db
 from app.dependencies import (
-    get_current_user_id,
     get_cv_service,
     get_llm_service,
     get_prompt_service,
     get_rag_service,
 )
 from app.models.enums import DISEASE_ID_MAP
-from app.schemas.diagnosis import DiagnosisResponse, DiagnosisResult
+from app.schemas.diagnosis import DiagnosisRequest, DiagnosisResponse, DiagnosisResult
 from app.services.diagnosis_service import (
     CVService,
     DiagnosisService,
@@ -51,11 +50,8 @@ def parse_llm_result(llm_text: str) -> list[DiagnosisResult]:
 
 @router.post("/diagnose", response_model=DiagnosisResponse)
 async def diagnose(
-    symptoms: str = Form(...),
-    affected_area: str = Form(...),
-    image: UploadFile = File(...),
+    diagnosis_request: DiagnosisRequest = Depends(DiagnosisRequest.as_form),
     db: Session = Depends(get_db),
-    user_id: int = Depends(get_current_user_id),
     cv_service: CVService = Depends(get_cv_service),
     prompt_service: PromptService = Depends(get_prompt_service),
     rag_service: RagService = Depends(get_rag_service),
@@ -72,14 +68,15 @@ async def diagnose(
             llm_service=llm_service,
         )
         user_inputs = {
-            "symptoms": symptoms,
-            "affected_area": affected_area,
+            "symptoms": diagnosis_request.symptoms,
+            "affected_area": diagnosis_request.affected_area,
         }
+
         llm_result_text = await diagnosis_service.run(
             db=db,
-            user_id=user_id,
+            user_id=diagnosis_request.userId,
             user_inputs=user_inputs,
-            image_file=image,
+            image_file=diagnosis_request.image,
         )
         results = parse_llm_result(llm_result_text)
         return DiagnosisResponse(data=results)
