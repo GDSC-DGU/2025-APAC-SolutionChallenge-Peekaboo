@@ -1,10 +1,10 @@
 import base64
 import logging
 
-from core.config import settings
 from fastapi import HTTPException, UploadFile
 from google.cloud import aiplatform
 
+from app.core.config import settings
 from app.schemas.diagnosis import CVResult
 
 logger = logging.getLogger(__name__)
@@ -39,7 +39,6 @@ class CVService:
                 CVResult(name=name, confidence=round(conf * 100, 2))
                 for name, conf in sorted_classes
             ]
-            print(top3_results)
             return {
                 "top3_diseases": [result.dict() for result in top3_results],
             }

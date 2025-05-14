@@ -1,6 +1,7 @@
-from core.config import settings
 from langchain_huggingface import HuggingFaceEmbeddings
 from qdrant_client import QdrantClient
+
+from app.core.config import settings
 
 
 class RagService:
@@ -35,7 +36,7 @@ class RagService:
             return "No relevant disease context found."
 
         return "\n\n".join(
-            f"{item.payload.get('disease', 'Unknown')}:\n{item.payload.get('description', 'No description')}"
+            f"{item.payload.get('disease', 'Unknown')}:\n"
+            f"{item.payload.get('description', 'No description')}"
             for item in search_result
         )
-
