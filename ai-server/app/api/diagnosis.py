@@ -1,9 +1,9 @@
-import logging
 import re
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
+from app.core.logging import logger
 from app.db.dependency import get_db
 from app.dependencies import (
     get_cv_service,
@@ -22,8 +22,6 @@ from app.services.diagnosis_service import (
     RagService,
     TranslationService,
 )
-
-logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["diagnosis"])
 

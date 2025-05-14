@@ -1,13 +1,11 @@
 import base64
-import logging
 
 from fastapi import HTTPException, UploadFile
 from google.cloud import aiplatform
 
 from app.core.config import settings
+from app.core.logging import logger
 from app.schemas.diagnosis import CVResult
-
-logger = logging.getLogger(__name__)
 
 
 class CVService:

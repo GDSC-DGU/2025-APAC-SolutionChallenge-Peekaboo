@@ -1,9 +1,7 @@
-import logging
-
 from google.api_core.exceptions import GoogleAPIError
 from google.cloud import translate_v2 as translate
 
-logger = logging.getLogger(__name__)
+from app.core.logging import logger
 
 
 class TranslationService:
