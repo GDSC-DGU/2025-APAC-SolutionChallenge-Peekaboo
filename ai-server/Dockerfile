@@ -19,9 +19,9 @@ WORKDIR /app
 
 COPY pyproject.toml poetry.lock /app/
 
-RUN poetry install --only main
-
 COPY ./app /app/app
+
+RUN poetry install --only main --no-root
 
 EXPOSE 8080
 
