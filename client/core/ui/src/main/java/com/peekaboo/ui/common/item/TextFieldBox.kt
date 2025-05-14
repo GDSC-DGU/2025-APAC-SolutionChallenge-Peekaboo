@@ -164,14 +164,16 @@ fun TextFieldContent(
             }
         }
 
-        Text(
-            text = String.format(CourseNumberFormat, textInput.length, textMaxLength),
-            color = if (textInput.isNotEmpty()) Main2 else Gray3,
-            style = BaeBaeTypo.Caption2,
-            modifier = Modifier
-                .align(Alignment.End)
-                .padding(top = 5.dp)
-        )
+        if (textMaxLength != 0) {
+            Text(
+                text = String.format(CourseNumberFormat, textInput.length, textMaxLength),
+                color = if (textInput.isNotEmpty()) Main2 else Gray3,
+                style = BaeBaeTypo.Caption2,
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(top = 5.dp)
+            )
+        }
     }
 }
 

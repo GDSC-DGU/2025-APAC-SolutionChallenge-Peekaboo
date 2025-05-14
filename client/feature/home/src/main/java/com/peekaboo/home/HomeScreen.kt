@@ -232,7 +232,7 @@ fun HomeDiseaseBannerItem(
                 contentDescription = "banner",
                 modifier = Modifier
                     .padding(end = 20.dp)
-//                    .align(Alignment.TopEnd)
+                    .align(Alignment.CenterVertically)
                     .size(100.dp)
                     .clip(RoundedCornerShape(3.dp)),
             )
