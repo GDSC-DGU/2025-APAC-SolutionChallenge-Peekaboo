@@ -121,7 +121,7 @@ fun TextFieldContent(
                 textStyle = BaeBaeTypo.Caption4.copy(
                     color = Black1
                 ),
-                singleLine = true,
+                singleLine = false,
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done
                 ),

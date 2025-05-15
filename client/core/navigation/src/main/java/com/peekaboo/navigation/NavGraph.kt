@@ -1,5 +1,7 @@
 package com.peekaboo.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -23,6 +25,7 @@ import com.peekaboo.onboarding.personal.PersonalInputScreen
 import com.peekaboo.onboarding.skin.SkinColorSelectScreen
 import kotlinx.coroutines.flow.SharedFlow
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 fun NavGraphBuilder.loginNavGraph(
     navController: NavController,
 ) {

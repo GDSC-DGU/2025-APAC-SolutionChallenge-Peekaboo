@@ -387,13 +387,13 @@ fun SelectAreaPictureShapeChipItem(
     Box(
         modifier = modifier
             .padding(vertical = 4.dp, horizontal = 4.dp)
-//            .weight(1f)
             .fillMaxHeight()
             .clip(RoundedCornerShape(5.dp))
             .background(if (isSelected) White2 else Gray1)
             .clickable(
                 onClick = onSelectChip
-            )
+            ),
+        contentAlignment = Alignment.Center
     ) {
         Text(
             text = diseaseName,

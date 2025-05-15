@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -49,12 +50,13 @@ import com.peekaboo.design_system.White3
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryResponseModel
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
+import com.peekaboo.ui.common.content.LoadingShimmerEffect
 
 @Composable
 fun DiagnosisHistoryScreen(
     goToDiagnosisPage: () -> Unit,
     goToDiagnosisResultPage: (Int) -> Unit,
-    onClickBackBtn: () -> Unit
+    onClickBackBtn: () -> Unit,
 ) {
 
     val viewModel: DiagnosisHistoryViewModel = hiltViewModel()
@@ -64,7 +66,8 @@ fun DiagnosisHistoryScreen(
         onClickDiagnosingBtn = { goToDiagnosisPage() },
         onClickDiagnosisDetail = { id -> goToDiagnosisResultPage(id) },
         diagnosisHistoryList = uiState.diagnosisHistoryList,
-        onClickBackBtn = onClickBackBtn
+        onClickBackBtn = onClickBackBtn,
+        isDataUpdated = uiState.isDataUpdated
     )
 }
 
@@ -73,7 +76,8 @@ fun DiagnosisHistoryContent(
     onClickDiagnosingBtn: () -> Unit = {},
     onClickDiagnosisDetail: (Int) -> Unit = {},
     diagnosisHistoryList: List<DiagnosisHistoryResponseModel.DiagnosisHistoryItem> = emptyList(),
-    onClickBackBtn: () -> Unit = {}
+    onClickBackBtn: () -> Unit = {},
+    isDataUpdated: Boolean = false
 ) {
     Column(
         modifier = Modifier
@@ -86,16 +90,20 @@ fun DiagnosisHistoryContent(
             onClickIcon = onClickBackBtn
         )
 
-        if (diagnosisHistoryList.isEmpty()) {
-            DiagnosisHistoryEmptyContent(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                onClickDiagnosingBtn = onClickDiagnosingBtn
-            )
+        if (isDataUpdated) {
+            if (diagnosisHistoryList.isEmpty()) {
+                DiagnosisHistoryEmptyContent(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    onClickDiagnosingBtn = onClickDiagnosingBtn
+                )
+            } else {
+                DiagnosisHistoryDataContent(
+                    diagnosisHistoryList = diagnosisHistoryList,
+                    onClickDiagnosisDetail = onClickDiagnosisDetail
+                )
+            }
         } else {
-            DiagnosisHistoryDataContent(
-                diagnosisHistoryList = diagnosisHistoryList,
-                onClickDiagnosisDetail = onClickDiagnosisDetail
-            )
+            DiagnosisHistoryShimmer()
         }
     }
 }
@@ -117,6 +125,44 @@ fun DiagnosisHistoryDataContent(
             )
         }
     }
+}
+
+@Composable
+fun DiagnosisHistoryShimmer() {
+    LoadingShimmerEffect { shimmer ->
+        LazyColumn(
+            modifier = Modifier
+                .padding(vertical = 23.dp),
+            verticalArrangement = Arrangement.spacedBy(35.dp)
+        ) {
+            items(2) {
+                DiagnosisHistoryShimmerItem(brush = shimmer)
+            }
+        }
+    }
+}
+
+@Composable
+fun DiagnosisHistoryShimmerItem(
+    brush: Brush,
+) {
+    Box(
+        modifier = Modifier
+            .padding(horizontal = 23.dp)
+            .size(15.dp)
+            .background(Main2, shape = CircleShape)
+    )
+
+    Box(
+        modifier = Modifier
+            .padding(top = 8.dp)
+            .padding(horizontal = 23.dp)
+            .fillMaxWidth()
+            .height(95.dp)
+            .clip(RoundedCornerShape(5.dp))
+            .background(brush)
+            .border(1.dp, color = Gray1, RoundedCornerShape(6.dp))
+    )
 }
 
 @Composable
