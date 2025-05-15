@@ -49,6 +49,7 @@ import com.peekaboo.design_system.White3
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryResponseModel
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
+import timber.log.Timber
 
 @Composable
 fun DiagnosisHistoryScreen(
@@ -103,7 +104,7 @@ fun DiagnosisHistoryDataContent(
 ) {
     LazyColumn(
         modifier = Modifier
-            .padding(top = 23.dp),
+            .padding(vertical = 23.dp),
         verticalArrangement = Arrangement.spacedBy(35.dp)
     ) {
         items(diagnosisHistoryList) { historyData ->

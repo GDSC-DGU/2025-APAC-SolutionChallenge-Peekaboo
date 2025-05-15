@@ -148,13 +148,15 @@ fun MainScreen() {
                             navController = navController,
                             setDiagnosisContent = settingDiagnosisContent,
                             diagnosisContent = viewModel.diagnosisContent,
-                            selectedDiagnosisHistoryId = viewModel.selectedDiagnosisHistory,
                             showLanguageBottomSheet = showLanguageBottomSheet,
-                            selectedLanguage = viewModel.finalSelectedLanguage
+                            selectedLanguage = viewModel.finalSelectedLanguage,
                         )
                         diagnosisHistoryNavGraph(
                             navController = navController,
-                            setDiagnosisHistoryId = settingDiagnosisHistory
+                            setDiagnosisHistoryId = settingDiagnosisHistory,
+                            selectedDiagnosisHistoryId = viewModel.selectedDiagnosisHistory,
+                            showLanguageBottomSheet = showLanguageBottomSheet,
+                            selectedLanguage = viewModel.finalSelectedLanguage
                         )
                         diagnosisQuickNavGraph(
                             navController = navController,

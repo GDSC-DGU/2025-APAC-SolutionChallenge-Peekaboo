@@ -9,6 +9,7 @@ import com.peekaboo.diagnosis.explain.SymptomExplainScreen
 import com.peekaboo.diagnosis.picture.UploadPictureScreen
 import com.peekaboo.diagnosis.selectarea.SelectAreaScreen
 import com.peekaboo.diagnosishistory.DiagnosisHistoryScreen
+import com.peekaboo.diagnosishistory.detail.DiagnosisHistoryDetailScreen
 import com.peekaboo.diagnosisquick.QuickDiagnosisScreen
 import com.peekaboo.diagnosisquick.detail.DetailQuickScreen
 import com.peekaboo.domain.entity.request.CreateUserModel
@@ -132,9 +133,9 @@ fun NavGraphBuilder.diagnosisNavGraph(
     navController: NavController,
     setDiagnosisContent: (DiagnosisModel) -> Unit,
     diagnosisContent: SharedFlow<DiagnosisModel>,
-    selectedDiagnosisHistoryId: SharedFlow<Int>,
+//    selectedDiagnosisHistoryId: SharedFlow<Int>,
     showLanguageBottomSheet: () -> Unit,
-    selectedLanguage: SharedFlow<String>
+    selectedLanguage: SharedFlow<String>,
 ) {
     navigation(
         startDestination = NavRoutes.SelectAreaScreen.route,
@@ -176,7 +177,7 @@ fun NavGraphBuilder.diagnosisNavGraph(
                         popUpTo(0)
                     }
                 },
-                selectedDiagnosisHistoryId = selectedDiagnosisHistoryId,
+//                selectedDiagnosisHistoryId = selectedDiagnosisHistoryId,
                 showLanguageBottomSheet = showLanguageBottomSheet,
                 selectedLanguage = selectedLanguage,
                 diagnosisContent = diagnosisContent
@@ -188,6 +189,9 @@ fun NavGraphBuilder.diagnosisNavGraph(
 fun NavGraphBuilder.diagnosisHistoryNavGraph(
     navController: NavController,
     setDiagnosisHistoryId: (Int) -> Unit,
+    selectedDiagnosisHistoryId: SharedFlow<Int>,
+    showLanguageBottomSheet: () -> Unit,
+    selectedLanguage: SharedFlow<String>,
 ) {
     navigation(
         startDestination = NavRoutes.DiagnosisHistoryScreen.route,
@@ -200,8 +204,21 @@ fun NavGraphBuilder.diagnosisHistoryNavGraph(
                 },
                 goToDiagnosisResultPage = {
                     setDiagnosisHistoryId(it)
-                    navController.navigate(NavRoutes.DiagnosisScreen.route)
+                    navController.navigate(NavRoutes.DiagnosisHistoryDetailScreen.route)
                 }
+            )
+        }
+
+        composable(NavRoutes.DiagnosisHistoryDetailScreen.route) {
+            DiagnosisHistoryDetailScreen(
+                goBackToMain = {
+                    navController.navigate(NavRoutes.HomeScreen.route) {
+                        popUpTo(0)
+                    }
+                },
+                selectedDiagnosisHistoryId = selectedDiagnosisHistoryId,
+                showLanguageBottomSheet = showLanguageBottomSheet,
+                selectedLanguage = selectedLanguage,
             )
         }
     }

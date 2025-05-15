@@ -1,4 +1,4 @@
-package com.peekaboo.diagnosis
+package com.peekaboo.diagnosishistory.detail
 
 import android.app.DownloadManager
 import android.content.Context
@@ -11,24 +11,45 @@ import com.peekaboo.domain.entity.request.diagnosis.DiagnosisAIRequestModel
 import com.peekaboo.domain.entity.request.diagnosis.DiagnosisPdfRequestModel
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryDetailModel
 import com.peekaboo.domain.usecase.diagnosis.GetDiagnosisAIUseCase
+import com.peekaboo.domain.usecase.diagnosis.GetDiagnosisHistoryDetailUseCase
 import com.peekaboo.domain.usecase.diagnosis.GetDiagnosisPdfUseCase
 import com.peekaboo.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class DiagnosisViewModel @Inject constructor(
+class DiagnosisHistoryDetailViewModel @Inject constructor(
+    private val getDiagnosisHistoryDetailUseCase: GetDiagnosisHistoryDetailUseCase,
     private val getDiagnosisPdfUseCase: GetDiagnosisPdfUseCase,
-    private val getDiagnosisAIUseCase: GetDiagnosisAIUseCase,
-) : BaseViewModel<DiagnosisPageState>(
-    DiagnosisPageState()
+): BaseViewModel<DiagnosisHistoryDetailPageState>(
+    DiagnosisHistoryDetailPageState()
 ) {
 
     fun setSelectedDisease(disease: String) {
         updateState(
             uiState.value.copy(
                 selectedDisease = disease
+            )
+        )
+    }
+
+    fun setDiagnosisResult(historyId: Int) {
+        Timber.d("[테스트] retrofit -> history")
+        setDiagnosisId(historyId)
+
+        viewModelScope.launch {
+            getDiagnosisHistoryDetailUseCase(request = historyId).collect {
+                resultResponse(it, ::onSuccessDiagnosisHistoryDetail)
+            }
+        }
+    }
+
+    private fun setDiagnosisId(id: Int) {
+        updateState(
+            uiState.value.copy(
+                diagnosisId = id
             )
         )
     }
@@ -40,7 +61,6 @@ class DiagnosisViewModel @Inject constructor(
 
         updateState(
             uiState.value.copy(
-                diagnosisId = data.diagnosisId,
                 customDescription = data.customDescription,
                 selectedDisease = firstDisease.diseaseName,
                 diseaseTotal = data.diseaseList,
@@ -79,23 +99,5 @@ class DiagnosisViewModel @Inject constructor(
 
         val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         downloadManager.enqueue(request)
-    }
-
-    fun getDiagnosisAI(diagnosis: DiagnosisModel) {
-        viewModelScope.launch {
-            getDiagnosisAIUseCase(
-                DiagnosisAIRequestModel(
-                    area = diagnosis.selectedArea,
-                    symptoms = diagnosis.symptomsExplain,
-                    image = ImageModel(diagnosis.photo, IMAGE)
-                )
-            ).collect {
-                resultResponse(it, ::onSuccessDiagnosisHistoryDetail)
-            }
-        }
-    }
-
-    companion object {
-        const val IMAGE = "image"
     }
 }
