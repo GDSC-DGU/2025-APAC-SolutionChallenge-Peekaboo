@@ -51,6 +51,7 @@ import com.peekaboo.ui.common.item.ChipItem
 @Composable
 fun SelectAreaScreen(
     goToPicturePage: (DiagnosisModel) -> Unit,
+    onClickBackBtn: () -> Unit
 ) {
 
     val viewModel: SelectAreaViewModel = hiltViewModel()
@@ -65,7 +66,8 @@ fun SelectAreaScreen(
         selectedShape = uiState.selectedShape,
         selectedShapeImg = uiState.selectedShapeImg,
         onClickShapePosition = { viewModel.setSelectedArea(it) },
-        selectedArea = uiState.selectedArea
+        selectedArea = uiState.selectedArea,
+        onClickBackBtn = onClickBackBtn
     )
 }
 
@@ -78,6 +80,7 @@ fun SelectAreaContent(
     selectedShapeImg: Int = 0,
     onClickShapePosition: (String) -> Unit = {},
     selectedArea: String = "",
+    onClickBackBtn: () -> Unit = {}
 ) {
 
     Column(
@@ -91,7 +94,8 @@ fun SelectAreaContent(
         ) {
             TopBar(
                 titleText = DiagnosisTitle,
-                isIconValid = true
+                isIconValid = true,
+                onClickIcon = onClickBackBtn
             )
 
             CourseNumber(
@@ -382,7 +386,7 @@ fun SelectAreaPictureBoxBack(
             contentDescription = "body back",
             colorFilter = ColorFilter.tint(if (selectedBodyPosition == SelectAreaType.BACK.position) Main2 else Color.Transparent),
             modifier = Modifier
-                .padding(top = 119.dp)
+                .padding(top = 119.dp, start = 77.dp, end = 81.dp)
                 .align(Alignment.TopCenter)
                 .clickable(
                     onClick = { onClickShapePosition(SelectAreaType.BACK.position) },
@@ -397,7 +401,7 @@ fun SelectAreaPictureBoxBack(
             contentDescription = "body hip",
             colorFilter = ColorFilter.tint(if (selectedBodyPosition == SelectAreaType.HIP.position) Main2 else Color.Transparent),
             modifier = Modifier
-                .padding(top = 192.dp, start = 78.dp)
+                .padding(top = 192.dp, start = 78.dp, end = 82.dp)
                 .align(Alignment.TopCenter)
                 .clickable(
                     onClick = { onClickShapePosition(SelectAreaType.HIP.position) },

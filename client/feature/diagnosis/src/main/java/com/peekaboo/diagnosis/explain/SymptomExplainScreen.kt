@@ -33,6 +33,7 @@ import kotlinx.coroutines.flow.SharedFlow
 fun SymptomExplainScreen(
     diagnosisModel: SharedFlow<DiagnosisModel>,
     goToDiagnosisResultPage: (DiagnosisModel) -> Unit,
+    onClickBackBtn: () -> Unit
 ) {
     val viewModel: SymptomExplainViewModel = hiltViewModel()
     val uiState: SymptomExplainPageState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -56,7 +57,8 @@ fun SymptomExplainScreen(
     SymptomExplainContent(
         onClickNextBtn = { viewModel.diagnoseSymptom() },
         explainInput = uiState.explainInput,
-        onExplainValueChange = { viewModel.onExplainValueChange(it) }
+        onExplainValueChange = { viewModel.onExplainValueChange(it) },
+        onClickBackBtn = onClickBackBtn
     )
 }
 
@@ -65,6 +67,7 @@ fun SymptomExplainContent(
     onClickNextBtn: () -> Unit = {},
     explainInput: String = "",
     onExplainValueChange: (String) -> Unit = {},
+    onClickBackBtn: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -77,7 +80,8 @@ fun SymptomExplainContent(
         ) {
             TopBar(
                 titleText = DiagnosisTitle,
-                isIconValid = true
+                isIconValid = true,
+                onClickIcon = onClickBackBtn
             )
 
             CourseNumber(

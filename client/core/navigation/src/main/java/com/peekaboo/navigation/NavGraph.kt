@@ -146,6 +146,9 @@ fun NavGraphBuilder.diagnosisNavGraph(
                 goToPicturePage = {
                     setDiagnosisContent(it)
                     navController.navigate(NavRoutes.SelectPictureScreen.route)
+                },
+                onClickBackBtn = {
+                    navController.popBackStack()
                 }
             )
         }
@@ -156,7 +159,10 @@ fun NavGraphBuilder.diagnosisNavGraph(
                     setDiagnosisContent(it)
                     navController.navigate(NavRoutes.ExplainSymptomScreen.route)
                 },
-                diagnosisModel = diagnosisContent
+                diagnosisModel = diagnosisContent,
+                onClickBackBtn = {
+                    navController.popBackStack()
+                }
             )
         }
 
@@ -166,7 +172,10 @@ fun NavGraphBuilder.diagnosisNavGraph(
                     setDiagnosisContent(it)
                     navController.navigate(NavRoutes.DiagnosisScreen.route)
                 },
-                diagnosisModel = diagnosisContent
+                diagnosisModel = diagnosisContent,
+                onClickBackBtn = {
+                    navController.popBackStack()
+                }
             )
         }
 
@@ -177,7 +186,6 @@ fun NavGraphBuilder.diagnosisNavGraph(
                         popUpTo(0)
                     }
                 },
-//                selectedDiagnosisHistoryId = selectedDiagnosisHistoryId,
                 showLanguageBottomSheet = showLanguageBottomSheet,
                 selectedLanguage = selectedLanguage,
                 diagnosisContent = diagnosisContent
@@ -205,6 +213,9 @@ fun NavGraphBuilder.diagnosisHistoryNavGraph(
                 goToDiagnosisResultPage = {
                     setDiagnosisHistoryId(it)
                     navController.navigate(NavRoutes.DiagnosisHistoryDetailScreen.route)
+                },
+                onClickBackBtn = {
+                    navController.popBackStack()
                 }
             )
         }
@@ -238,6 +249,9 @@ fun NavGraphBuilder.diagnosisQuickNavGraph(
                 goToDetailDiagnosisPage = {
                     setDiagnosisConstId(it)
                     navController.navigate(NavRoutes.DetailQuickScreen.route)
+                },
+                onClickBackBtn = {
+                    navController.popBackStack()
                 }
             )
         }
@@ -252,7 +266,10 @@ fun NavGraphBuilder.diagnosisQuickNavGraph(
                 goToDiagnosisPage = {
                     navController.navigate(NavRoutes.SelectAreaScreen.route)
                 },
-                diagnosisConstId = diagnosisConstId
+                diagnosisConstId = diagnosisConstId,
+                onClickBackBtn = {
+                    navController.popBackStack()
+                }
             )
         }
     }

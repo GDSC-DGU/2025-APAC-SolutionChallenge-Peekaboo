@@ -36,15 +36,18 @@ import com.peekaboo.ui.common.type.DiseaseType
 @Composable
 fun QuickDiagnosisScreen(
     goToDetailDiagnosisPage: (Int) -> Unit,
+    onClickBackBtn: () -> Unit
 ) {
     QuickDiagnosisContent(
-        onClickDisease = { id -> goToDetailDiagnosisPage(id) }
+        onClickDisease = { id -> goToDetailDiagnosisPage(id) },
+        onClickBackBtn = onClickBackBtn
     )
 }
 
 @Composable
 fun QuickDiagnosisContent(
     onClickDisease: (Int) -> Unit = {},
+    onClickBackBtn: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -53,7 +56,8 @@ fun QuickDiagnosisContent(
     ) {
         TopBar(
             titleText = QuickDiagnosisTitle,
-            isIconValid = true
+            isIconValid = true,
+            onClickIcon = onClickBackBtn
         )
 
         Text(

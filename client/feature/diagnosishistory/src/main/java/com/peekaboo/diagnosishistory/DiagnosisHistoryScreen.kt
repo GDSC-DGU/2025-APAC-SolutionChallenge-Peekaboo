@@ -49,12 +49,12 @@ import com.peekaboo.design_system.White3
 import com.peekaboo.domain.entity.response.diagnosis.DiagnosisHistoryResponseModel
 import com.peekaboo.ui.common.appbar.TopBar
 import com.peekaboo.ui.common.button.BottomRectangleBtn
-import timber.log.Timber
 
 @Composable
 fun DiagnosisHistoryScreen(
     goToDiagnosisPage: () -> Unit,
     goToDiagnosisResultPage: (Int) -> Unit,
+    onClickBackBtn: () -> Unit
 ) {
 
     val viewModel: DiagnosisHistoryViewModel = hiltViewModel()
@@ -63,7 +63,8 @@ fun DiagnosisHistoryScreen(
     DiagnosisHistoryContent(
         onClickDiagnosingBtn = { goToDiagnosisPage() },
         onClickDiagnosisDetail = { id -> goToDiagnosisResultPage(id) },
-        diagnosisHistoryList = uiState.diagnosisHistoryList
+        diagnosisHistoryList = uiState.diagnosisHistoryList,
+        onClickBackBtn = onClickBackBtn
     )
 }
 
@@ -72,6 +73,7 @@ fun DiagnosisHistoryContent(
     onClickDiagnosingBtn: () -> Unit = {},
     onClickDiagnosisDetail: (Int) -> Unit = {},
     diagnosisHistoryList: List<DiagnosisHistoryResponseModel.DiagnosisHistoryItem> = emptyList(),
+    onClickBackBtn: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -80,7 +82,8 @@ fun DiagnosisHistoryContent(
     ) {
         TopBar(
             titleText = DiagnosisHistoryTitle,
-            isIconValid = true
+            isIconValid = true,
+            onClickIcon = onClickBackBtn
         )
 
         if (diagnosisHistoryList.isEmpty()) {

@@ -99,9 +99,9 @@ object RetrofitModule {
         @BaeBaeRetrofit interceptor: Interceptor,
     ): OkHttpClient =
         OkHttpClient.Builder()
-            .connectTimeout(100, TimeUnit.SECONDS)
-            .writeTimeout(100, TimeUnit.SECONDS)
-            .readTimeout(100, TimeUnit.SECONDS)
+            .connectTimeout(200, TimeUnit.SECONDS)
+            .writeTimeout(200, TimeUnit.SECONDS)
+            .readTimeout(200, TimeUnit.SECONDS)
             .addInterceptor(loggingInterceptor)
             .addInterceptor(interceptor)
             .build()
