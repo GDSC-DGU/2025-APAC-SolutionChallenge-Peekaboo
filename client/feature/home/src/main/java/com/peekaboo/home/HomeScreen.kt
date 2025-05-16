@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
@@ -113,10 +114,10 @@ fun HomeContent(
                     .weight(1f)
             )
 
-            Image(
-                painter = painterResource(id = R.drawable.ic_setting),
-                contentDescription = "setting",
-            )
+//                    Image(
+//                        painter = painterResource(id = R.drawable.ic_setting),
+//                        contentDescription = "setting",
+//                    )
         }
 
         Box(
@@ -129,32 +130,36 @@ fun HomeContent(
             )
         }
 
-        Text(
-            text = buildAnnotatedString {
-                append(HomeSemiTitle)
-                withStyle(style = SpanStyle(color = Main2)) {
-                    append(BaeBae)
-                }
-            },
-            color = Black1,
-            style = BaeBaeTypo.Body1,
-            modifier = Modifier
-                .padding(top = 30.dp, start = 20.dp)
-        )
+        LazyColumn {
+            item {
+                Text(
+                    text = buildAnnotatedString {
+                        append(HomeSemiTitle)
+                        withStyle(style = SpanStyle(color = Main2)) {
+                            append(BaeBae)
+                        }
+                    },
+                    color = Black1,
+                    style = BaeBaeTypo.Body1,
+                    modifier = Modifier
+                        .padding(top = 30.dp, start = 20.dp)
+                )
 
-        HomeDiagnosingBox(
-            onClickDiagnosisBtn = onClickDiagnosisBtn
-        )
+                HomeDiagnosingBox(
+                    onClickDiagnosisBtn = onClickDiagnosisBtn
+                )
 
-        HomeDiagnosisHistory(
-            interactionSource = interactionSource,
-            onClickDiagnosisHistoryBox = onClickDiagnosisHistoryBox
-        )
+                HomeDiagnosisHistory(
+                    interactionSource = interactionSource,
+                    onClickDiagnosisHistoryBox = onClickDiagnosisHistoryBox
+                )
 
-        HomeDiseaseTypeList(
-            interactionSource = interactionSource,
-            onClickDiseaseListFullView = onClickDiseaseListFullView
-        )
+                HomeDiseaseTypeList(
+                    interactionSource = interactionSource,
+                    onClickDiseaseListFullView = onClickDiseaseListFullView
+                )
+            }
+        }
     }
 }
 
