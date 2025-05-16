@@ -10,7 +10,7 @@ from app.schemas.diagnosis import CVResult
 
 class CVService:
     def __init__(self):
-        self.project = settings.project_id
+        self.project = settings.vertex_ai_project_id
         self.location = settings.region
         self.vertex_ai_endpoint = settings.vertex_ai_endpoint
         self.endpoint = aiplatform.Endpoint(self.vertex_ai_endpoint)

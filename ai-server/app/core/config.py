@@ -17,9 +17,11 @@ class Settings(BaseSettings):
     qdrant_url: str
     qdrant_api_key: str
     gemini_api_key: str
+    huggingface_api_token: str
 
     project_id: str
     region: str
+    vertex_ai_project_id: str
     vertex_ai_endpoint_id: str
 
     PROMPT_DIR: str = "app/prompt"
@@ -32,7 +34,7 @@ class Settings(BaseSettings):
     @property
     def vertex_ai_endpoint(self) -> str:
         return (
-            f"projects/{self.project_id}/"
+            f"projects/{self.vertex_ai_project_id}/"
             f"locations/{self.region}/"
             f"endpoints/{self.vertex_ai_endpoint_id}"
         )

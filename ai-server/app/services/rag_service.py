@@ -12,6 +12,7 @@ class RagService:
             timeout=60,
             check_compatibility=False,
         )
+        self.huggingface_api_token = settings.huggingface_api_token
         self.embeddings = HuggingFaceEmbeddings(
             model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
         )

@@ -12,7 +12,7 @@ from app.services.translation_service import TranslationService
 def get_cv_service() -> CVService:
     """Get the CVService instance."""
     try:
-        aiplatform.init(project=settings.project_id, location=settings.region)
+        aiplatform.init(project=settings.vertex_ai_project_id, location=settings.region)
         logger.info("Vertex AI initialized successfully in get_cv_service.")
         return CVService()
     except Exception:
