@@ -18,6 +18,7 @@ public class DiagnosisMapper {
     public ReadDiagnosisDetailResponseDto ofDetail(Diagnosis diagnosis) {
         return ReadDiagnosisDetailResponseDto.builder()
                 .customDescription(diagnosis.getKoCustomDescription())
+                .diagnosisId(diagnosis.getId())
                 .diseaseList(ofDiseaseConst(diagnosis))
                 .build();
     }
@@ -29,6 +30,7 @@ public class DiagnosisMapper {
                         .diseaseName(disease.getDiseaseConst().getName())
                         .ranking(disease.getRanking())
                         .percent(disease.getPercent())
+                        .rating(disease.getDiseaseConst().getRating())
                         .description(disease.getDiseaseConst().getDescription())
                         .type(disease.getDiseaseConst().getType())
                         .site(disease.getDiseaseConst().getSite())
@@ -62,15 +64,44 @@ public class DiagnosisMapper {
 
 
 
-
-
-
     public ReadDiagnosisDetailResponseDto ofEDetail(Diagnosis diagnosis) {
         return ReadDiagnosisDetailResponseDto.builder()
                 .customDescription(diagnosis.getEnCustomDescription())
+                .diagnosisId(diagnosis.getId())
                 .diseaseList(ofEDiseaseConst(diagnosis))
                 .build();
     }
+
+
+    public ReadDiagnosisDetailResponseDto ofEDetailDiagnosis(Diagnosis diagnosis, List<Disease> diseases) {
+        return ReadDiagnosisDetailResponseDto.builder()
+                .customDescription(diagnosis.getEnCustomDescription())
+                .diagnosisId(diagnosis.getId())
+                .diseaseList(ofEDiseaseConstDiagnosis(diseases))
+                .build();
+    }
+    private List<ReadDiseaseConstResponseDto> ofEDiseaseConstDiagnosis(List<Disease> diseases) {
+        return diseases.stream()
+                .map(disease -> ReadDiseaseConstResponseDto.builder()
+                        .diseaseId(disease.getId())
+                        .diseaseName(disease.getDiseaseConst().getEName())
+                        .ranking(disease.getRanking())
+                        .percent(disease.getPercent())
+                        .rating(disease.getDiseaseConst().getRating())
+                        .description(disease.getDiseaseConst().getEDescription())
+                        .type(disease.getDiseaseConst().getEType())
+                        .site(disease.getDiseaseConst().getESite())
+                        .reason(disease.getDiseaseConst().getEReason())
+                        .mild(disease.getDiseaseConst().getEMild())
+                        .severe(disease.getDiseaseConst().getESevere())
+                        .preventive(disease.getDiseaseConst().getEPreventive())
+                        .caution(disease.getDiseaseConst().getECaution())
+                        .symptoms(ofESymptoms(disease.getDiseaseConst()))
+                        .drugs(ofEDrugs(disease.getDiseaseConst()))
+                        .build()
+                ).toList();
+    }
+
 
     private List<ReadDiseaseConstResponseDto> ofEDiseaseConst(Diagnosis diagnosis) {
         return diagnosis.getDiseases().stream()
@@ -79,6 +110,7 @@ public class DiagnosisMapper {
                         .diseaseName(disease.getDiseaseConst().getEName())
                         .ranking(disease.getRanking())
                         .percent(disease.getPercent())
+                        .rating(disease.getDiseaseConst().getRating())
                         .description(disease.getDiseaseConst().getEDescription())
                         .type(disease.getDiseaseConst().getEType())
                         .site(disease.getDiseaseConst().getESite())
@@ -132,8 +164,8 @@ public class DiagnosisMapper {
             case "en":
             default: {
                 return ReadDiseaseConstDetailResponseDto.builder()
-                        .diseaseName(diseaseConst.getName())
-                        .rating(diseaseConst.getRating())
+                        .diseaseName(diseaseConst.getEName())
+                        .rating(diseaseConst.getERating())
                         .description(diseaseConst.getEDescription())
                         .type(diseaseConst.getEType())
                         .site(diseaseConst.getESite())

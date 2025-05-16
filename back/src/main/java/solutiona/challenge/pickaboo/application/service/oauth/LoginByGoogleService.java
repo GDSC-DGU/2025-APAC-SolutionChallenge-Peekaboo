@@ -31,7 +31,7 @@ public class LoginByGoogleService implements LoginByGoogleUseCase {
     @Override
     @Transactional
     public LoginResponseDto execute(String accessToken) {
-        Map<String, String> userInfo = oAuth2Util.getGoogleUserInfo(accessToken);
+        Map<String, String> userInfo = oAuth2Util.getGoogle(accessToken);
 
         String serialId = userInfo.get("id");
         UserJpaRepository.UserSecurityForm userSecurityForm = userRepository.findFormBySerialIdAndProvider(serialId, EProvider.KAKAO)

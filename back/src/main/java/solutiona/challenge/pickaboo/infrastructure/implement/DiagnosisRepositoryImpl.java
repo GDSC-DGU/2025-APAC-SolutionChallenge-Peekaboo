@@ -25,4 +25,9 @@ public class DiagnosisRepositoryImpl implements DiagnosisRepository {
         return diagnosisJpaRepository.findById(diagnosisId)
                 .orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER)); // 질병 없음
     }
+
+    @Override
+    public void save(Diagnosis diagnosis) {
+        diagnosisJpaRepository.save(diagnosis);
+    }
 }

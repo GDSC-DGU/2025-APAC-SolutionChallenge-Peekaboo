@@ -6,6 +6,7 @@ import lombok.Builder;
 @Builder
 public record ReadDiagnosisDetailResponseDto(
         String customDescription,
+        Long diagnosisId,
         List<ReadDiseaseConstResponseDto> diseaseList
 ) {
 }
