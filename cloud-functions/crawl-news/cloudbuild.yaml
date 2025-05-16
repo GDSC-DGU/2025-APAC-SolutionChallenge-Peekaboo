@@ -12,4 +12,4 @@ steps:
       - --region
       - us-central1
       - --source
-      - cloud-functions
+      - cloud-functions/crawl-news
