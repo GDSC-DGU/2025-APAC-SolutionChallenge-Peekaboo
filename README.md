@@ -22,7 +22,7 @@
 
  ## Project Introduction
  ##  ⬇️ Click For Watch the Introduction Video!
-[![Watch the video](https://reboot-dev.s3.ap-northeast-2.amazonaws.com/KakaoTalk_Photo_2025-05-17-01-05-13.png)](https://www.youtube.com/shorts/mNQmWPezwBk)
+[![Watch the video](https://reboot-dev.s3.ap-northeast-2.amazonaws.com/KakaoTalk_Photo_2025-05-17-01-05-13.png)](https://www.youtube.com/watch?v=sSRKYQsKIis)
 
 ## Architecture
 <img width="100%" alt="image" src="https://reboot-dev.s3.ap-northeast-2.amazonaws.com/KakaoTalk_Photo_2025-05-17-01-05-11.png">
