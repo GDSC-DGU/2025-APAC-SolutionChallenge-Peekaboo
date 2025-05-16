@@ -1,0 +1,8 @@
+functions-framework==3.*
+Flask~=3.1.0
+Jinja2~=3.1.6
+xhtml2pdf~=0.2.17
+google-cloud-storage==1.44.0
+protobuf~=6.30.2
+
+google-cloud-translate==2.0.1
