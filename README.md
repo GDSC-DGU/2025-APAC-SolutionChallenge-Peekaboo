@@ -43,8 +43,7 @@
 
 | Personal Information | Diease History | Additional Features  | 
 |-------------|-----------------|----------------|
-| ![Onboarding Screen](https://url.kr/9mhxfj) | ![diease history](https://reboot-dev.s3.ap-northeast-2.amazonaws.com/gif/%E1%84%8B%E1%85%A9%E1%86%AB%E1%84%87%E1%85%A9%E1%84%83%E1%85%B5%E1%86%BC+%E1%84%8C%E1%85%B5%E1%86%AF%E1%84%87%E1%85%A7%E1%86%BC.gif) | ![부가기능](https://github.com/user-attachments/assets/7278e66f-2437-4af5-9e76-05718c5c14d2)
- |
+| ![Onboarding Screen](https://url.kr/9mhxfj) | ![diease history](https://reboot-dev.s3.ap-northeast-2.amazonaws.com/gif/%E1%84%8B%E1%85%A9%E1%86%AB%E1%84%87%E1%85%A9%E1%84%83%E1%85%B5%E1%86%BC+%E1%84%8C%E1%85%B5%E1%86%AF%E1%84%87%E1%85%A7%E1%86%BC.gif) | ![부가기능](https://github.com/user-attachments/assets/7278e66f-2437-4af5-9e76-05718c5c14d2)|
 
 
 
