@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.log
+
+# Virtual Environment
+.env
+.venv/
+venv/
+ENV/
+env/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Migrations
+alembic.ini
+app/db/migrations/versions/
+
+# Databases
+*.sqlite3
+*.db
+
+# FastAPI static/media uploads (optional, if you use uploads)
+uploads/
+static/
+media/
+
+# Pytest
+.pytest_cache/
+htmlcov/
+.coverage
+.tox/
+
+# Ruff / Flake8 / Other linters
+.ruff_cache/
