@@ -56,6 +56,7 @@ import kotlinx.coroutines.flow.SharedFlow
 fun UploadPictureScreen(
     diagnosisModel: SharedFlow<DiagnosisModel>,
     goToExplainPage: (DiagnosisModel) -> Unit,
+    onClickBackBtn: () -> Unit
 ) {
     val viewModel: UploadPictureViewModel = hiltViewModel()
     val uiState: UploadPicturePageState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -93,7 +94,8 @@ fun UploadPictureScreen(
             imageUri = null
             viewModel.setSelectedImg(context, null)
         },
-        interactionSource = interactionSource
+        interactionSource = interactionSource,
+        onClickBackBtn = onClickBackBtn
     )
 }
 
@@ -104,6 +106,7 @@ fun UploadPictureContent(
     onClickDeleteBtn: () -> Unit = {},
     selectedImg: Bitmap? = null,
     interactionSource: MutableInteractionSource = MutableInteractionSource(),
+    onClickBackBtn: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -116,7 +119,8 @@ fun UploadPictureContent(
         ) {
             TopBar(
                 titleText = DiagnosisTitle,
-                isIconValid = true
+                isIconValid = true,
+                onClickIcon = onClickBackBtn
             )
 
             CourseNumber(
@@ -145,7 +149,7 @@ fun UploadPictureContent(
         BottomRectangleBtn(
             horizontalPadding = 20,
             btnText = Next,
-            isBtnValid = true,
+            isBtnValid = (selectedImg != null),
             onClickAction = onClickNextBtn
         )
 

@@ -47,6 +47,7 @@ fun DetailQuickScreen(
     diagnosisConstId: SharedFlow<Int>,
     goBackToMain: () -> Unit,
     goToDiagnosisPage: () -> Unit,
+    onClickBackBtn: () -> Unit
 ) {
     val viewModel: DetailQuickViewModel = hiltViewModel()
     val uiState: DetailQuickPageState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -64,7 +65,8 @@ fun DetailQuickScreen(
         onClickBackToMain = { goBackToMain() },
         onClickAdditionalDiagnosis = { goToDiagnosisPage() },
         diseaseModel = uiState.diagnosisModel,
-        diseaseImg = uiState.diagnosisImg
+        diseaseImg = uiState.diagnosisImg,
+        onClickBackBtn = onClickBackBtn
     )
 }
 
@@ -75,6 +77,7 @@ fun DetailQuickContent(
     onClickAdditionalDiagnosis: () -> Unit = {},
     diseaseModel: DiagnosisConstModel = DiagnosisConstModel(),
     diseaseImg: Int = 0,
+    onClickBackBtn: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -83,7 +86,8 @@ fun DetailQuickContent(
     ) {
         TopBar(
             titleText = QuickDiagnosisTitle,
-            isIconValid = true
+            isIconValid = true,
+            onClickIcon = onClickBackBtn
         )
 
         DetailDescriptionBanner(

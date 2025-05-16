@@ -23,6 +23,9 @@ android {
 
         val googleLogInKey = properties.getProperty("GOOGLE_CLIENT_ID")
         buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleLogInKey\"")
+
+        versionCode = project.properties["version_code"]?.toString()?.toInt() ?: 1
+        versionName = project.properties["version"]?.toString() ?: "1.0.0"
     }
 }
 

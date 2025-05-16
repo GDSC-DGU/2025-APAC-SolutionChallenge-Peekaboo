@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 data class DiagnosisHistoryDetailResponseDto(
     @SerialName("customDescription")
     val customDescription: String = "",
+    @SerialName("diagnosisId")
+    val diagnosisId: Int = 0,
     @SerialName("diseaseList")
     val diseaseList: List<DiseaseDetailItem> = emptyList(),
 ) {

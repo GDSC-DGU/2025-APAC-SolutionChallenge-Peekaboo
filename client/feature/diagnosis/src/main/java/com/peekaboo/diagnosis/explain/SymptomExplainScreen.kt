@@ -18,7 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.peekaboo.design_system.BaeBaeTypo
 import com.peekaboo.design_system.Black1
 import com.peekaboo.design_system.DiagnosisExplainHint
-import com.peekaboo.design_system.DiagnosisSelectPicture
+import com.peekaboo.design_system.DiagnosisExplainTitle
 import com.peekaboo.design_system.DiagnosisTitle
 import com.peekaboo.design_system.Finish
 import com.peekaboo.design_system.White3
@@ -33,6 +33,7 @@ import kotlinx.coroutines.flow.SharedFlow
 fun SymptomExplainScreen(
     diagnosisModel: SharedFlow<DiagnosisModel>,
     goToDiagnosisResultPage: (DiagnosisModel) -> Unit,
+    onClickBackBtn: () -> Unit
 ) {
     val viewModel: SymptomExplainViewModel = hiltViewModel()
     val uiState: SymptomExplainPageState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -56,7 +57,8 @@ fun SymptomExplainScreen(
     SymptomExplainContent(
         onClickNextBtn = { viewModel.diagnoseSymptom() },
         explainInput = uiState.explainInput,
-        onExplainValueChange = { viewModel.onExplainValueChange(it) }
+        onExplainValueChange = { viewModel.onExplainValueChange(it) },
+        onClickBackBtn = onClickBackBtn
     )
 }
 
@@ -65,6 +67,7 @@ fun SymptomExplainContent(
     onClickNextBtn: () -> Unit = {},
     explainInput: String = "",
     onExplainValueChange: (String) -> Unit = {},
+    onClickBackBtn: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -77,7 +80,8 @@ fun SymptomExplainContent(
         ) {
             TopBar(
                 titleText = DiagnosisTitle,
-                isIconValid = true
+                isIconValid = true,
+                onClickIcon = onClickBackBtn
             )
 
             CourseNumber(
@@ -88,7 +92,7 @@ fun SymptomExplainContent(
             )
 
             Text(
-                text = DiagnosisSelectPicture,
+                text = DiagnosisExplainTitle,
                 color = Black1,
                 style = BaeBaeTypo.Body1,
                 modifier = Modifier

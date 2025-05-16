@@ -23,7 +23,7 @@ class SelectAreaViewModel @Inject constructor(
             }
 
             DiagnosisSelectAreaBack -> {
-                selectedImg = R.drawable.ic_body_back
+                selectedImg = R.drawable.ic_body_back_img
             }
         }
         updateState(

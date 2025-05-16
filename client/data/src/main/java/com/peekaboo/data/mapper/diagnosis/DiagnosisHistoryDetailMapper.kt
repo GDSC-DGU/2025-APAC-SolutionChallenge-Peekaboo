@@ -18,6 +18,7 @@ object DiagnosisHistoryDetailMapper : BaseMapper() {
                 response?.let { data ->
                     DiagnosisHistoryDetailModel(
                         customDescription = data.customDescription,
+                        diagnosisId = data.diagnosisId,
                         diseaseList = data.diseaseList.map { disease ->
                             DiagnosisHistoryDetailModel.DiseaseDetailItem(
                                 diseaseId = disease.diseaseId,

@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
@@ -113,42 +114,52 @@ fun HomeContent(
                     .weight(1f)
             )
 
-            Image(
-                painter = painterResource(id = R.drawable.ic_setting),
-                contentDescription = "setting",
+//                    Image(
+//                        painter = painterResource(id = R.drawable.ic_setting),
+//                        contentDescription = "setting",
+//                    )
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            HomeDiseaseBanner(
+                bannerDiseaseList = diseaseBannerList
             )
         }
 
-        HomeDiseaseBanner(
-            bannerDiseaseList = diseaseBannerList
-        )
+        LazyColumn {
+            item {
+                Text(
+                    text = buildAnnotatedString {
+                        append(HomeSemiTitle)
+                        withStyle(style = SpanStyle(color = Main2)) {
+                            append(BaeBae)
+                        }
+                    },
+                    color = Black1,
+                    style = BaeBaeTypo.Body1,
+                    modifier = Modifier
+                        .padding(top = 30.dp, start = 20.dp)
+                )
 
-        Text(
-            text = buildAnnotatedString {
-                append(HomeSemiTitle)
-                withStyle(style = SpanStyle(color = Main2)) {
-                    append(BaeBae)
-                }
-            },
-            color = Black1,
-            style = BaeBaeTypo.Body1,
-            modifier = Modifier
-                .padding(top = 43.dp, start = 20.dp)
-        )
+                HomeDiagnosingBox(
+                    onClickDiagnosisBtn = onClickDiagnosisBtn
+                )
 
-        HomeDiagnosingBox(
-            onClickDiagnosisBtn = onClickDiagnosisBtn
-        )
+                HomeDiagnosisHistory(
+                    interactionSource = interactionSource,
+                    onClickDiagnosisHistoryBox = onClickDiagnosisHistoryBox
+                )
 
-        HomeDiagnosisHistory(
-            interactionSource = interactionSource,
-            onClickDiagnosisHistoryBox = onClickDiagnosisHistoryBox
-        )
-
-        HomeDiseaseTypeList(
-            interactionSource = interactionSource,
-            onClickDiseaseListFullView = onClickDiseaseListFullView
-        )
+                HomeDiseaseTypeList(
+                    interactionSource = interactionSource,
+                    onClickDiseaseListFullView = onClickDiseaseListFullView
+                )
+            }
+        }
     }
 }
 
@@ -178,63 +189,71 @@ fun HomeDiseaseBannerItem(
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp
 
-    Row(
+    Box(
         modifier = Modifier
             .width(screenWidthDp.dp)
-            .height(180.dp)
-            .clip(RoundedCornerShape(bottomStart = 3.dp, bottomEnd = 3.dp))
+            .wrapContentHeight()
+            .clip(RoundedCornerShape(bottomStart = 5.dp, bottomEnd = 5.dp))
             .background(Main3),
-        verticalAlignment = Alignment.Top
     ) {
-        Column(
+        Row(
             modifier = Modifier
-                .padding(start = 20.dp, end = 15.dp, top = 24.dp, bottom = 26.dp)
-                .weight(1f)
+                .padding(bottom = 50.dp, top = 20.dp)
         ) {
-            Row {
-                Text(
-                    text = diseaseItem.name,
-                    color = White2,
-                    style = BaeBaeTypo.Head1,
-                )
+            Column(
+                modifier = Modifier
+                    .padding(start = 20.dp, end = 20.dp)
+                    .weight(1f)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = diseaseItem.name,
+                        color = White2,
+                        style = BaeBaeTypo.Head1,
+                    )
+
+                    Text(
+                        text = diseaseItem.location,
+                        color = Gray2,
+                        style = BaeBaeTypo.Body1,
+                        modifier = Modifier
+                            .padding(start = 15.dp)
+                    )
+                }
 
                 Text(
-                    text = diseaseItem.location,
+                    text = diseaseItem.description,
                     color = Gray2,
-                    style = BaeBaeTypo.Body1,
+                    style = BaeBaeTypo.Caption1,
                     modifier = Modifier
-                        .padding(top = 5.dp, start = 15.dp)
+                        .padding(top = 20.dp)
                 )
             }
 
-            Text(
-                text = diseaseItem.description,
-                color = Gray2,
-                style = BaeBaeTypo.Caption1,
+            Image(
+                painter = painterResource(id = R.drawable.ic_home_banner),
+                contentDescription = "banner",
                 modifier = Modifier
-                    .padding(top = 10.dp)
+                    .padding(end = 20.dp)
+                    .align(Alignment.CenterVertically)
+                    .size(100.dp)
+                    .clip(RoundedCornerShape(3.dp)),
             )
         }
 
         Box(
             modifier = Modifier
-                .padding(vertical = 16.dp)
-                .size(80.dp)
-                .clip(RoundedCornerShape(3.dp))
-                .background(Gray2),
-        )
-
-        Box(
-            modifier = Modifier
-                .align(Alignment.Bottom)
-                .padding(start = 5.dp, end = 6.dp, bottom = 5.dp)
+                .align(Alignment.BottomEnd)
+                .padding(end = 14.dp, bottom = 11.dp)
                 .clip(RoundedCornerShape(10.dp))
                 .background(BannerIndicator)
         ) {
             Text(
                 text = String.format(CourseNumberFormat, page, size),
                 color = Gray3,
-                style = BaeBaeTypo.Caption5,
+                style = BaeBaeTypo.Caption3,
                 modifier = Modifier
                     .padding(vertical = 2.dp, horizontal = 5.dp)
             )
@@ -416,7 +435,7 @@ fun DiseaseTypeList() {
         items(DiseaseType.entries) { diseaseType ->
             DiseaseTypeItem(
                 diseaseImg = diseaseType.diseaseImg,
-                diseaseName = diseaseType.diseaseName
+                diseaseName = diseaseType.diseaseNameEng
             )
         }
     }

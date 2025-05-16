@@ -9,11 +9,9 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 object GoogleLoginManager {
-    @RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
     suspend fun signInWithGoogle(activity: Activity): String? {
         val credentialManager = CredentialManager.create(activity)
 
@@ -27,19 +25,17 @@ object GoogleLoginManager {
             .addCredentialOption(googleIdOption)
             .build()
 
-        return withContext(Dispatchers.IO) {
-            try {
-                val result: GetCredentialResponse = credentialManager.getCredential(
-                    request = request,
-                    context = activity
-                )
+        return try {
+            val result: GetCredentialResponse = credentialManager.getCredential(
+                request = request,
+                context = activity // keep on Main thread!
+            )
 
-                val googleIdCredential = GoogleIdTokenCredential.createFrom(result.credential.data)
-                googleIdCredential.idToken
-            } catch (e: GetCredentialException) {
-                e.printStackTrace()
-                null
-            }
+            val googleIdCredential = GoogleIdTokenCredential.createFrom(result.credential.data)
+            googleIdCredential.idToken
+        } catch (e: GetCredentialException) {
+            e.printStackTrace()
+            null
         }
     }
 }

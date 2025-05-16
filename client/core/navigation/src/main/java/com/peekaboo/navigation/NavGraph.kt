@@ -1,5 +1,7 @@
 package com.peekaboo.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -9,6 +11,7 @@ import com.peekaboo.diagnosis.explain.SymptomExplainScreen
 import com.peekaboo.diagnosis.picture.UploadPictureScreen
 import com.peekaboo.diagnosis.selectarea.SelectAreaScreen
 import com.peekaboo.diagnosishistory.DiagnosisHistoryScreen
+import com.peekaboo.diagnosishistory.detail.DiagnosisHistoryDetailScreen
 import com.peekaboo.diagnosisquick.QuickDiagnosisScreen
 import com.peekaboo.diagnosisquick.detail.DetailQuickScreen
 import com.peekaboo.domain.entity.request.CreateUserModel
@@ -22,6 +25,7 @@ import com.peekaboo.onboarding.personal.PersonalInputScreen
 import com.peekaboo.onboarding.skin.SkinColorSelectScreen
 import kotlinx.coroutines.flow.SharedFlow
 
+@RequiresApi(Build.VERSION_CODES.UPSIDE_DOWN_CAKE)
 fun NavGraphBuilder.loginNavGraph(
     navController: NavController,
 ) {
@@ -132,7 +136,9 @@ fun NavGraphBuilder.diagnosisNavGraph(
     navController: NavController,
     setDiagnosisContent: (DiagnosisModel) -> Unit,
     diagnosisContent: SharedFlow<DiagnosisModel>,
-    selectedDiagnosisHistoryId: SharedFlow<Int>,
+//    selectedDiagnosisHistoryId: SharedFlow<Int>,
+    showLanguageBottomSheet: () -> Unit,
+    selectedLanguage: SharedFlow<String>,
 ) {
     navigation(
         startDestination = NavRoutes.SelectAreaScreen.route,
@@ -143,6 +149,9 @@ fun NavGraphBuilder.diagnosisNavGraph(
                 goToPicturePage = {
                     setDiagnosisContent(it)
                     navController.navigate(NavRoutes.SelectPictureScreen.route)
+                },
+                onClickBackBtn = {
+                    navController.popBackStack()
                 }
             )
         }
@@ -153,16 +162,23 @@ fun NavGraphBuilder.diagnosisNavGraph(
                     setDiagnosisContent(it)
                     navController.navigate(NavRoutes.ExplainSymptomScreen.route)
                 },
-                diagnosisModel = diagnosisContent
+                diagnosisModel = diagnosisContent,
+                onClickBackBtn = {
+                    navController.popBackStack()
+                }
             )
         }
 
         composable(NavRoutes.ExplainSymptomScreen.route) {
             SymptomExplainScreen(
                 goToDiagnosisResultPage = {
+                    setDiagnosisContent(it)
                     navController.navigate(NavRoutes.DiagnosisScreen.route)
                 },
-                diagnosisModel = diagnosisContent
+                diagnosisModel = diagnosisContent,
+                onClickBackBtn = {
+                    navController.popBackStack()
+                }
             )
         }
 
@@ -173,7 +189,9 @@ fun NavGraphBuilder.diagnosisNavGraph(
                         popUpTo(0)
                     }
                 },
-                selectedDiagnosisHistoryId = selectedDiagnosisHistoryId
+                showLanguageBottomSheet = showLanguageBottomSheet,
+                selectedLanguage = selectedLanguage,
+                diagnosisContent = diagnosisContent
             )
         }
     }
@@ -182,6 +200,9 @@ fun NavGraphBuilder.diagnosisNavGraph(
 fun NavGraphBuilder.diagnosisHistoryNavGraph(
     navController: NavController,
     setDiagnosisHistoryId: (Int) -> Unit,
+    selectedDiagnosisHistoryId: SharedFlow<Int>,
+    showLanguageBottomSheet: () -> Unit,
+    selectedLanguage: SharedFlow<String>,
 ) {
     navigation(
         startDestination = NavRoutes.DiagnosisHistoryScreen.route,
@@ -194,8 +215,24 @@ fun NavGraphBuilder.diagnosisHistoryNavGraph(
                 },
                 goToDiagnosisResultPage = {
                     setDiagnosisHistoryId(it)
-                    navController.navigate(NavRoutes.DiagnosisScreen.route)
+                    navController.navigate(NavRoutes.DiagnosisHistoryDetailScreen.route)
+                },
+                onClickBackBtn = {
+                    navController.popBackStack()
                 }
+            )
+        }
+
+        composable(NavRoutes.DiagnosisHistoryDetailScreen.route) {
+            DiagnosisHistoryDetailScreen(
+                goBackToMain = {
+                    navController.navigate(NavRoutes.HomeScreen.route) {
+                        popUpTo(0)
+                    }
+                },
+                selectedDiagnosisHistoryId = selectedDiagnosisHistoryId,
+                showLanguageBottomSheet = showLanguageBottomSheet,
+                selectedLanguage = selectedLanguage,
             )
         }
     }
@@ -215,6 +252,9 @@ fun NavGraphBuilder.diagnosisQuickNavGraph(
                 goToDetailDiagnosisPage = {
                     setDiagnosisConstId(it)
                     navController.navigate(NavRoutes.DetailQuickScreen.route)
+                },
+                onClickBackBtn = {
+                    navController.popBackStack()
                 }
             )
         }
@@ -229,7 +269,10 @@ fun NavGraphBuilder.diagnosisQuickNavGraph(
                 goToDiagnosisPage = {
                     navController.navigate(NavRoutes.SelectAreaScreen.route)
                 },
-                diagnosisConstId = diagnosisConstId
+                diagnosisConstId = diagnosisConstId,
+                onClickBackBtn = {
+                    navController.popBackStack()
+                }
             )
         }
     }

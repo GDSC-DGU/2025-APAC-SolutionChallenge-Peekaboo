@@ -2,6 +2,7 @@ package com.peekaboo.domain.entity.response.diagnosis
 
 data class DiagnosisHistoryDetailModel(
     val customDescription: String = "",
+    val diagnosisId: Int = 0,
     val diseaseList: List<DiseaseDetailItem> = emptyList(),
 ) {
     data class DiseaseDetailItem(
