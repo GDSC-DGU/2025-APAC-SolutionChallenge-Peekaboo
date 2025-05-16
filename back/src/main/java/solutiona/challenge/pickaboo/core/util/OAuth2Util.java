@@ -1,13 +1,16 @@
 package solutiona.challenge.pickaboo.core.util;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import solutiona.challenge.pickaboo.core.exception.CustomException;
 import solutiona.challenge.pickaboo.core.exception.ErrorCode;
-
+@Slf4j
 @Component
 public class OAuth2Util {
     @Value("${spring.security.oauth2.client.provider.google.authorization-uri}")
@@ -58,19 +61,58 @@ public class OAuth2Util {
         return response.get("access_token").toString();
     }
 
-    public Map<String, String> getGoogleUserInfo(String accessToken) {
+    public Map<String, String> getGoogle(String accessToken) {
         Map<String, Object> response;
-
         try {
-            response = Objects.requireNonNull(restClient.post()
-                    .uri(GOOGLE_USERINFO_URL)
+            response = Objects.requireNonNull(restClient.get()
+                    .uri(GOOGLE_TOKEN_URL+"?id_token={id_token}", accessToken)
                     .headers(httpHeaders -> {
-                        httpHeaders.setBearerAuth(accessToken);
                         httpHeaders.set("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
                     })
                     .retrieve()
                     .toEntity(Map.class).getBody());
         } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new CustomException(ErrorCode.EXTERNAL_SERVER_ERROR);
+        }
+
+        System.out.println(response);
+
+//        Map<String, Object> googleAccount = (Map<String, Object>) response.get("google_account");
+//        Map<String, String> profile = (Map<String, String>) googleAccount.get("profile");
+        if(!response.get("aud").toString().equals(GOOGLE_CLIENT_ID))
+            throw new CustomException(ErrorCode.FAILURE_LOGIN);
+
+        String id = response.get("sub").toString();
+        String nickname = response.get("name").toString();
+        String email = response.get("email").toString();
+        String profile = response.get("picture").toString();
+
+        if (response.get("sub").toString() == null)
+            throw new CustomException(ErrorCode.EXTERNAL_SERVER_ERROR);
+
+        return Map.of(
+                "id", id,
+                "nickname", nickname,
+                "email", email,
+                "profile", profile
+        );
+    }
+
+    public Map<String, String> getGoogleUserInfo(String accessToken) {
+        Map<String, Object> response;
+
+        try {
+            response = Objects.requireNonNull(restClient.get()
+                    .uri(GOOGLE_USERINFO_URL)
+                    .headers(httpHeaders -> {
+                        httpHeaders.setBearerAuth(accessToken);
+                        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+                    })
+                    .retrieve()
+                    .toEntity(Map.class).getBody());
+        } catch (Exception e) {
+            log.error(e.getMessage());
             throw new CustomException(ErrorCode.EXTERNAL_SERVER_ERROR);
         }
 

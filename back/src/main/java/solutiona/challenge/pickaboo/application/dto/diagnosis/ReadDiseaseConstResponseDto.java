@@ -9,6 +9,7 @@ public record ReadDiseaseConstResponseDto(
         String diseaseName,
         Long ranking,
         Long percent,
+        Long rating,
         String description,
         String type,
         String site,

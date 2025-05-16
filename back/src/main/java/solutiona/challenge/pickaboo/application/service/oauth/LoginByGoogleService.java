@@ -19,7 +19,7 @@ import solutiona.challenge.pickaboo.infrastructure.jpa.UserJpaRepository;
 
 @Service
 @RequiredArgsConstructor
-public class LoginByKakaoService implements LoginByGoogleUseCase {
+public class LoginByGoogleService implements LoginByGoogleUseCase {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final UserRepository userRepository;
@@ -31,7 +31,7 @@ public class LoginByKakaoService implements LoginByGoogleUseCase {
     @Override
     @Transactional
     public LoginResponseDto execute(String accessToken) {
-        Map<String, String> userInfo = oAuth2Util.getGoogleUserInfo(accessToken);
+        Map<String, String> userInfo = oAuth2Util.getGoogle(accessToken);
 
         String serialId = userInfo.get("id");
         UserJpaRepository.UserSecurityForm userSecurityForm = userRepository.findFormBySerialIdAndProvider(serialId, EProvider.KAKAO)

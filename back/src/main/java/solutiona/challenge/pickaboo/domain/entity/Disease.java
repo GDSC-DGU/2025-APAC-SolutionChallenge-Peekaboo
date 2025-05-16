@@ -13,6 +13,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
@@ -42,5 +43,13 @@ public class Disease {
     @ManyToOne(fetch = FetchType.LAZY)
     private DiseaseConst diseaseConst;
 
+
+    @Builder
+    public Disease(Long ranking, Long percent, Diagnosis diagnosis, DiseaseConst diseaseConst) {
+        this.ranking = ranking;
+        this.percent = percent;
+        this.diagnosis = diagnosis;
+        this.diseaseConst = diseaseConst;
+    }
 
 }

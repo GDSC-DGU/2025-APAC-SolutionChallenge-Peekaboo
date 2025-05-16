@@ -7,4 +7,5 @@ import solutiona.challenge.pickaboo.domain.entity.User;
 public interface DiagnosisRepository {
     List<Diagnosis> findByUser(User user);
     Diagnosis findById(Long diagnosisId);
+    void save(Diagnosis diagnosis);
 }

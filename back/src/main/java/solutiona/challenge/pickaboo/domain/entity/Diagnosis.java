@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
@@ -57,5 +58,16 @@ public class Diagnosis {
 
     @OneToMany(mappedBy = "diagnosis", cascade = CascadeType.MERGE)
     private List<PdfUrl> pdfUrls;
+
+    @Builder
+    public Diagnosis(String part, String imageUrl, String description, String koCustomDescription, String enCustomDescription, User user) {
+        this.part = part;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.koCustomDescription = koCustomDescription;
+        this.enCustomDescription = enCustomDescription;
+        this.user = user;
+        this.createAt = LocalDate.now();
+    }
 
 }
